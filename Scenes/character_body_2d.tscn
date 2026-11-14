@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://8ipplarxlcr8"]
 
+[ext_resource type="Script" uid="uid://cm31fghwjpgnq" path="res://Scripts/movement.gd" id="1_601d1"]
 [ext_resource type="Texture2D" uid="uid://bi53nn4e0xx1r" path="res://Assets/astronaut.png" id="1_fxof2"]
 [ext_resource type="Texture2D" uid="uid://1cpf7d471m7x" path="res://Assets/astronaut left view.png" id="2_601d1"]
 [ext_resource type="Texture2D" uid="uid://c5v72cj3l7ooj" path="res://Assets/astronaut right view.png" id="3_6d06k"]
@@ -292,6 +293,7 @@ animations = [{
 size = Vector2(12, 2)
 
 [node name="CharacterBody2d" type="CharacterBody2D" unique_id=1825796566]
+script = ExtResource("1_601d1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1982715987]
 sprite_frames = SubResource("SpriteFrames_h604f")
@@ -302,3 +304,5 @@ position = Vector2(0, 15)
 shape = SubResource("RectangleShape2D_5r2x3")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=676693486]
+zoom = Vector2(2, 2)
+position_smoothing_speed = 9.0
