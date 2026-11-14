@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dctsomet2dpxk"]
+
+[ext_resource type="Texture2D" uid="uid://bjb6njuwae10t" path="res://assets/ROOM-3-MARS.png" id="1_baapj"]
+[ext_resource type="Texture2D" uid="uid://cp2vn5e2jy13y" path="res://assets/greenhouse.jpg" id="2_rjeds"]
+
+[node name="Room3" type="Node2D" unique_id=528259187]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=481621248]
+position = Vector2(590, 326)
+scale = Vector2(0.76408327, 0.75659317)
+texture = ExtResource("1_baapj")
+
+[node name="greenhouse" type="Sprite2D" parent="." unique_id=1725478747]
+position = Vector2(-36, 73)
+rotation = -1.5737766
+scale = Vector2(0.89132965, 1.8532543)
+texture = ExtResource("2_rjeds")

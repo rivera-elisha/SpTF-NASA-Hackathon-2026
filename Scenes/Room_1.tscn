@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bq4vedgn6ey80"]
+
+[ext_resource type="Texture2D" uid="uid://b526c43fga2iw" path="res://assets/ROOM-1-MARS.png" id="1_g06qp"]
+[ext_resource type="Texture2D" uid="uid://h3hssmfpevne" path="res://assets/astronaut.png" id="2_7fl63"]
+
+[node name="Room1" type="Node2D" unique_id=1778353023]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1969905346]
+position = Vector2(598.00006, 331)
+scale = Vector2(0.76532733, 0.77442145)
+texture = ExtResource("1_g06qp")
+
+[node name="astronaut_suit_1" type="Sprite2D" parent="." unique_id=353967305]
+position = Vector2(1016, 520)
+scale = Vector2(-4.7720194, 3.636999)
+texture = ExtResource("2_7fl63")
+
+[node name="astronaut_suit_2" type="Sprite2D" parent="." unique_id=83230725]
+position = Vector2(888.00006, 518)
+rotation = 3.1415927
+scale = Vector2(4.7720194, -3.636999)
+texture = ExtResource("2_7fl63")

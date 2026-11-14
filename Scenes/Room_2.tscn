@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://dwvbnv0xoeeaw"]
+
+[ext_resource type="Texture2D" uid="uid://d1p7k6drq4tpg" path="res://assets/ROOM-2-MARS.png" id="1_okprb"]
+[ext_resource type="Texture2D" uid="uid://b82c3h6o3qnj1" path="res://assets/bed 1-4.png (1).png" id="2_m4443"]
+[ext_resource type="Texture2D" uid="uid://bd7lpt4er3q4v" path="res://assets/bed 1-3.png (1).png" id="3_3mqva"]
+[ext_resource type="Texture2D" uid="uid://tcdrs5tye42t" path="res://assets/bed 1-2.png (1).png" id="4_ay3a5"]
+[ext_resource type="Texture2D" uid="uid://dcxiyfkwr0r0b" path="res://assets/bed 1-1.png (1).png" id="5_13xhy"]
+[ext_resource type="Texture2D" uid="uid://c6yc3cw56iwh4" path="res://assets/New Piskel-2.png (2).png" id="6_saj80"]
+[ext_resource type="Texture2D" uid="uid://chqv8l8wtsyp" path="res://assets/Medical Room-3.png (1).png" id="7_wrjmp"]
+[ext_resource type="Texture2D" uid="uid://dyafcno81rqax" path="res://assets/Medical Room-2.png (1).png" id="8_6qkpp"]
+[ext_resource type="Texture2D" uid="uid://db2rc3xko5x7t" path="res://assets/T2 Treadmill.png" id="9_psbb0"]
+[ext_resource type="Texture2D" uid="uid://co4fdqujtyw66" path="res://assets/ARED weightlifing.png" id="10_fdcj0"]
+[ext_resource type="Texture2D" uid="uid://bqd2y5ne6brqe" path="res://assets/food cabinet.png" id="11_2sn6j"]
+[ext_resource type="Texture2D" uid="uid://cbo0xsejimigj" path="res://assets/food shelf.png" id="12_ib6vf"]
+[ext_resource type="Texture2D" uid="uid://g2ton0smru5h" path="res://assets/MSG (Microgravity Science Glovebox).png" id="13_iw4c1"]
+[ext_resource type="Texture2D" uid="uid://dck4gswb8piqy" path="res://assets/CIR (Combustion Integrated Rack).png" id="14_awy1y"]
+
+[node name="Room2" type="Node2D" unique_id=438353697]
+position = Vector2(0, -3)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=857730598]
+position = Vector2(577.00006, 322.99994)
+scale = Vector2(0.75574476, 0.7261698)
+texture = ExtResource("1_okprb")
+
+[node name="Sprite2D" type="Sprite2D" parent="Sprite2D" unique_id=1065410384]
+position = Vector2(-624.54956, -300.20517)
+scale = Vector2(0.5935064, 0.31410232)
+texture = ExtResource("2_m4443")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Sprite2D/Sprite2D" unique_id=1657132130]
+position = Vector2(144.91483, -8.768402)
+texture = ExtResource("3_3mqva")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Sprite2D/Sprite2D" unique_id=1024587666]
+position = Vector2(283.14127, 4.3842163)
+texture = ExtResource("4_ay3a5")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Sprite2D/Sprite2D" unique_id=1422188110]
+position = Vector2(430.28555, 4.3842163)
+texture = ExtResource("5_13xhy")
+
+[node name="comfort_room" type="Sprite2D" parent="Sprite2D/Sprite2D" unique_id=2013206382]
+position = Vector2(1065.6814, -92.06824)
+scale = Vector2(0.676226, 1.2563323)
+texture = ExtResource("6_saj80")
+
+[node name="medical_1" type="Sprite2D" parent="Sprite2D" unique_id=1852168023]
+position = Vector2(27.787083, 86.75665)
+scale = Vector2(0.20577519, 0.14986567)
+texture = ExtResource("7_wrjmp")
+
+[node name="medical_2" type="Sprite2D" parent="Sprite2D/medical_1" unique_id=1812722971]
+position = Vector2(-257.2124, -349.1753)
+scale = Vector2(0.8361356, 0.8709697)
+texture = ExtResource("8_6qkpp")
+
+[node name="T2 Treadmill" type="Sprite2D" parent="Sprite2D" unique_id=1272251605]
+position = Vector2(410.19125, 304.33655)
+rotation = -0.0036153956
+scale = Vector2(0.30761623, -0.23970546)
+texture = ExtResource("9_psbb0")
+
+[node name="ARED" type="Sprite2D" parent="Sprite2D/T2 Treadmill" unique_id=195671051]
+position = Vector2(667.01294, 100.31421)
+rotation = 1.5646527
+scale = Vector2(1.2697984, 0.81141084)
+skew = -0.00397408
+texture = ExtResource("10_fdcj0")
+
+[node name="food cabinet" type="Sprite2D" parent="Sprite2D" unique_id=1774110403]
+position = Vector2(-613.9639, 271.28647)
+rotation = -1.5785434
+scale = Vector2(0.3708204, 0.37821478)
+texture = ExtResource("11_2sn6j")
+
+[node name="food shelf" type="Sprite2D" parent="Sprite2D/food cabinet" unique_id=850208904]
+position = Vector2(-86.64554, 625.59845)
+rotation = -1.5417261
+texture = ExtResource("12_ib6vf")
+
+[node name="MSG" type="Sprite2D" parent="Sprite2D" unique_id=1825037973]
+position = Vector2(403.57538, -279.54883)
+rotation = -3.1369703
+scale = Vector2(0.23335615, 0.23418628)
+skew = 0.0011473894
+texture = ExtResource("13_iw4c1")
+
+[node name="CIR" type="Sprite2D" parent="Sprite2D" unique_id=1847733087]
+position = Vector2(574.26794, -252.0071)
+rotation = 3.1275055
+scale = Vector2(0.26323095, 0.27815583)
+skew = 0.015794396
+texture = ExtResource("14_awy1y")

@@ -1,0 +1,189 @@
+[gd_scene format=3 uid="uid://c5bca10ose5ds"]
+
+[ext_resource type="Script" uid="uid://ch6a0h38d3yyq" path="res://Scripts/choose_gender.gd" id="1_7vupr"]
+[ext_resource type="Texture2D" uid="uid://ci3k37xnar2he" path="res://assets/char select bg.png" id="2_8aftn"]
+[ext_resource type="Texture2D" uid="uid://cbpyg65fu2pjf" path="res://Animations/New Piskel-1.png (1).png" id="2_hirhn"]
+[ext_resource type="Texture2D" uid="uid://b4gdj86kjuv3r" path="res://Animations/New Piskel-2.png (1).png" id="3_8aftn"]
+[ext_resource type="FontFile" uid="uid://b1n8h4fuvo10d" path="res://fonts/Pixeltype.ttf" id="3_yxnfg"]
+[ext_resource type="Texture2D" uid="uid://bxk1bsxtm7gf" path="res://Animations/New Piskel-3.png.png" id="4_yxnfg"]
+[ext_resource type="Texture2D" uid="uid://b8jpbektip23n" path="res://Animations/New Piskel-4.png.png" id="5_bcw0f"]
+[ext_resource type="Texture2D" uid="uid://cwggklc0hu6ey" path="res://Buttons/back-button.png" id="9_8aftn"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r8cau"]
+load_path = "res://.godot/imported/male astro.png-5dccf98499326996eedd0583a448c841.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gkoyp"]
+load_path = "res://.godot/imported/female astro.png-4aa3ce3ec42761b215abbe00b6ac081f.ctex"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3cexa"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hirhn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_8aftn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_yxnfg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_bcw0f")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g5xyo"]
+bg_color = Color(0.15811542, 0.22120059, 0.38304088, 1)
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8aftn"]
+bg_color = Color(0.8297829, 0.90230477, 0.9766913, 1)
+
+[node name="ChooseGender" type="Control" unique_id=1405765142]
+custom_maximum_size = Vector2(-1, 7.42)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -6.0
+offset_top = 315.0
+offset_right = -6.0
+offset_bottom = -325.58
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7vupr")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1820271382]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -320.0
+offset_bottom = 320.58
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_8aftn")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="." unique_id=2085445626]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -596.0
+offset_top = -314.00003
+offset_right = 690.0
+offset_bottom = -109.00003
+grow_horizontal = 2
+scale = Vector2(0.942821, 2.3783784)
+theme_override_colors/font_color = Color(0.79, 1, 0.91950005, 0.8352941)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 99
+text = "Choose Character"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=676621588]
+custom_minimum_size = Vector2(200, 250)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -567.0
+offset_top = -239.00002
+offset_right = 1188.0
+offset_bottom = 260.99994
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.64417225, 1.0310386)
+theme_override_constants/separation = 555
+
+[node name="MaleButton" type="TextureButton" parent="HBoxContainer" unique_id=2038108338]
+custom_minimum_size = Vector2(600, 250)
+layout_mode = 2
+texture_normal = SubResource("CompressedTexture2D_r8cau")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="FemaleButton" type="TextureButton" parent="HBoxContainer" unique_id=1285138167]
+custom_minimum_size = Vector2(600, 250)
+layout_mode = 2
+texture_normal = SubResource("CompressedTexture2D_gkoyp")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Button" type="Button" parent="." unique_id=1642885930]
+layout_mode = 0
+offset_top = -1.0
+offset_right = 8.0
+offset_bottom = 7.0
+
+[node name="MiddleCharacter" type="AnimatedSprite2D" parent="." unique_id=1724090684]
+z_as_relative = false
+position = Vector2(602, 25)
+scale = Vector2(0.8213726, 0.9745029)
+sprite_frames = SubResource("SpriteFrames_3cexa")
+speed_scale = 0.5
+
+[node name="backButton" type="TextureButton" parent="." unique_id=286852137]
+layout_mode = 0
+offset_left = 33.000004
+offset_top = -294.0
+offset_right = 545.0
+offset_bottom = 218.0
+scale = Vector2(0.18825445, 0.11752678)
+texture_normal = ExtResource("9_8aftn")
+
+[node name="NamePanel" type="Panel" parent="." unique_id=2117441373]
+visible = false
+layout_mode = 0
+offset_left = 275.0
+offset_top = -179.00002
+offset_right = 315.0
+offset_bottom = -139.00002
+scale = Vector2(15.697996, 9.299721)
+theme_override_styles/panel = SubResource("StyleBoxFlat_g5xyo")
+
+[node name="EnterNameLabel" type="Label" parent="NamePanel" unique_id=1532061056]
+visible = false
+layout_mode = 0
+offset_left = 7.9628
+offset_top = -2.3656611
+offset_right = 100.9628
+offset_bottom = 20.634338
+scale = Vector2(0.27641094, 0.75716245)
+text = "Enter Name"
+
+[node name="NameLineEdit" type="LineEdit" parent="NamePanel" unique_id=1967301367]
+visible = false
+layout_mode = 0
+offset_left = 5.60581
+offset_top = 14.193976
+offset_right = 74.10581
+offset_bottom = 45.193977
+scale = Vector2(0.41863605, 0.40833288)
+
+[node name="enter_nameButton" type="Button" parent="NamePanel" unique_id=955669837]
+visible = false
+layout_mode = 0
+offset_left = 11.912349
+offset_top = 28.495478
+offset_right = 90.912346
+offset_bottom = 59.495476
+scale = Vector2(0.22224641, 0.25713152)
+theme_override_colors/font_color = Color(0.8766755, 0.94469863, 0.9918714, 1)
+theme_override_colors/font_hover_color = Color(0, 0.050950192, 0.5840447, 1)
+theme_override_colors/font_outline_color = Color(0.45086092, 0.51763123, 0.4410668, 1)
+theme_override_styles/hover = SubResource("StyleBoxFlat_8aftn")
+text = "Continue"
