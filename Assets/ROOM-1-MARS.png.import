@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b526c43fga2iw"
-path="res://.godot/imported/ROOM-1-MARS.png-7c492797858114225b6bd4db3f30f838.ctex"
+path="res://.godot/imported/ROOM-1-MARS.png-111837ceb153b8241fcf6c5529202dd0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ROOM-1-MARS.png"
-dest_files=["res://.godot/imported/ROOM-1-MARS.png-7c492797858114225b6bd4db3f30f838.ctex"]
+source_file="res://Assets/ROOM-1-MARS.png"
+dest_files=["res://.godot/imported/ROOM-1-MARS.png-111837ceb153b8241fcf6c5529202dd0.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://db2rc3xko5x7t"
-path="res://.godot/imported/T2 Treadmill.png-6f9a1e2e4e1a3cb7b9a0691a5e1bd98f.ctex"
+path="res://.godot/imported/T2 Treadmill.png-a9f7b2a5ef5e07bf3517ebae0dabecfc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/T2 Treadmill.png"
-dest_files=["res://.godot/imported/T2 Treadmill.png-6f9a1e2e4e1a3cb7b9a0691a5e1bd98f.ctex"]
+source_file="res://Assets/T2 Treadmill.png"
+dest_files=["res://.godot/imported/T2 Treadmill.png-a9f7b2a5ef5e07bf3517ebae0dabecfc.ctex"]
 
 [params]
 

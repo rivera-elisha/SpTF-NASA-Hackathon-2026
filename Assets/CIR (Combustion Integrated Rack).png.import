@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dck4gswb8piqy"
-path="res://.godot/imported/CIR (Combustion Integrated Rack).png-4c1c34e6d802f7163ca0a2e939f0b2d8.ctex"
+path="res://.godot/imported/CIR (Combustion Integrated Rack).png-322a624a274cf3bc65db6defeed3b5dc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/CIR (Combustion Integrated Rack).png"
-dest_files=["res://.godot/imported/CIR (Combustion Integrated Rack).png-4c1c34e6d802f7163ca0a2e939f0b2d8.ctex"]
+source_file="res://Assets/CIR (Combustion Integrated Rack).png"
+dest_files=["res://.godot/imported/CIR (Combustion Integrated Rack).png-322a624a274cf3bc65db6defeed3b5dc.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dyafcno81rqax"
-path="res://.godot/imported/Medical Room-2.png (1).png-b1ff97197a0ae263971ffaf1d08ee1ba.ctex"
+path="res://.godot/imported/Medical Room-2.png (1).png-9183d5652814a15cc529623292759ad5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Medical Room-2.png (1).png"
-dest_files=["res://.godot/imported/Medical Room-2.png (1).png-b1ff97197a0ae263971ffaf1d08ee1ba.ctex"]
+source_file="res://Assets/Medical Room-2.png (1).png"
+dest_files=["res://.godot/imported/Medical Room-2.png (1).png-9183d5652814a15cc529623292759ad5.ctex"]
 
 [params]
 

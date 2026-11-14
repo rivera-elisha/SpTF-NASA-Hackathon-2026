@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cp2vn5e2jy13y"
-path="res://.godot/imported/greenhouse.jpg-5445aedb3ad2f85d19e7d9ee3f7b88c1.ctex"
+path="res://.godot/imported/greenhouse.jpg-40cdded18574509b83b01900a49a6b87.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/greenhouse.jpg"
-dest_files=["res://.godot/imported/greenhouse.jpg-5445aedb3ad2f85d19e7d9ee3f7b88c1.ctex"]
+source_file="res://Assets/greenhouse.jpg"
+dest_files=["res://.godot/imported/greenhouse.jpg-40cdded18574509b83b01900a49a6b87.ctex"]
 
 [params]
 
