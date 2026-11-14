@@ -1,22 +1,62 @@
 [gd_scene format=3 uid="uid://bq4vedgn6ey80"]
 
-[ext_resource type="Texture2D" uid="uid://b526c43fga2iw" path="res://assets/ROOM-1-MARS.png" id="1_g06qp"]
-[ext_resource type="Texture2D" uid="uid://h3hssmfpevne" path="res://assets/astronaut.png" id="2_7fl63"]
+[ext_resource type="Texture2D" uid="uid://b526c43fga2iw" path="res://Assets/ROOM-1-MARS.png" id="1_g06qp"]
+[ext_resource type="Texture2D" uid="uid://bi53nn4e0xx1r" path="res://assets/astronaut.png" id="2_7fl63"]
+[ext_resource type="Texture2D" uid="uid://bk3daw7yt63qv" path="res://Assets/lifesupport_monitor.png" id="3_bbstb"]
+[ext_resource type="Texture2D" uid="uid://b865myeb8fogy" path="res://Assets/engine.png" id="5_4mssj"]
+[ext_resource type="Texture2D" uid="uid://dq458kd5k81f7" path="res://Assets/random2.png" id="5_5fj1w"]
+[ext_resource type="Texture2D" uid="uid://bhfagqy6cvtcs" path="res://Assets/monitor2.png" id="6_bdwgh"]
+[ext_resource type="Texture2D" uid="uid://ifoephhwp64w" path="res://Assets/datastorage.png" id="7_0o7xt"]
+[ext_resource type="Texture2D" uid="uid://bwv57gmm4ufmc" path="res://Assets/datastorage2.png" id="8_dowsv"]
 
 [node name="Room1" type="Node2D" unique_id=1778353023]
+scale = Vector2(1.0016125, 1.0076497)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1969905346]
-position = Vector2(598.00006, 331)
-scale = Vector2(0.76532733, 0.77442145)
+position = Vector2(579.00006, 320.00003)
+scale = Vector2(0.7595847, 0.7344619)
 texture = ExtResource("1_g06qp")
 
 [node name="astronaut_suit_1" type="Sprite2D" parent="." unique_id=353967305]
-position = Vector2(1016, 520)
+position = Vector2(987.4079, 504.14346)
 scale = Vector2(-4.7720194, 3.636999)
 texture = ExtResource("2_7fl63")
 
 [node name="astronaut_suit_2" type="Sprite2D" parent="." unique_id=83230725]
-position = Vector2(888.00006, 518)
+position = Vector2(879.58167, 502.15866)
 rotation = 3.1415927
 scale = Vector2(4.7720194, -3.636999)
 texture = ExtResource("2_7fl63")
+
+[node name="lifesupportmonitor" type="Sprite2D" parent="." unique_id=1580659147]
+position = Vector2(138.77621, 67.48377)
+scale = Vector2(0.04112813, 0.035470523)
+texture = ExtResource("3_bbstb")
+
+[node name="random_2" type="Sprite2D" parent="." unique_id=1259566258]
+position = Vector2(221.6426, 186.57275)
+rotation = 1.5653288
+scale = Vector2(0.031074828, 0.02757141)
+texture = ExtResource("5_5fj1w")
+
+[node name="engine" type="Sprite2D" parent="." unique_id=389239581]
+position = Vector2(72.88246, 185.58035)
+rotation = -1.5697578
+scale = Vector2(0.028112037, 0.02330395)
+texture = ExtResource("5_4mssj")
+
+[node name="monitor2" type="Sprite2D" parent="." unique_id=337091137]
+position = Vector2(212.65709, 140.922)
+rotation = 1.5495209
+scale = Vector2(0.023182176, 0.021656826)
+texture = ExtResource("6_bdwgh")
+
+[node name="datastorage1" type="Sprite2D" parent="." unique_id=828710591]
+position = Vector2(284.5412, 509.10553)
+scale = Vector2(0.047541432, 0.039654568)
+texture = ExtResource("7_0o7xt")
+
+[node name="datastorage2" type="Sprite2D" parent="." unique_id=1273657281]
+position = Vector2(179.71019, 504.14346)
+scale = Vector2(0.05216618, 0.04483466)
+texture = ExtResource("8_dowsv")

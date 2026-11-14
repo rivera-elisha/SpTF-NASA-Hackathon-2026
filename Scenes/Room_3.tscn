@@ -1,17 +1,41 @@
 [gd_scene format=3 uid="uid://dctsomet2dpxk"]
 
-[ext_resource type="Texture2D" uid="uid://bjb6njuwae10t" path="res://assets/ROOM-3-MARS.png" id="1_baapj"]
-[ext_resource type="Texture2D" uid="uid://cp2vn5e2jy13y" path="res://assets/greenhouse.jpg" id="2_rjeds"]
+[ext_resource type="Texture2D" uid="uid://bjb6njuwae10t" path="res://Assets/ROOM-3-MARS.png" id="1_baapj"]
+[ext_resource type="Texture2D" uid="uid://dihpfx0mnl8j8" path="res://Assets/greenhouse.png" id="2_rjeds"]
+[ext_resource type="Texture2D" uid="uid://do2co1ic8cw12" path="res://Assets/random.png" id="3_n1idd"]
+[ext_resource type="Texture2D" uid="uid://c764mxn8taw18" path="res://Assets/monitor.png" id="4_eaj6e"]
+[ext_resource type="Texture2D" uid="uid://dt4olvs2cghgw" path="res://Assets/telephone.png" id="5_b3qkb"]
 
 [node name="Room3" type="Node2D" unique_id=528259187]
+position = Vector2(-4.9999995, 4.9999995)
+scale = Vector2(0.99014485, 0.9843074)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=481621248]
 position = Vector2(590, 326)
 scale = Vector2(0.76408327, 0.75659317)
 texture = ExtResource("1_baapj")
 
-[node name="greenhouse" type="Sprite2D" parent="." unique_id=1725478747]
-position = Vector2(-36, 73)
-rotation = -1.5737766
-scale = Vector2(0.89132965, 1.8532543)
+[node name="greenhouse" type="Sprite2D" parent="." unique_id=1777328019]
+position = Vector2(71, 241.99998)
+rotation = -1.5664681
+scale = Vector2(-0.24920198, 0.21612954)
 texture = ExtResource("2_rjeds")
+offset = Vector2(-22.081177, 163.08458)
+
+[node name="random1" type="Sprite2D" parent="." unique_id=567141728]
+position = Vector2(1093.7793, 614.6454)
+rotation = -3.1298752
+scale = Vector2(0.037393916, -0.03531575)
+texture = ExtResource("3_n1idd")
+
+[node name="monitor" type="Sprite2D" parent="." unique_id=1362768066]
+position = Vector2(932.18677, 500.8598)
+rotation = 3.137381
+scale = Vector2(0.04694497, -0.03525091)
+texture = ExtResource("4_eaj6e")
+
+[node name="telephone" type="Sprite2D" parent="." unique_id=1203788683]
+position = Vector2(936.2267, 610.5816)
+rotation = 6.2711267
+scale = Vector2(0.06274134, -0.03250428)
+texture = ExtResource("5_b3qkb")
