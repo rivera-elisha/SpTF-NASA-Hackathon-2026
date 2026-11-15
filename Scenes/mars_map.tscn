@@ -8,8 +8,14 @@
 position = Vector2(567, 327)
 script = ExtResource("1_c28fd")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1946880595]
+[node name="Background" type="Sprite2D" parent="." unique_id=1946880595]
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("1_8dhvu")
+
+[node name="Buildings" type="Node2D" parent="." unique_id=837884156]
+
+[node name="SolarPanels" type="Node2D" parent="." unique_id=1822161006]
+
+[node name="MarsRover" type="Node2D" parent="." unique_id=387306666]
 
 [node name="CharacterBody2d" parent="." unique_id=1825796566 instance=ExtResource("2_ewhud")]

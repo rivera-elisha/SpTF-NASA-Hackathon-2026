@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b28u0lournasv"
-path="res://.godot/imported/newsolarpanels.png-b571ecaa2e2c13cf10a1d1272d1a4f76.ctex"
+uid="uid://t1a355cvbyhh"
+path="res://.godot/imported/NASA Lab Module Pixel Art Rack.png-55c17f712a2a5022aa31fda3f9cf9753.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/newsolarpanels.png"
-dest_files=["res://.godot/imported/newsolarpanels.png-b571ecaa2e2c13cf10a1d1272d1a4f76.ctex"]
+source_file="res://Assets/NASA Lab Module Pixel Art Rack.png"
+dest_files=["res://.godot/imported/NASA Lab Module Pixel Art Rack.png-55c17f712a2a5022aa31fda3f9cf9753.ctex"]
 
 [params]
 
