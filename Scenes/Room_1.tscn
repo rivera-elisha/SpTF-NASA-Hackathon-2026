@@ -165,6 +165,9 @@ size = Vector2(120, 100)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_life_support_monitor_area"]
 size = Vector2(96, 72)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_main_laboratory_area"]
+size = Vector2(220, 80)
+
 [node name="Room1" type="Node2D" unique_id=1778353023]
 scale = Vector2(1.0016125, 1.0076497)
 script = ExtResource("1_dowsv")
@@ -588,6 +591,12 @@ position = Vector2(139, 68)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LifeSupportMonitorArea"]
 shape = SubResource("RectangleShape2D_life_support_monitor_area")
+
+[node name="MainLaboratoryArea" type="Area2D" parent="."]
+position = Vector2(579, 185)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MainLaboratoryArea"]
+shape = SubResource("RectangleShape2D_main_laboratory_area")
 
 [connection signal="body_entered" from="SpacesuitsArea" to="." method="enter_spacesuits"]
 [connection signal="body_entered" from="ExitArea" to="." method="enter_exit"]

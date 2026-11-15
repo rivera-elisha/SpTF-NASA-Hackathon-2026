@@ -17,7 +17,16 @@ func _ready() -> void:
 		dialogue.set_mission("Mission complete.")
 		return
 	if Global.exercise_prompt_completed:
-		dialogue.set_mission("Return outside to the outpost.", $ExitMainDoor)
+		if Global.comms_static_part3_pending and not Global.comms_part3_arrived:
+			dialogue.set_mission("Return outside and go to the Communication Room.", $ExitMainDoor)
+		elif Global.all_solar_panels_cleaned() and not Global.discovery_named:
+			dialogue.set_mission("Return outside and check the Main Laboratory Room.", $ExitMainDoor)
+		elif Global.lab_analysis_started and not Global.all_solar_panels_cleaned():
+			dialogue.set_mission("Return outside and clean the solar panels.", $ExitMainDoor)
+		elif Global.glowing_object_collected and not Global.lab_analysis_started:
+			dialogue.set_mission("Return outside and proceed to the Main Laboratory.", $ExitMainDoor)
+		else:
+			dialogue.set_mission("Return outside to the outpost.", $ExitMainDoor)
 		return
 	dialogue.set_mission("Find the Exercise Room.", $ExerciseArea)
 	$ExerciseArea.body_entered.connect(_on_exercise_area_body_entered)

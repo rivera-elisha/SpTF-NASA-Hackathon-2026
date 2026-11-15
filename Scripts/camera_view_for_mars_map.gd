@@ -9,6 +9,62 @@ const DialogueController = preload("res://Scripts/mission_dialogue.gd")
 
 var dialogue: CanvasLayer
 var rock_samples: Array[Area2D] = []
+var glowing_object_area: Area2D
+var glowing_pulse_elapsed := 0.0
+var solar_panel_areas: Array[Area2D] = []
+var dust_materials: Array[ShaderMaterial] = []
+var solar_panels_material: ShaderMaterial
+var part3_dialogue_running := false
+
+const GLOWING_OBJECT_POSITION := Vector2(-220, 230)
+const SOLAR_PANEL_POSITIONS: Array[Vector2] = [
+	Vector2(537, -162),
+	Vector2(537, -108)
+]
+const MARS_DUST_SHADER_CODE := """
+shader_type canvas_item;
+
+uniform float dust_top : hint_range(0.0, 1.0) = 0.0;
+uniform float dust_bottom : hint_range(0.0, 1.0) = 0.0;
+uniform float split_y : hint_range(0.0, 1.0) = 1.0;
+uniform float pixel_density = 96.0;
+
+float hash21(vec2 p) {
+	p = fract(p * vec2(123.34, 456.21));
+	p += dot(p, p + 45.32);
+	return fract(p.x * p.y);
+}
+
+float value_noise(vec2 p) {
+	vec2 i = floor(p);
+	vec2 f = fract(p);
+	f = f * f * (3.0 - 2.0 * f);
+	float a = hash21(i);
+	float b = hash21(i + vec2(1.0, 0.0));
+	float c = hash21(i + vec2(0.0, 1.0));
+	float d = hash21(i + vec2(1.0, 1.0));
+	return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
+
+void fragment() {
+	vec4 tex = texture(TEXTURE, UV);
+	if (tex.a <= 0.01) {
+		COLOR = tex;
+	} else {
+		float active_dust = (UV.y < split_y) ? dust_top : dust_bottom;
+		vec2 grid_uv = floor(UV * pixel_density) / pixel_density;
+		float clump = value_noise(grid_uv * 10.0);
+		float fine = hash21(grid_uv * 43.0);
+		float dust_mask = clamp((clump * 0.72 + fine * 0.35 - 0.18) * 1.35, 0.0, 1.0);
+		vec3 mars_dust_dark = vec3(0.58, 0.25, 0.12);
+		vec3 mars_dust_light = vec3(0.84, 0.45, 0.23);
+		vec3 dust_col = mix(mars_dust_dark, mars_dust_light, smoothstep(0.35, 0.85, clump));
+		float coat = active_dust * mix(0.28, 0.78, dust_mask);
+		vec3 dirty_rgb = mix(tex.rgb * mix(1.0, 0.84, active_dust), dust_col, coat);
+		COLOR = vec4(dirty_rgb, tex.a);
+	}
+}
+"""
 
 const ROCK_SAMPLE_POSITIONS: Array[Vector2] = [
 	Vector2(-42, 170),
@@ -34,18 +90,47 @@ func _ready() -> void:
 	camera.limit_right = ceili(map_bounds.end.x)
 	camera.limit_bottom = ceili(map_bounds.end.y)
 
+	_setup_mars_dust_materials()
 	_create_rock_samples()
+	_create_glowing_object()
+	_create_solar_panel_areas()
 	dialogue = DialogueController.new()
 	add_child(dialogue)
 	Global.radiation_warning_started.connect(_on_radiation_warning_started)
 	Global.radiation_event_expired.connect(_on_radiation_event_expired)
+	_update_dust_visuals()
 	_refresh_rock_samples()
+	_refresh_glowing_object()
+	_refresh_solar_panel_areas()
 	if Global.mission_complete:
 		dialogue.set_mission("Mission complete.")
 		return
-	if Global.radiation_shelter_complete and not Global.greenhouse_visited:
+	if Global.comms_part3_arrived:
+		dialogue.set_mission("Communications Room reached. Standby for incoming message.")
+	elif Global.comms_static_part3_pending or Global.discovery_named:
+		dialogue.set_mission("Go to the Communication Room.", $WorldObjects/SafetyBuilding/PersonalDoor)
+	elif Global.all_solar_panels_cleaned() and not Global.discovery_named:
+		dialogue.set_mission(
+			"Check the Main Laboratory Room for the unidentified sample.",
+			$WorldObjects/MainBuilding/MainDoor
+		)
+	elif Global.lab_analysis_started and not Global.all_solar_panels_cleaned():
+		dialogue.set_mission(
+			"Clean the solar panels outside (%d/2)." % Global.cleaned_solar_panel_ids.size(),
+			_get_next_dirty_solar_panel()
+		)
+	elif Global.glowing_object_collected and not Global.lab_analysis_started:
+		dialogue.set_mission("Proceed to the Main Laboratory.", $WorldObjects/MainBuilding/MainDoor)
+	elif Global.rock_samples_collected >= 7 and not Global.glowing_object_collected:
+		dialogue.set_mission("Check the glowing light.", glowing_object_area)
+		if not Global.glow_spotted:
+			Global.glow_spotted = true
+			player.set_physics_process(false)
+			await dialogue.say("Mission", "A mysterious glow can be seen nearby. Check the glowing light.")
+			player.set_physics_process(true)
+	elif Global.radiation_shelter_complete and not Global.greenhouse_visited:
 		dialogue.set_mission("Return to the Safety Building and visit the Greenhouse.", $WorldObjects/SafetyBuilding/PersonalDoor)
-	elif Global.greenhouse_visited and Global.rock_samples_collected >= 6:
+	elif Global.greenhouse_visited and Global.rock_samples_collected == 6:
 		dialogue.set_mission(
 			"Collect the final Rock Sample (%d/7)." % Global.rock_samples_collected,
 			_get_next_rock_sample()
@@ -208,13 +293,268 @@ func _on_rock_sample_area_entered(body: Node2D, sample_id: int) -> void:
 		dialogue.set_mission("RADIATION ALERT: Reach the Radiation Room now.", $WorldObjects/SafetyBuilding/PersonalDoor)
 		Global.start_radiation_event()
 	elif Global.rock_samples_collected == 7:
-		Global.mission_complete = true
+		Global.glow_spotted = true
+		_refresh_glowing_object()
+		part3_dialogue_running = true
 		player.set_physics_process(false)
-		dialogue.set_mission("Rock Sample collection complete: 7/7.", null)
-		await dialogue.say("Mission", "All seven Rock Samples collected. Mission complete.")
+		dialogue.set_mission("Check the glowing light.", glowing_object_area)
+		await dialogue.say("Mission", "All seven Rock Samples collected! A mysterious glow can be seen nearby.")
+		await dialogue.say("Mission", "Check the glowing light.")
 		player.set_physics_process(true)
+		part3_dialogue_running = false
 	else:
 		dialogue.set_mission(
 			"Collect Rock Samples: %d/7." % Global.rock_samples_collected,
 			_get_next_rock_sample()
 		)
+
+
+func _process(delta: float) -> void:
+	if is_instance_valid(glowing_object_area) and glowing_object_area.visible:
+		glowing_pulse_elapsed += delta
+		var outer_ring := glowing_object_area.get_node_or_null("OuterGlow") as Polygon2D
+		var inner_ring := glowing_object_area.get_node_or_null("InnerGlow") as Polygon2D
+		var core := glowing_object_area.get_node_or_null("Core") as Polygon2D
+		if outer_ring != null:
+			var s := 0.88 + 0.24 * sin(glowing_pulse_elapsed * 4.2)
+			outer_ring.scale = Vector2.ONE * s
+			outer_ring.color.a = 0.25 + 0.16 * sin(glowing_pulse_elapsed * 4.2)
+		if inner_ring != null:
+			var s2 := 0.92 + 0.15 * cos(glowing_pulse_elapsed * 5.6)
+			inner_ring.scale = Vector2.ONE * s2
+		if core != null:
+			core.rotation = glowing_pulse_elapsed * 0.9
+
+
+func _setup_mars_dust_materials() -> void:
+	var shader := Shader.new()
+	shader.code = MARS_DUST_SHADER_CODE
+
+	var dusty_targets := [
+		[$WorldObjects/MainBuilding/PixelArtMarsOutpostMainBuilding, 96.0],
+		[$WorldObjects/SafetyBuilding/FuturisticSafetyBuildingPixelArt, 96.0],
+		[$WorldObjects/PersonalBuilding/PersonalBuildingHabitatModule, 96.0],
+		[$WorldObjects/GarageBuilding/NewgarageEdited, 96.0],
+		[$WorldObjects/Rocket/SciFiRocketLaunchPlatform, 96.0],
+		[$WorldObjects/Rocket/SymmetricalPixelArtRocketSpritesheet, 96.0],
+		[$WorldObjects/Newmarsrover, 48.0]
+	]
+
+	for entry in dusty_targets:
+		var sprite := entry[0] as Sprite2D
+		if sprite == null:
+			continue
+		var mat := ShaderMaterial.new()
+		mat.shader = shader
+		mat.set_shader_parameter("split_y", 1.0)
+		mat.set_shader_parameter("pixel_density", entry[1])
+		sprite.material = mat
+		dust_materials.append(mat)
+
+	var solar_sprite := $WorldObjects/Newsolarpanels as Sprite2D
+	if solar_sprite != null:
+		solar_panels_material = ShaderMaterial.new()
+		solar_panels_material.shader = shader
+		solar_panels_material.set_shader_parameter("split_y", 0.5)
+		solar_panels_material.set_shader_parameter("pixel_density", 56.0)
+		solar_sprite.material = solar_panels_material
+
+
+func _update_dust_visuals() -> void:
+	var dusty: bool = Global.is_outpost_dusty()
+	var building_dust := 1.0 if dusty else 0.0
+	for mat in dust_materials:
+		mat.set_shader_parameter("dust_top", building_dust)
+	if solar_panels_material != null:
+		var top_dust := 1.0 if (dusty and not Global.cleaned_solar_panel_ids.has(0)) else 0.0
+		var bottom_dust := 1.0 if (dusty and not Global.cleaned_solar_panel_ids.has(1)) else 0.0
+		solar_panels_material.set_shader_parameter("dust_top", top_dust)
+		solar_panels_material.set_shader_parameter("dust_bottom", bottom_dust)
+
+
+func _create_glowing_object() -> void:
+	glowing_object_area = Area2D.new()
+	glowing_object_area.name = "GlowingObject"
+	glowing_object_area.position = GLOWING_OBJECT_POSITION
+	glowing_object_area.monitoring = false
+	glowing_object_area.visible = false
+
+	var collision := CollisionShape2D.new()
+	var shape := RectangleShape2D.new()
+	shape.size = Vector2(56, 48)
+	collision.shape = shape
+	glowing_object_area.add_child(collision)
+
+	var outer_glow := Polygon2D.new()
+	outer_glow.name = "OuterGlow"
+	outer_glow.polygon = PackedVector2Array([
+		Vector2(-32, 0), Vector2(-23, -23), Vector2(0, -32),
+		Vector2(23, -23), Vector2(32, 0), Vector2(23, 23),
+		Vector2(0, 32), Vector2(-23, 23)
+	])
+	outer_glow.color = Color(0.32, 0.96, 1.0, 0.32)
+	glowing_object_area.add_child(outer_glow)
+
+	var inner_glow := Polygon2D.new()
+	inner_glow.name = "InnerGlow"
+	inner_glow.polygon = PackedVector2Array([
+		Vector2(-19, 0), Vector2(-13, -13), Vector2(0, -19),
+		Vector2(13, -13), Vector2(19, 0), Vector2(13, 13),
+		Vector2(0, 19), Vector2(-13, 13)
+	])
+	inner_glow.color = Color(0.55, 1.0, 0.88, 0.65)
+	glowing_object_area.add_child(inner_glow)
+
+	var core := Polygon2D.new()
+	core.name = "Core"
+	core.polygon = PackedVector2Array([
+		Vector2(-9, 0), Vector2(-4, -9), Vector2(4, -9),
+		Vector2(9, 0), Vector2(4, 9), Vector2(-4, 9)
+	])
+	core.color = Color(0.95, 1.0, 0.72, 1.0)
+	glowing_object_area.add_child(core)
+
+	$WorldObjects.add_child(glowing_object_area)
+	glowing_object_area.body_entered.connect(_on_glowing_object_entered)
+
+
+func _refresh_glowing_object() -> void:
+	if not is_instance_valid(glowing_object_area):
+		return
+	var active: bool = Global.rock_samples_collected >= 7 and not Global.glowing_object_collected
+	glowing_object_area.visible = active
+	glowing_object_area.set_deferred("monitoring", active)
+
+
+func _on_glowing_object_entered(body: Node2D) -> void:
+	if body != player or part3_dialogue_running or Global.glowing_object_collected:
+		return
+	if Global.rock_samples_collected < 7:
+		return
+	Global.glowing_object_collected = true
+	part3_dialogue_running = true
+	_refresh_glowing_object()
+	player.set_physics_process(false)
+	dialogue.notify_item("Unidentified Object")
+	await dialogue.say(
+		Global.get_player_display_name(),
+		"This is what I’m looking for! This would be legendary for Science!"
+	)
+	dialogue.set_mission("Proceed to the Main Laboratory.", $WorldObjects/MainBuilding/MainDoor)
+	await dialogue.say("Mission", "Proceed to the Main Laboratory.")
+	player.set_physics_process(true)
+	part3_dialogue_running = false
+
+
+func _create_solar_panel_areas() -> void:
+	var container := Node2D.new()
+	container.name = "SolarPanelCleaningAreas"
+	$WorldObjects.add_child(container)
+	for index in range(SOLAR_PANEL_POSITIONS.size()):
+		var area := Area2D.new()
+		area.name = "SolarPanelArea%d" % (index + 1)
+		area.position = SOLAR_PANEL_POSITIONS[index]
+		area.monitoring = false
+
+		var collision := CollisionShape2D.new()
+		var shape := RectangleShape2D.new()
+		shape.size = Vector2(160, 64)
+		collision.shape = shape
+		area.add_child(collision)
+
+		var highlight := Polygon2D.new()
+		highlight.name = "DirtyHighlight"
+		highlight.polygon = PackedVector2Array([
+			Vector2(-48, -18), Vector2(48, -18),
+			Vector2(48, 18), Vector2(-48, 18)
+		])
+		highlight.color = Color(0.95, 0.58, 0.25, 0.22)
+		highlight.visible = false
+		area.add_child(highlight)
+
+		container.add_child(area)
+		area.body_entered.connect(_on_solar_panel_area_entered.bind(index))
+		solar_panel_areas.append(area)
+
+
+func _refresh_solar_panel_areas() -> void:
+	var cleaning_active: bool = Global.lab_analysis_started and not Global.all_solar_panels_cleaned()
+	for index in range(solar_panel_areas.size()):
+		var area := solar_panel_areas[index]
+		var needs_cleaning: bool = cleaning_active and not Global.cleaned_solar_panel_ids.has(index)
+		area.set_deferred("monitoring", needs_cleaning)
+		var highlight := area.get_node_or_null("DirtyHighlight") as Polygon2D
+		if highlight != null:
+			highlight.visible = needs_cleaning
+
+
+func _get_next_dirty_solar_panel() -> Area2D:
+	for index in range(solar_panel_areas.size()):
+		if not Global.cleaned_solar_panel_ids.has(index):
+			return solar_panel_areas[index]
+	return null
+
+
+func _on_solar_panel_area_entered(body: Node2D, panel_id: int) -> void:
+	if body != player or not Global.lab_analysis_started:
+		return
+	if Global.cleaned_solar_panel_ids.has(panel_id):
+		return
+	Global.cleaned_solar_panel_ids.append(panel_id)
+	_refresh_solar_panel_areas()
+	_tween_solar_panel_clean(panel_id)
+	_spawn_clean_flash(SOLAR_PANEL_POSITIONS[panel_id])
+
+	if Global.all_solar_panels_cleaned():
+		part3_dialogue_running = true
+		player.set_physics_process(false)
+		dialogue.notify_item("Solar Panels Cleaned (2/2)")
+		await get_tree().create_timer(0.4).timeout
+		dialogue.set_mission(
+			"Check the Main Laboratory Room for the unidentified sample.",
+			$WorldObjects/MainBuilding/MainDoor
+		)
+		await dialogue.say(
+			"Mission",
+			"Let’s now check the Main Laboratory Room for the unidentified sample."
+		)
+		player.set_physics_process(true)
+		part3_dialogue_running = false
+	else:
+		dialogue.set_mission(
+			"Clean the solar panels outside (%d/2)." % Global.cleaned_solar_panel_ids.size(),
+			_get_next_dirty_solar_panel()
+		)
+		dialogue.notify_item("Solar Panel Cleaned (%d/2)" % Global.cleaned_solar_panel_ids.size())
+
+
+func _tween_solar_panel_clean(panel_id: int) -> void:
+	if solar_panels_material == null:
+		return
+	var param_name := "dust_top" if panel_id == 0 else "dust_bottom"
+	var tween := create_tween()
+	tween.tween_method(
+		func(value: float) -> void:
+			solar_panels_material.set_shader_parameter(param_name, value),
+		1.0,
+		0.0,
+		0.38
+	)
+
+
+func _spawn_clean_flash(world_pos: Vector2) -> void:
+	var sparkle := Polygon2D.new()
+	sparkle.position = world_pos
+	sparkle.polygon = PackedVector2Array([
+		Vector2(-24, 0), Vector2(-6, -6), Vector2(0, -24),
+		Vector2(6, -6), Vector2(24, 0), Vector2(6, 6),
+		Vector2(0, 24), Vector2(-6, 6)
+	])
+	sparkle.color = Color(0.75, 0.96, 1.0, 0.9)
+	$WorldObjects.add_child(sparkle)
+	var tween := create_tween()
+	tween.tween_property(sparkle, "scale", Vector2(1.5, 1.5), 0.35)
+	tween.parallel().tween_property(sparkle, "modulate:a", 0.0, 0.35)
+	await tween.finished
+	if is_instance_valid(sparkle):
+		sparkle.queue_free()

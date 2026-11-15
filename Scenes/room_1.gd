@@ -12,6 +12,8 @@ var can_exit := false
 var dialogue_running := false
 var donki_request: HTTPRequest
 var nearby_life_support_monitor := false
+var lab_analysis_visual: Node2D
+var lab_pulse_elapsed := 0.0
 
 
 func _ready() -> void:
@@ -26,6 +28,9 @@ func _ready() -> void:
 	Global.radiation_event_expired.connect(_on_radiation_event_expired)
 	$LifeSupportMonitorArea.body_entered.connect(_on_life_support_monitor_entered)
 	$LifeSupportMonitorArea.body_exited.connect(_on_life_support_monitor_exited)
+	$MainLaboratoryArea.body_entered.connect(_on_main_laboratory_area_entered)
+	_create_lab_analysis_visual()
+	_update_lab_visual()
 	visited_life_support = Global.life_support_checked
 	visited_spacesuits = Global.spacesuits_checked
 	can_exit = visited_life_support and visited_spacesuits
@@ -34,6 +39,20 @@ func _ready() -> void:
 		$EquipmentArea.body_entered.connect(_on_equipment_area_body_entered)
 	if Global.mission_complete:
 		dialogue.set_mission("Mission complete.", null)
+	elif Global.comms_static_part3_pending and not Global.comms_part3_arrived:
+		dialogue.set_mission("Go to the Communication Room.", $ExitArea)
+	elif Global.all_solar_panels_cleaned() and not Global.discovery_named:
+		dialogue.set_mission(
+			"Check the Main Laboratory Room for the unidentified sample.",
+			$MainLaboratoryArea
+		)
+	elif Global.lab_analysis_started and not Global.all_solar_panels_cleaned():
+		dialogue.set_mission(
+			"Clean the solar panels outside (%d/2)." % Global.cleaned_solar_panel_ids.size(),
+			$ExitArea
+		)
+	elif Global.glowing_object_collected and not Global.lab_analysis_started:
+		dialogue.set_mission("Proceed to the Main Laboratory.", $MainLaboratoryArea)
 	elif not visited_life_support:
 		dialogue.set_mission("Check the life-support system.", $LifeSupportArea)
 	elif not visited_spacesuits:
@@ -227,6 +246,98 @@ func _on_equipment_area_body_entered(body: Node2D) -> void:
 	await dialogue.say("Storage", "Your EVA equipment is ready. You can begin the search outside.")
 	player.set_physics_process(true)
 	dialogue_running = false
+
+
+func _process(delta: float) -> void:
+	if is_instance_valid(lab_analysis_visual) and lab_analysis_visual.visible:
+		lab_pulse_elapsed += delta
+		var pulse := 0.8 + 0.2 * sin(lab_pulse_elapsed * 5.0)
+		lab_analysis_visual.scale = Vector2.ONE * pulse
+		lab_analysis_visual.modulate.a = 0.72 + 0.28 * sin(lab_pulse_elapsed * 4.0)
+
+
+func _create_lab_analysis_visual() -> void:
+	lab_analysis_visual = Node2D.new()
+	lab_analysis_visual.name = "LabAnalysisVisual"
+	lab_analysis_visual.position = Vector2(520, 65)
+	lab_analysis_visual.z_index = 4
+
+	var outer_glow := Polygon2D.new()
+	outer_glow.polygon = PackedVector2Array([
+		Vector2(-18, 0), Vector2(-13, -13), Vector2(0, -18),
+		Vector2(13, -13), Vector2(18, 0), Vector2(13, 13),
+		Vector2(0, 18), Vector2(-13, 13)
+	])
+	outer_glow.color = Color(0.35, 0.95, 1.0, 0.45)
+	lab_analysis_visual.add_child(outer_glow)
+
+	var core := Polygon2D.new()
+	core.polygon = PackedVector2Array([
+		Vector2(-8, 0), Vector2(-5, -6), Vector2(0, -8),
+		Vector2(6, -5), Vector2(8, 0), Vector2(5, 6),
+		Vector2(0, 8), Vector2(-6, 5)
+	])
+	core.color = Color(0.75, 1.0, 0.95, 0.95)
+	lab_analysis_visual.add_child(core)
+
+	add_child(lab_analysis_visual)
+
+
+func _update_lab_visual() -> void:
+	if not is_instance_valid(lab_analysis_visual):
+		return
+	lab_analysis_visual.visible = Global.lab_analysis_started
+
+
+func _on_main_laboratory_area_entered(body: Node2D) -> void:
+	if body != player or dialogue_running or dialogue.game_over_visible:
+		return
+	if Global.glowing_object_collected and not Global.lab_analysis_started:
+		dialogue_running = true
+		Global.lab_analysis_started = true
+		_update_lab_visual()
+		player.set_physics_process(false)
+		await dialogue.say(
+			"Main Laboratory",
+			"The laboratory equipment has begun studying the unidentified object."
+		)
+		dialogue.set_mission("Clean the solar panels outside (0/2).", $ExitArea)
+		await dialogue.say(
+			"Mission",
+			"While waiting for the findings on the unidentified object, clean the solar panels outside."
+		)
+		player.set_physics_process(true)
+		dialogue_running = false
+	elif Global.all_solar_panels_cleaned() and not Global.discovery_named:
+		dialogue_running = true
+		player.set_physics_process(false)
+		var speaker: String = Global.get_player_display_name()
+		await dialogue.say(
+			speaker,
+			"I can’t believe it… This is a huge discovery. I’m gonna name this..."
+		)
+		var chosen_name: String = await dialogue.prompt_text(
+			"New Discovery on Mars",
+			"Type a name of your choosing for this new discovery on Mars:",
+			"Type discovery name..."
+		)
+		Global.discovery_name = chosen_name
+		Global.discovery_named = true
+		_update_lab_visual()
+		await dialogue.say(
+			speaker,
+			"I can now go back on Earth to showcase %s." % Global.discovery_name
+		)
+		dialogue.play_static_sound()
+		await dialogue.say(
+			"Communications",
+			"(Static sound) Static is coming from the Communications room..."
+		)
+		Global.comms_static_part3_pending = true
+		dialogue.set_mission("Go to the Communication Room.", $ExitArea)
+		await dialogue.say("Mission", "Go to the Communication Room.")
+		player.set_physics_process(true)
+		dialogue_running = false
 
 
 func _on_radiation_warning_started() -> void:

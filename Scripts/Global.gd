@@ -30,6 +30,14 @@ var radiation_shelter_complete: bool = false
 var greenhouse_visited: bool = false
 var eva_briefing_seen: bool = false
 var rock_search_briefing_seen: bool = false
+var glow_spotted: bool = false
+var glowing_object_collected: bool = false
+var lab_analysis_started: bool = false
+var cleaned_solar_panel_ids: Array[int] = []
+var discovery_named: bool = false
+var discovery_name: String = ""
+var comms_static_part3_pending: bool = false
+var comms_part3_arrived: bool = false
 var mission_complete: bool = false
 var life_support_readings: Dictionary = {}
 var radiation_deadline_msec: int = 0
@@ -57,10 +65,30 @@ func reset_mission() -> void:
 	greenhouse_visited = false
 	eva_briefing_seen = false
 	rock_search_briefing_seen = false
+	glow_spotted = false
+	glowing_object_collected = false
+	lab_analysis_started = false
+	cleaned_solar_panel_ids.clear()
+	discovery_named = false
+	discovery_name = ""
+	comms_static_part3_pending = false
+	comms_part3_arrived = false
 	mission_complete = false
 	life_support_readings.clear()
 	radiation_deadline_msec = 0
 	_radiation_event_generation += 1
+
+
+func get_player_display_name() -> String:
+	return player_name if not player_name.is_empty() else "Player"
+
+
+func all_solar_panels_cleaned() -> bool:
+	return cleaned_solar_panel_ids.size() >= 2
+
+
+func is_outpost_dusty() -> bool:
+	return radiation_shelter_complete
 
 
 func start_radiation_event() -> void:

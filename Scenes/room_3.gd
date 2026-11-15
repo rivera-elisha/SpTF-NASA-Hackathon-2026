@@ -7,6 +7,7 @@ const DialogueController = preload("res://Scripts/mission_dialogue.gd")
 var dialogue: CanvasLayer
 var call_started := false
 var greenhouse_dialogue_running := false
+var comms_part3_running := false
 
 
 func _ready() -> void:
@@ -26,6 +27,22 @@ func _ready() -> void:
 		dialogue.clear_sandstorm()
 		if $RadiationShelterArea.overlaps_body(player):
 			Global.try_enter_radiation_shelter()
+	elif Global.comms_part3_arrived:
+		dialogue.set_mission("Communications Room reached. Standby for incoming message.")
+	elif Global.comms_static_part3_pending or Global.discovery_named:
+		dialogue.set_mission("Go to the Communication Room.", $CommunicationsArea)
+		$CommunicationsArea.body_entered.connect(_on_communications_part3_entered)
+	elif Global.all_solar_panels_cleaned():
+		dialogue.set_mission("Return outside and check the Main Laboratory Room.", $ExitMainDoor)
+	elif Global.lab_analysis_started:
+		dialogue.set_mission(
+			"Return outside and clean the solar panels (%d/2)." % Global.cleaned_solar_panel_ids.size(),
+			$ExitMainDoor
+		)
+	elif Global.glowing_object_collected:
+		dialogue.set_mission("Return outside and proceed to the Main Laboratory.", $ExitMainDoor)
+	elif Global.rock_samples_collected >= 7:
+		dialogue.set_mission("Return outside and check the glowing light.", $ExitMainDoor)
 	elif Global.radiation_shelter_complete and not Global.greenhouse_visited:
 		dialogue.set_mission("Proceed to the Greenhouse room.", $GreenhouseArea)
 	elif Global.greenhouse_visited:
@@ -110,3 +127,21 @@ func _on_greenhouse_area_entered(body: Node2D) -> void:
 	await dialogue.say("Mission", "You can now go outside and collect the final Rock Sample.")
 	dialogue.set_mission("Go outside and collect the final Rock Sample.", $ExitMainDoor)
 	player.set_physics_process(true)
+
+
+func _on_communications_part3_entered(body: Node2D) -> void:
+	if body != player or comms_part3_running or Global.comms_part3_arrived:
+		return
+	if not Global.comms_static_part3_pending and not Global.discovery_named:
+		return
+	comms_part3_running = true
+	Global.comms_part3_arrived = true
+	player.set_physics_process(false)
+	dialogue.play_static_sound()
+	await dialogue.say(
+		"Communications",
+		"(Static sound) Static crackles across the communications terminal..."
+	)
+	dialogue.set_mission("Communications Room reached. Standby for incoming message.")
+	player.set_physics_process(true)
+	comms_part3_running = false

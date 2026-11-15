@@ -19,6 +19,13 @@ var notification_label: Label
 var information_panel: PanelContainer
 var information_title: Label
 var information_text: Label
+var input_panel: PanelContainer
+var input_title: Label
+var input_prompt: Label
+var input_line_edit: LineEdit
+var input_error_label: Label
+var input_submitted := false
+var input_result := ""
 var game_over_panel: PanelContainer
 var game_over_detail: Label
 var dialogue_generation := 0
@@ -41,6 +48,7 @@ func _ready() -> void:
 	_build_warning_display()
 	_build_notification()
 	_build_information_panel()
+	_build_input_panel()
 	_build_game_over_panel()
 	arrow = _ArrowIndicator.new()
 	arrow.z_index = 20
@@ -140,6 +148,58 @@ func show_information(title: String, text: String) -> void:
 	information_panel.show()
 	while information_panel.visible:
 		await get_tree().process_frame
+
+
+func prompt_text(title_text: String, prompt_message: String, placeholder: String = "Enter name...") -> String:
+	input_title.text = title_text
+	input_prompt.text = prompt_message
+	input_line_edit.placeholder_text = placeholder
+	input_line_edit.text = ""
+	input_error_label.hide()
+	input_submitted = false
+	input_result = ""
+	input_panel.show()
+	_layout_dialogue_panel()
+	input_line_edit.editable = true
+	input_line_edit.grab_focus()
+	input_line_edit.call_deferred("grab_focus")
+	while not input_submitted:
+		await get_tree().process_frame
+	input_panel.hide()
+	return input_result
+
+
+func play_static_sound() -> void:
+	var sample_rate := 22050
+	var duration_sec := 1.05
+	var sample_count := int(sample_rate * duration_sec)
+	var audio_data := PackedByteArray()
+	audio_data.resize(sample_count * 2)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 20260415
+	var filtered := 0.0
+	for index in range(sample_count):
+		var t := float(index) / sample_rate
+		var fade_in := minf(1.0, t / 0.06)
+		var fade_out := minf(1.0, (duration_sec - t) / 0.14)
+		var pulse := 0.55 + 0.45 * sin(TAU * 7.5 * t)
+		var white := rng.randf_range(-1.0, 1.0)
+		filtered = filtered * 0.45 + white * 0.55
+		var crackle := rng.randf_range(-0.9, 0.9) if rng.randf() < 0.04 else 0.0
+		var hum_gate := 1.0 if sin(TAU * 4.0 * t) >= 0.35 else 0.0
+		var hum := sin(TAU * 1120.0 * t) * 0.08 * hum_gate
+		var sample := clampf((filtered * 0.34 + crackle * 0.25 + hum) * pulse * fade_in * fade_out, -1.0, 1.0)
+		audio_data.encode_s16(index * 2, int(sample * 32767.0))
+	var static_stream := AudioStreamWAV.new()
+	static_stream.format = AudioStreamWAV.FORMAT_16_BITS
+	static_stream.mix_rate = sample_rate
+	static_stream.stereo = false
+	static_stream.data = audio_data
+	var player_node := AudioStreamPlayer.new()
+	player_node.stream = static_stream
+	add_child(player_node)
+	player_node.finished.connect(player_node.queue_free)
+	player_node.play()
 
 
 func show_game_over(message: String) -> void:
@@ -346,6 +406,93 @@ func _build_information_panel() -> void:
 	information_panel.hide()
 
 
+func _build_input_panel() -> void:
+	input_panel = PanelContainer.new()
+	input_panel.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	input_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	input_panel.custom_minimum_size = Vector2(520.0, 270.0)
+	input_panel.size = Vector2(520.0, 270.0)
+	input_panel.add_theme_stylebox_override(
+		"panel", _panel_style(Color("101a2bf5"), Color("71dcff"))
+	)
+	input_panel.z_index = 14
+	add_child(input_panel)
+
+	var layout := VBoxContainer.new()
+	layout.add_theme_constant_override("separation", 12)
+	input_panel.add_child(layout)
+
+	input_title = Label.new()
+	input_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	input_title.add_theme_color_override("font_color", Color("71dcff"))
+	input_title.add_theme_font_size_override("font_size", 22)
+	layout.add_child(input_title)
+
+	input_prompt = Label.new()
+	input_prompt.custom_minimum_size = Vector2(460.0, 48.0)
+	input_prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	input_prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	input_prompt.add_theme_color_override("font_color", Color("f4f7ff"))
+	input_prompt.add_theme_font_size_override("font_size", 18)
+	layout.add_child(input_prompt)
+
+	var line_normal := _panel_style(Color("070f1df8"), Color("48a9d6"))
+	line_normal.content_margin_left = 12.0
+	line_normal.content_margin_top = 8.0
+	line_normal.content_margin_right = 12.0
+	line_normal.content_margin_bottom = 8.0
+	var line_focus := _panel_style(Color("070f1df8"), Color("71dcff"))
+	line_focus.content_margin_left = 12.0
+	line_focus.content_margin_top = 8.0
+	line_focus.content_margin_right = 12.0
+	line_focus.content_margin_bottom = 8.0
+
+	input_line_edit = LineEdit.new()
+	input_line_edit.custom_minimum_size = Vector2(380, 44)
+	input_line_edit.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	input_line_edit.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	input_line_edit.max_length = 28
+	input_line_edit.editable = true
+	input_line_edit.caret_blink = true
+	input_line_edit.mouse_filter = Control.MOUSE_FILTER_STOP
+	input_line_edit.add_theme_stylebox_override("normal", line_normal)
+	input_line_edit.add_theme_stylebox_override("focus", line_focus)
+	input_line_edit.add_theme_font_size_override("font_size", 18)
+	input_line_edit.text_submitted.connect(_on_input_text_submitted)
+	layout.add_child(input_line_edit)
+
+	input_error_label = Label.new()
+	input_error_label.text = "Please enter a name for your discovery."
+	input_error_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	input_error_label.add_theme_color_override("font_color", Color("ff7676"))
+	input_error_label.add_theme_font_size_override("font_size", 14)
+	input_error_label.hide()
+	layout.add_child(input_error_label)
+
+	var confirm_button := Button.new()
+	confirm_button.text = "Confirm"
+	confirm_button.custom_minimum_size = Vector2(160, 42)
+	confirm_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	confirm_button.add_theme_font_size_override("font_size", 17)
+	confirm_button.pressed.connect(_on_input_confirm_pressed)
+	layout.add_child(confirm_button)
+	input_panel.hide()
+
+
+func _on_input_text_submitted(_new_text: String) -> void:
+	_on_input_confirm_pressed()
+
+
+func _on_input_confirm_pressed() -> void:
+	var trimmed := input_line_edit.text.strip_edges()
+	if trimmed.is_empty():
+		input_error_label.show()
+		input_line_edit.grab_focus()
+		return
+	input_result = trimmed
+	input_submitted = true
+
+
 func _build_game_over_panel() -> void:
 	game_over_panel = PanelContainer.new()
 	game_over_panel.set_anchors_preset(Control.PRESET_CENTER)
@@ -391,14 +538,21 @@ func _build_game_over_panel() -> void:
 
 
 func _layout_dialogue_panel() -> void:
-	if not is_instance_valid(dialogue_panel):
-		return
 	var viewport_size := get_viewport().get_visible_rect().size
-	dialogue_panel.size = Vector2(minf(760.0, viewport_size.x - 32.0), 225.0)
-	dialogue_panel.position = Vector2(
-		(viewport_size.x - dialogue_panel.size.x) / 2.0,
-		viewport_size.y - dialogue_panel.size.y - 22.0
-	)
+	if is_instance_valid(dialogue_panel):
+		dialogue_panel.size = Vector2(minf(760.0, viewport_size.x - 32.0), 225.0)
+		dialogue_panel.position = Vector2(
+			(viewport_size.x - dialogue_panel.size.x) / 2.0,
+			viewport_size.y - dialogue_panel.size.y - 22.0
+		)
+	if is_instance_valid(input_panel):
+		var width := minf(520.0, viewport_size.x - 32.0)
+		if is_instance_valid(input_prompt):
+			input_prompt.custom_minimum_size = Vector2(maxf(240.0, width - 60.0), 48.0)
+		input_panel.custom_minimum_size = Vector2(width, 270.0)
+		input_panel.reset_size()
+		input_panel.size = Vector2(maxf(width, input_panel.size.x), maxf(270.0, input_panel.size.y))
+		input_panel.position = (viewport_size - input_panel.size) / 2.0
 
 
 func _unhandled_input(event: InputEvent) -> void:
