@@ -159,6 +159,12 @@ size = Vector2(20, 73.07083)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0s052"]
 size = Vector2(2.8872771, 27.299587)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eva_equipment"]
+size = Vector2(120, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_life_support_monitor_area"]
+size = Vector2(96, 72)
+
 [node name="Room1" type="Node2D" unique_id=1778353023]
 scale = Vector2(1.0016125, 1.0076497)
 script = ExtResource("1_dowsv")
@@ -570,6 +576,18 @@ shape = SubResource("RectangleShape2D_0s052")
 
 [node name="InteriorEntrySpawn" type="Marker2D" parent="." unique_id=86020602]
 position = Vector2(582.0614, 533.9158)
+
+[node name="EquipmentArea" type="Area2D" parent="."]
+position = Vector2(230, 505)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EquipmentArea"]
+shape = SubResource("RectangleShape2D_eva_equipment")
+
+[node name="LifeSupportMonitorArea" type="Area2D" parent="."]
+position = Vector2(139, 68)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LifeSupportMonitorArea"]
+shape = SubResource("RectangleShape2D_life_support_monitor_area")
 
 [connection signal="body_entered" from="SpacesuitsArea" to="." method="enter_spacesuits"]
 [connection signal="body_entered" from="ExitArea" to="." method="enter_exit"]

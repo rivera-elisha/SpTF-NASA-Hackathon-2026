@@ -6,19 +6,35 @@ const DialogueController = preload("res://Scripts/mission_dialogue.gd")
 
 var dialogue: CanvasLayer
 var call_started := false
+var greenhouse_dialogue_running := false
 
 
 func _ready() -> void:
 	dialogue = DialogueController.new()
 	add_child(dialogue)
+	Global.radiation_warning_started.connect(_on_radiation_warning_started)
+	Global.radiation_event_sheltered.connect(_on_radiation_event_sheltered)
+	Global.radiation_event_expired.connect(_on_radiation_event_expired)
+	$RadiationShelterArea.body_entered.connect(_on_radiation_shelter_area_entered)
+	$GreenhouseArea.body_entered.connect(_on_greenhouse_area_entered)
 	if Global.mission_complete:
 		dialogue.set_mission("Mission complete.")
 		return
-	if Global.communication_call_completed:
-		dialogue.set_mission("Crew call complete. Return outside.", $ExitMainDoor)
-		return
-	dialogue.set_mission("Go to the Communications room.", $CommunicationsArea)
-	$CommunicationsArea.body_entered.connect(_on_communications_area_body_entered)
+	if Global.radiation_warning_active:
+		dialogue.set_mission("6/7 Rock Samples. URGENT: Reach the Radiation Room.", $RadiationShelterArea)
+		dialogue.show_radiation_warning(true)
+		dialogue.clear_sandstorm()
+		if $RadiationShelterArea.overlaps_body(player):
+			Global.try_enter_radiation_shelter()
+	elif Global.radiation_shelter_complete and not Global.greenhouse_visited:
+		dialogue.set_mission("Proceed to the Greenhouse room.", $GreenhouseArea)
+	elif Global.greenhouse_visited:
+		dialogue.set_mission("Go outside and collect the final Rock Sample.", $ExitMainDoor)
+	elif Global.communication_call_completed:
+		dialogue.set_mission("Return outside and begin the Rock Sample quest.", $ExitMainDoor)
+	else:
+		dialogue.set_mission("Go to the Communications room.", $CommunicationsArea)
+		$CommunicationsArea.body_entered.connect(_on_communications_area_body_entered)
 
 
 func _on_communications_area_body_entered(body: Node2D) -> void:
@@ -42,6 +58,55 @@ func _on_communications_area_body_entered(body: Node2D) -> void:
 	await dialogue.say("Player", "Copy.")
 	await dialogue.say("Communications", "End call.")
 	Global.communication_call_completed = true
-	Global.mission_complete = true
-	dialogue.set_mission("Return outside to the outpost.", $ExitMainDoor)
+	dialogue.set_mission("Return outside to collect EVA equipment from storage.", $ExitMainDoor)
+	await dialogue.say("Mission", "The call is complete. Collect your EVA equipment from the storage room.")
+	player.set_physics_process(true)
+
+
+func _on_radiation_warning_started() -> void:
+	dialogue.show_radiation_warning(true)
+	dialogue.clear_sandstorm()
+	dialogue.set_mission("6/7 Rock Samples. URGENT: Reach the Radiation Room.", $RadiationShelterArea)
+	if $RadiationShelterArea.overlaps_body(player):
+		Global.try_enter_radiation_shelter()
+
+
+func _on_radiation_shelter_area_entered(body: Node2D) -> void:
+	if body == player:
+		Global.try_enter_radiation_shelter()
+
+
+func _on_radiation_event_sheltered() -> void:
+	dialogue.clear_radiation_warning()
+	player.set_physics_process(false)
+	await dialogue.say("Player", "The radiation levels are falling. I'm safe in the Radiation Room.")
+	await dialogue.say(
+		"Life-Support Readings",
+		Global.get_life_support_readings_text(),
+		3.0
+	)
+	await dialogue.say("Mission", "The radiation event has passed. Proceed to the Greenhouse.")
+	dialogue.set_mission("Proceed to the Greenhouse room.", $GreenhouseArea)
+	player.set_physics_process(true)
+
+
+func _on_radiation_event_expired() -> void:
+	dialogue.show_game_over("How I wish I was able to find it... The radiation storm caught me outside.")
+
+
+func _on_greenhouse_area_entered(body: Node2D) -> void:
+	if (
+		body != player
+		or greenhouse_dialogue_running
+		or not Global.radiation_shelter_complete
+		or Global.greenhouse_visited
+	):
+		return
+	greenhouse_dialogue_running = true
+	Global.greenhouse_visited = true
+	player.set_physics_process(false)
+	await dialogue.say("Greenhouse", "This is the Greenhouse room where you can plant.")
+	await dialogue.say("Greenhouse", "Your crew members already planted some tomatoes. They will be ready to harvest some time.")
+	await dialogue.say("Mission", "You can now go outside and collect the final Rock Sample.")
+	dialogue.set_mission("Go outside and collect the final Rock Sample.", $ExitMainDoor)
 	player.set_physics_process(true)

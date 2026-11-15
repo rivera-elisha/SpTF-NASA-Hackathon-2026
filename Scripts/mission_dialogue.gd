@@ -6,12 +6,27 @@ var mission_status: Label
 var dialogue_panel: PanelContainer
 var speaker_label: Label
 var message_label: Label
+var advance_button: Button
 var actions: HBoxContainer
 var arrow: Node2D
 var player: CharacterBody2D
 var mission_target: Node2D
+var interaction_hint: Label
+var warning_panel: PanelContainer
+var warning_label: Label
+var storm_overlay: Control
+var notification_label: Label
+var information_panel: PanelContainer
+var information_title: Label
+var information_text: Label
+var game_over_panel: PanelContainer
+var game_over_detail: Label
+var dialogue_generation := 0
+var dialogue_waiting := false
+var radiation_shelter_urgency := false
 var indicator_initialized := false
 var indicator_enabled := true
+var game_over_visible := false
 var buttons: Array[Button] = []
 var choice_value := false
 var choice_completed := false
@@ -22,6 +37,11 @@ func _ready() -> void:
 	player = get_parent().find_child("CharacterBody2d", true, false) as CharacterBody2D
 	_build_mission_panel()
 	_build_dialogue_panel()
+	_build_interaction_hint()
+	_build_warning_display()
+	_build_notification()
+	_build_information_panel()
+	_build_game_over_panel()
 	arrow = _ArrowIndicator.new()
 	arrow.z_index = 20
 	get_parent().add_child(arrow)
@@ -43,15 +63,29 @@ func say(speaker: String, message: String, duration: float = 3.0) -> void:
 	speaker_label.text = speaker
 	message_label.text = message
 	dialogue_panel.show()
+	advance_button.hide()
+	dialogue_generation += 1
+	var current_generation := dialogue_generation
 	if duration > 0.0:
+		advance_button.show()
 		var display_time := maxf(duration, minf(7.0, message.length() * 0.055))
-		await get_tree().create_timer(display_time).timeout
-		dialogue_panel.hide()
+		dialogue_waiting = true
+		get_tree().create_timer(display_time).timeout.connect(
+			_finish_dialogue.bind(current_generation)
+		)
+		while dialogue_waiting and current_generation == dialogue_generation:
+			await get_tree().process_frame
+		if current_generation == dialogue_generation:
+			dialogue_waiting = false
+			dialogue_panel.hide()
+			advance_button.hide()
 
 
 func choose(speaker: String, message: String, first_choice: String, second_choice: String) -> bool:
 	speaker_label.text = speaker
 	message_label.text = message
+	advance_button.hide()
+	dialogue_waiting = false
 	choice_completed = false
 	_add_choice_button(first_choice, true)
 	_add_choice_button(second_choice, false)
@@ -65,6 +99,61 @@ func choose(speaker: String, message: String, first_choice: String, second_choic
 
 func hide_dialogue() -> void:
 	dialogue_panel.hide()
+
+
+func set_interaction_hint(text: String) -> void:
+	interaction_hint.text = text
+	interaction_hint.visible = not text.is_empty()
+
+
+func notify_item(item_name: String) -> void:
+	notification_label.text = "+1  %s" % item_name
+	notification_label.show()
+	var tween := create_tween()
+	tween.tween_interval(1.7)
+	tween.tween_property(notification_label, "modulate:a", 0.0, 0.35)
+	await tween.finished
+	notification_label.hide()
+	notification_label.modulate.a = 1.0
+
+
+func show_radiation_warning(inside_safety_building: bool = false) -> void:
+	radiation_shelter_urgency = inside_safety_building
+	storm_overlay.show()
+	warning_panel.show()
+	_play_warning_beep()
+	_update_warning_countdown()
+
+
+func clear_sandstorm() -> void:
+	storm_overlay.hide()
+
+
+func clear_radiation_warning() -> void:
+	clear_sandstorm()
+	warning_panel.hide()
+
+
+func show_information(title: String, text: String) -> void:
+	information_title.text = title
+	information_text.text = text
+	information_panel.show()
+	while information_panel.visible:
+		await get_tree().process_frame
+
+
+func show_game_over(message: String) -> void:
+	if game_over_visible:
+		return
+	game_over_visible = true
+	clear_radiation_warning()
+	dialogue_panel.hide()
+	game_over_detail.text = message
+	game_over_panel.show()
+	indicator_enabled = false
+	arrow.hide()
+	if is_instance_valid(player):
+		player.set_physics_process(false)
 
 
 func hide_hud() -> void:
@@ -118,53 +207,277 @@ func _build_mission_panel() -> void:
 
 func _build_dialogue_panel() -> void:
 	dialogue_panel = PanelContainer.new()
-	dialogue_panel.custom_minimum_size = Vector2(760, 205)
+	dialogue_panel.custom_minimum_size = Vector2(760, 225)
 	dialogue_panel.add_theme_stylebox_override("panel", _panel_style(Color("101a2bf2"), Color("71dcff")))
+	dialogue_panel.gui_input.connect(_on_dialogue_panel_gui_input)
 	add_child(dialogue_panel)
 
 	var layout := VBoxContainer.new()
 	layout.add_theme_constant_override("separation", 8)
+	layout.mouse_filter = Control.MOUSE_FILTER_PASS
 	dialogue_panel.add_child(layout)
 
 	speaker_label = Label.new()
 	speaker_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	speaker_label.add_theme_color_override("font_color", Color("71dcff"))
 	speaker_label.add_theme_font_size_override("font_size", 20)
+	speaker_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	layout.add_child(speaker_label)
 
 	var separator := HSeparator.new()
 	separator.add_theme_color_override("separator", Color("426179"))
+	separator.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	layout.add_child(separator)
 
 	message_label = Label.new()
 	message_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	message_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	message_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	message_label.custom_minimum_size = Vector2(710, 82)
+	message_label.custom_minimum_size = Vector2(710, 76)
 	message_label.add_theme_color_override("font_color", Color("f4f7ff"))
 	message_label.add_theme_font_size_override("font_size", 18)
+	message_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	layout.add_child(message_label)
 
 	actions = HBoxContainer.new()
 	actions.alignment = BoxContainer.ALIGNMENT_CENTER
 	actions.add_theme_constant_override("separation", 24)
 	layout.add_child(actions)
+	advance_button = Button.new()
+	advance_button.text = "click to advance to next dialogue or wait"
+	advance_button.flat = true
+	advance_button.custom_minimum_size = Vector2(280, 24)
+	advance_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	advance_button.add_theme_color_override("font_color", Color("aab8c9"))
+	advance_button.add_theme_font_size_override("font_size", 12)
+	advance_button.pressed.connect(_on_advance_button_pressed)
+	layout.add_child(advance_button)
+	advance_button.hide()
 	dialogue_panel.hide()
+
+
+func _build_interaction_hint() -> void:
+	interaction_hint = Label.new()
+	interaction_hint.text = ""
+	interaction_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	interaction_hint.add_theme_color_override("font_color", Color("f4f7ff"))
+	interaction_hint.add_theme_font_size_override("font_size", 16)
+	interaction_hint.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	interaction_hint.offset_top = -76
+	interaction_hint.offset_bottom = -42
+	interaction_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(interaction_hint)
+	interaction_hint.hide()
+
+
+func _build_warning_display() -> void:
+	storm_overlay = _SandstormOverlay.new()
+	storm_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	storm_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	storm_overlay.z_index = 5
+	storm_overlay.hide()
+	add_child(storm_overlay)
+
+	warning_panel = PanelContainer.new()
+	warning_panel.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	warning_panel.offset_left = 280
+	warning_panel.offset_top = 18
+	warning_panel.offset_right = -280
+	warning_panel.offset_bottom = 94
+	warning_panel.add_theme_stylebox_override(
+		"panel", _panel_style(Color("591616f0"), Color("ff4242"))
+	)
+	warning_panel.z_index = 6
+	add_child(warning_panel)
+	warning_label = Label.new()
+	warning_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	warning_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	warning_label.add_theme_color_override("font_color", Color("fff3f3"))
+	warning_label.add_theme_font_size_override("font_size", 23)
+	warning_panel.add_child(warning_label)
+	warning_panel.hide()
+
+
+func _build_notification() -> void:
+	notification_label = Label.new()
+	notification_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	notification_label.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	notification_label.offset_top = 112
+	notification_label.offset_bottom = 150
+	notification_label.add_theme_color_override("font_color", Color("9bffae"))
+	notification_label.add_theme_font_size_override("font_size", 24)
+	notification_label.z_index = 8
+	add_child(notification_label)
+	notification_label.hide()
+
+
+func _build_information_panel() -> void:
+	information_panel = PanelContainer.new()
+	information_panel.set_anchors_preset(Control.PRESET_CENTER)
+	information_panel.position = Vector2(-280, -170)
+	information_panel.size = Vector2(560, 340)
+	information_panel.add_theme_stylebox_override(
+		"panel", _panel_style(Color("101a2bf5"), Color("71dcff"))
+	)
+	information_panel.z_index = 12
+	add_child(information_panel)
+	var layout := VBoxContainer.new()
+	layout.add_theme_constant_override("separation", 14)
+	information_panel.add_child(layout)
+	information_title = Label.new()
+	information_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	information_title.add_theme_color_override("font_color", Color("71dcff"))
+	information_title.add_theme_font_size_override("font_size", 22)
+	layout.add_child(information_title)
+	information_text = Label.new()
+	information_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	information_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	information_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	information_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	information_text.add_theme_color_override("font_color", Color("f4f7ff"))
+	information_text.add_theme_font_size_override("font_size", 18)
+	layout.add_child(information_text)
+	var close_button := Button.new()
+	close_button.text = "Close"
+	close_button.custom_minimum_size = Vector2(150, 42)
+	close_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	close_button.pressed.connect(_on_information_close_requested)
+	layout.add_child(close_button)
+	information_panel.hide()
+
+
+func _build_game_over_panel() -> void:
+	game_over_panel = PanelContainer.new()
+	game_over_panel.set_anchors_preset(Control.PRESET_CENTER)
+	game_over_panel.position = Vector2(-250, -145)
+	game_over_panel.size = Vector2(500, 290)
+	game_over_panel.add_theme_stylebox_override(
+		"panel", _panel_style(Color("17131bf5"), Color("ff5f5f"))
+	)
+	game_over_panel.z_index = 20
+	add_child(game_over_panel)
+	var layout := VBoxContainer.new()
+	layout.add_theme_constant_override("separation", 18)
+	game_over_panel.add_child(layout)
+	var title := Label.new()
+	title.text = "GAME OVER"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_color_override("font_color", Color("ff7676"))
+	title.add_theme_font_size_override("font_size", 30)
+	layout.add_child(title)
+	game_over_detail = Label.new()
+	game_over_detail.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	game_over_detail.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	game_over_detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	game_over_detail.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	game_over_detail.add_theme_color_override("font_color", Color("f4f7ff"))
+	game_over_detail.add_theme_font_size_override("font_size", 17)
+	layout.add_child(game_over_detail)
+	var game_over_actions := HBoxContainer.new()
+	game_over_actions.alignment = BoxContainer.ALIGNMENT_CENTER
+	game_over_actions.add_theme_constant_override("separation", 18)
+	layout.add_child(game_over_actions)
+	var try_again := Button.new()
+	try_again.text = "Try Again"
+	try_again.custom_minimum_size = Vector2(150, 42)
+	try_again.pressed.connect(_on_try_again_pressed)
+	game_over_actions.add_child(try_again)
+	var exit_button := Button.new()
+	exit_button.text = "Exit"
+	exit_button.custom_minimum_size = Vector2(150, 42)
+	exit_button.pressed.connect(_on_exit_pressed)
+	game_over_actions.add_child(exit_button)
+	game_over_panel.hide()
 
 
 func _layout_dialogue_panel() -> void:
 	if not is_instance_valid(dialogue_panel):
 		return
 	var viewport_size := get_viewport().get_visible_rect().size
-	dialogue_panel.size = Vector2(minf(760.0, viewport_size.x - 32.0), 205.0)
+	dialogue_panel.size = Vector2(minf(760.0, viewport_size.x - 32.0), 225.0)
 	dialogue_panel.position = Vector2(
 		(viewport_size.x - dialogue_panel.size.x) / 2.0,
 		viewport_size.y - dialogue_panel.size.y - 22.0
 	)
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not dialogue_waiting:
+		return
+	if event.is_action_pressed("ui_accept") or (
+		event is InputEventMouseButton
+		and event.button_index == MOUSE_BUTTON_LEFT
+		and event.pressed
+	):
+		_finish_dialogue(dialogue_generation)
+		get_viewport().set_input_as_handled()
+
+
+func _on_dialogue_panel_gui_input(event: InputEvent) -> void:
+	if (
+		dialogue_waiting
+		and event is InputEventMouseButton
+		and event.button_index == MOUSE_BUTTON_LEFT
+		and event.pressed
+	):
+		_finish_dialogue(dialogue_generation)
+		dialogue_panel.accept_event()
+
+
+func _finish_dialogue(generation: int) -> void:
+	if generation == dialogue_generation:
+		dialogue_waiting = false
+
+
+func _on_advance_button_pressed() -> void:
+	_finish_dialogue(dialogue_generation)
+
+
 func _process(delta: float) -> void:
 	_update_indicator(delta)
+	if warning_panel.visible:
+		_update_warning_countdown()
+
+
+func _update_warning_countdown() -> void:
+	var instruction := "REACH THE RADIATION ROOM NOW" if radiation_shelter_urgency else "REACH THE SAFETY BUILDING"
+	warning_label.text = "RADIATION LEVEL: HIGH\n%s — %d s" % [
+		instruction, Global.radiation_seconds_remaining()
+	]
+
+
+func _play_warning_beep() -> void:
+	var sample_rate := 22050
+	var sample_count := int(sample_rate * 0.28)
+	var audio_data := PackedByteArray()
+	audio_data.resize(sample_count * 2)
+	for index in range(sample_count):
+		var envelope := 1.0 - float(index) / sample_count
+		var sample := sin(TAU * 880.0 * float(index) / sample_rate) * envelope * 0.5
+		audio_data.encode_s16(index * 2, int(sample * 32767.0))
+	var beep := AudioStreamWAV.new()
+	beep.format = AudioStreamWAV.FORMAT_16_BITS
+	beep.mix_rate = sample_rate
+	beep.stereo = false
+	beep.data = audio_data
+	var player_node := AudioStreamPlayer.new()
+	player_node.stream = beep
+	add_child(player_node)
+	player_node.finished.connect(player_node.queue_free)
+	player_node.play()
+
+
+func _on_try_again_pressed() -> void:
+	Global.reset_mission()
+	get_tree().reload_current_scene()
+
+
+func _on_exit_pressed() -> void:
+	get_tree().quit()
+
+
+func _on_information_close_requested() -> void:
+	information_panel.hide()
 
 
 func _update_indicator(delta: float) -> void:
@@ -260,3 +573,26 @@ class _ArrowIndicator:
 		])
 		draw_colored_polygon(outline, Color("101a2b"))
 		draw_colored_polygon(fill, Color("ffd66b"))
+
+
+class _SandstormOverlay:
+	extends Control
+
+	var elapsed := 0.0
+
+	func _process(delta: float) -> void:
+		elapsed += delta
+		queue_redraw()
+
+	func _draw() -> void:
+		var viewport_size := get_viewport_rect().size
+		draw_rect(Rect2(Vector2.ZERO, viewport_size), Color(0.65, 0.31, 0.09, 0.13))
+		for index in range(55):
+			var start_x := fposmod(float(index) * 131.0 - elapsed * 210.0, viewport_size.x + 100.0)
+			var y := fposmod(float(index) * 79.0 + elapsed * 42.0, viewport_size.y)
+			draw_line(
+				Vector2(start_x, y),
+				Vector2(start_x + 38.0, y - 5.0),
+				Color(1.0, 0.69, 0.37, 0.28),
+				2.0
+			)

@@ -11,6 +11,7 @@ var visited_spacesuits := false
 var can_exit := false
 var dialogue_running := false
 var donki_request: HTTPRequest
+var nearby_life_support_monitor := false
 
 
 func _ready() -> void:
@@ -21,17 +22,28 @@ func _ready() -> void:
 	$CanvasLayer/GameOverPanel/ExitButton.pressed.connect(_on_exit_pressed)
 	dialogue = DialogueController.new()
 	add_child(dialogue)
+	Global.radiation_warning_started.connect(_on_radiation_warning_started)
+	Global.radiation_event_expired.connect(_on_radiation_event_expired)
+	$LifeSupportMonitorArea.body_entered.connect(_on_life_support_monitor_entered)
+	$LifeSupportMonitorArea.body_exited.connect(_on_life_support_monitor_exited)
 	visited_life_support = Global.life_support_checked
 	visited_spacesuits = Global.spacesuits_checked
 	can_exit = visited_life_support and visited_spacesuits
+	$EquipmentArea.monitoring = Global.communication_call_completed and not Global.eva_equipment_obtained
+	if $EquipmentArea.monitoring:
+		$EquipmentArea.body_entered.connect(_on_equipment_area_body_entered)
 	if Global.mission_complete:
 		dialogue.set_mission("Mission complete.", null)
 	elif not visited_life_support:
 		dialogue.set_mission("Check the life-support system.", $LifeSupportArea)
 	elif not visited_spacesuits:
 		dialogue.set_mission("Visit the Spacesuits room.", $SpacesuitsArea)
+	elif Global.communication_call_completed and not Global.eva_equipment_obtained:
+		dialogue.set_mission("Collect EVA equipment from storage.", $EquipmentArea)
 	else:
 		dialogue.set_mission("Proceed to the outpost Exit.", $ExitArea)
+	if Global.radiation_warning_active:
+		dialogue.show_radiation_warning()
 	if Global.mission_complete:
 		return
 	donki_request = HTTPRequest.new()
@@ -39,6 +51,41 @@ func _ready() -> void:
 	add_child(donki_request)
 	if not Global.room1_intro_seen:
 		show_popup_sequence()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if (
+		not event.is_action_pressed("interact")
+		or not nearby_life_support_monitor
+		or dialogue_running
+		or dialogue.game_over_visible
+	):
+		return
+	get_viewport().set_input_as_handled()
+	_open_life_support_monitor()
+
+
+func _open_life_support_monitor() -> void:
+	player.set_physics_process(false)
+	dialogue.set_interaction_hint("")
+	await dialogue.show_information("Life-Support Readings", Global.get_life_support_readings_text())
+	player.set_physics_process(true)
+	if nearby_life_support_monitor:
+		dialogue.set_interaction_hint("Press E to check life-support and radiation levels")
+
+
+func _on_life_support_monitor_entered(body: Node2D) -> void:
+	if body != player:
+		return
+	nearby_life_support_monitor = true
+	dialogue.set_interaction_hint("Press E to check life-support and radiation levels")
+
+
+func _on_life_support_monitor_exited(body: Node2D) -> void:
+	if body != player:
+		return
+	nearby_life_support_monitor = false
+	dialogue.set_interaction_hint("")
 
 
 func _configure_game_over_panel() -> void:
@@ -96,11 +143,15 @@ func enter_life_support(body: Node2D) -> void:
 	var temperature := randi_range(18, 25)
 	await show_dialogue("Life-support System", "This is the life-support room. Check this occasionally, especially the radiation levels!")
 	var radiation := await _fetch_radiation_level()
+	Global.life_support_readings = {
+		"oxygen": oxygen,
+		"carbon_dioxide": co2,
+		"temperature": temperature,
+		"radiation": radiation
+	}
 	await show_dialogue(
 		"System Readings",
-		"Oxygen Level: %d%%\nCarbon Dioxide Level: %d ppm\nTemperature: %d°C\nRadiation Level: %s" % [
-			oxygen, co2, temperature, radiation
-		],
+		Global.get_life_support_readings_text(),
 		6.0
 	)
 	dialogue.set_mission("Visit the Spacesuits room.", $SpacesuitsArea)
@@ -163,6 +214,27 @@ func enter_exit(body: Node2D) -> void:
 		get_tree().call_deferred("change_scene_to_file", "res://Scenes/mars_map.tscn")
 	else:
 		game_over()
+
+
+func _on_equipment_area_body_entered(body: Node2D) -> void:
+	if body != player or dialogue_running or Global.eva_equipment_obtained:
+		return
+	Global.eva_equipment_obtained = true
+	dialogue_running = true
+	player.set_physics_process(false)
+	dialogue.set_mission("Return outside and continue the Rock Sample quest.", $ExitArea)
+	await dialogue.notify_item("EVA Equipment")
+	await dialogue.say("Storage", "Your EVA equipment is ready. You can begin the search outside.")
+	player.set_physics_process(true)
+	dialogue_running = false
+
+
+func _on_radiation_warning_started() -> void:
+	dialogue.show_radiation_warning()
+
+
+func _on_radiation_event_expired() -> void:
+	dialogue.show_game_over("How I wish I was able to find it... The radiation storm caught me outside.")
 
 
 func game_over() -> void:
