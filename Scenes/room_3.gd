@@ -208,6 +208,10 @@ func _on_communications_area_body_entered(body: Node2D) -> void:
 	await dialogue.say("Player", "Copy.")
 	await dialogue.say("Communications", "End call.")
 	Global.communication_call_completed = true
+	Global.save_mission_checkpoint(
+		"res://Scenes/Room_3.tscn",
+		&"InteriorEntrySpawn"
+	)
 	dialogue.set_mission("Return outside to collect EVA equipment from storage.", $ExitMainDoor)
 	await dialogue.say("Mission", "The call is complete. Collect your EVA equipment from the storage room.")
 	player.set_physics_process(true)
@@ -228,6 +232,10 @@ func _on_radiation_shelter_area_entered(body: Node2D) -> void:
 
 func _on_radiation_event_sheltered() -> void:
 	dialogue.clear_radiation_warning()
+	Global.save_mission_checkpoint(
+		"res://Scenes/Room_3.tscn",
+		&"InteriorEntrySpawn"
+	)
 	player.set_physics_process(false)
 	await dialogue.say("Player", "The radiation levels are falling. I'm safe in the Radiation Room.")
 	await dialogue.say(
@@ -254,6 +262,10 @@ func _on_greenhouse_area_entered(body: Node2D) -> void:
 		return
 	greenhouse_dialogue_running = true
 	Global.greenhouse_visited = true
+	Global.save_mission_checkpoint(
+		"res://Scenes/Room_3.tscn",
+		&"InteriorEntrySpawn"
+	)
 	InteractiveAssets.play_sfx(self, "mist", -8.0)
 	InteractiveAssets.spawn_ring_vfx(self, $GreenhouseArea.global_position, Color(0.45, 1.0, 0.65, 0.9), 48.0, 0.5)
 	InteractiveAssets.spawn_burst_vfx(self, $GreenhouseArea.global_position, Color(0.55, 1.0, 0.72, 0.9), 24, 72.0, 3.2)

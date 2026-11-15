@@ -567,6 +567,10 @@ class _ExerciseGearVFX extends Node2D:
 func _on_exercise_area_body_entered(body: Node2D) -> void:
 	if not body is CharacterBody2D or exercise_prompt_started:
 		return
+	Global.save_mission_checkpoint(
+		"res://Scenes/Room_2.tscn",
+		&"InteriorEntrySpawn"
+	)
 	exercise_prompt_started = true
 	player.set_physics_process(false)
 	await dialogue.say(
@@ -589,6 +593,11 @@ func _on_exercise_area_body_entered(body: Node2D) -> void:
 	dialogue.set_mission("Return outside to the outpost.", $ExitMainDoor)
 	player.set_physics_process(true)
 	Global.static_message_pending = true
+	if exercised:
+		Global.save_mission_checkpoint(
+			"res://Scenes/Room_2.tscn",
+			&"InteriorEntrySpawn"
+		)
 
 
 func _on_radiation_warning_started() -> void:

@@ -357,6 +357,7 @@ func enter_life_support(body: Node2D) -> void:
 		"temperature": temperature,
 		"radiation": radiation
 	}
+	Global.save_mission_checkpoint("res://Scenes/Room_1.tscn")
 	await show_dialogue(
 		"System Readings",
 		Global.get_life_support_readings_text(),
@@ -404,6 +405,7 @@ func enter_spacesuits(body: Node2D) -> void:
 		return
 	visited_spacesuits = true
 	Global.spacesuits_checked = true
+	Global.save_mission_checkpoint("res://Scenes/Room_1.tscn")
 	dialogue_running = true
 	await show_dialogue("Spacesuits", "Spacesuit check complete. Your equipment is ready for an EVA.")
 	can_exit = visited_life_support and visited_spacesuits
@@ -428,6 +430,10 @@ func _on_equipment_area_body_entered(body: Node2D) -> void:
 	if body != player or dialogue_running or Global.eva_equipment_obtained:
 		return
 	Global.eva_equipment_obtained = true
+	Global.save_mission_checkpoint(
+		"res://Scenes/mars_map.tscn",
+		&"MainBuildingOutsideSpawn"
+	)
 	dialogue_running = true
 	player.set_physics_process(false)
 	dialogue.set_mission("Return outside and continue the Rock Sample quest.", $ExitArea)
@@ -552,8 +558,7 @@ func game_over() -> void:
 
 
 func _on_try_again_pressed() -> void:
-	Global.reset_mission()
-	get_tree().reload_current_scene()
+	Global.retry_from_last_completed_mission()
 
 
 func _on_exit_pressed() -> void:

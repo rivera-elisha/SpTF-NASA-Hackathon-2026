@@ -89,7 +89,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("5_bcw0f")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -209,7 +209,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="ChooseGender" type="Control"]
+[node name="ChooseGender" type="Control" unique_id=891635709]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -218,7 +218,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_7vupr")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=1644222652]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -229,7 +229,7 @@ texture = ExtResource("2_8aftn")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Scrim" type="ColorRect" parent="."]
+[node name="Scrim" type="ColorRect" parent="." unique_id=1880650555]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -239,7 +239,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.027451, 0.0470588, 0.0980392, 0.58)
 
-[node name="backButton" type="TextureButton" parent="."]
+[node name="backButton" type="TextureButton" parent="." unique_id=1688195531]
 layout_mode = 0
 offset_left = 24.0
 offset_top = 20.0
@@ -250,7 +250,7 @@ texture_normal = ExtResource("9_8aftn")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="TitleLabel" type="Label" parent="."]
+[node name="TitleLabel" type="Label" parent="." unique_id=1095025185]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -268,7 +268,7 @@ text = "CHOOSE YOUR ASTRONAUT"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SubtitleLabel" type="Label" parent="."]
+[node name="SubtitleLabel" type="Label" parent="." unique_id=2076017459]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -286,7 +286,7 @@ text = "Select a commander profile for the Ares Horizon Mars Expedition"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StageRow" type="HBoxContainer" parent="."]
+[node name="StageRow" type="HBoxContainer" parent="." unique_id=1803635513]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -302,26 +302,26 @@ grow_vertical = 2
 theme_override_constants/separation = 38
 alignment = 1
 
-[node name="MaleCard" type="PanelContainer" parent="StageRow"]
+[node name="MaleCard" type="PanelContainer" parent="StageRow" unique_id=1918030417]
 custom_minimum_size = Vector2(268, 356)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_default_cursor_shape = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_card_normal")
 
-[node name="MaleVBox" type="VBoxContainer" parent="StageRow/MaleCard"]
+[node name="MaleVBox" type="VBoxContainer" parent="StageRow/MaleCard" unique_id=199751552]
 layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="PortraitFrame" type="PanelContainer" parent="StageRow/MaleCard/MaleVBox"]
+[node name="PortraitFrame" type="PanelContainer" parent="StageRow/MaleCard/MaleVBox" unique_id=443563452]
 custom_minimum_size = Vector2(220, 220)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_portrait_frame")
 
-[node name="MaleButton" type="TextureButton" parent="StageRow/MaleCard/MaleVBox/PortraitFrame"]
+[node name="MaleButton" type="TextureButton" parent="StageRow/MaleCard/MaleVBox/PortraitFrame" unique_id=1835240223]
 texture_filter = 1
 custom_minimum_size = Vector2(192, 192)
 layout_mode = 2
@@ -332,7 +332,7 @@ texture_normal = ExtResource("4_bcw0f")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="MaleTitle" type="Label" parent="StageRow/MaleCard/MaleVBox"]
+[node name="MaleTitle" type="Label" parent="StageRow/MaleCard/MaleVBox" unique_id=581369041]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.870588, 1, 1)
 theme_override_fonts/font = ExtResource("3_yxnfg")
@@ -341,7 +341,7 @@ text = "MALE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MaleRole" type="Label" parent="StageRow/MaleCard/MaleVBox"]
+[node name="MaleRole" type="Label" parent="StageRow/MaleCard/MaleVBox" unique_id=1086088370]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.752941, 0.831373, 0.921569, 0.95)
 theme_override_fonts/font = ExtResource("3_yxnfg")
@@ -350,19 +350,19 @@ text = "Commander Suit A"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SuitPreviewCard" type="PanelContainer" parent="StageRow"]
+[node name="SuitPreviewCard" type="PanelContainer" parent="StageRow" unique_id=615898682]
 custom_minimum_size = Vector2(292, 356)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pedestal_card")
 
-[node name="PreviewVBox" type="VBoxContainer" parent="StageRow/SuitPreviewCard"]
+[node name="PreviewVBox" type="VBoxContainer" parent="StageRow/SuitPreviewCard" unique_id=31688404]
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="PreviewHeader" type="Label" parent="StageRow/SuitPreviewCard/PreviewVBox"]
+[node name="PreviewHeader" type="Label" parent="StageRow/SuitPreviewCard/PreviewVBox" unique_id=2133120281]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.45098, 0.831373, 0.992157, 1)
 theme_override_fonts/font = ExtResource("3_yxnfg")
@@ -370,13 +370,13 @@ theme_override_font_sizes/font_size = 24
 text = "EVA SUIT PREVIEW"
 horizontal_alignment = 1
 
-[node name="PreviewStage" type="Control" parent="StageRow/SuitPreviewCard/PreviewVBox"]
+[node name="PreviewStage" type="Control" parent="StageRow/SuitPreviewCard/PreviewVBox" unique_id=531027015]
 custom_minimum_size = Vector2(252, 236)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 2
 
-[node name="HolopadGlow" type="Panel" parent="StageRow/SuitPreviewCard/PreviewVBox/PreviewStage"]
+[node name="HolopadGlow" type="Panel" parent="StageRow/SuitPreviewCard/PreviewVBox/PreviewStage" unique_id=1513385845]
 layout_mode = 0
 offset_left = 46.0
 offset_top = 186.0
@@ -385,7 +385,7 @@ offset_bottom = 222.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_holopad")
 
-[node name="MiddleCharacter" type="AnimatedSprite2D" parent="StageRow/SuitPreviewCard/PreviewVBox/PreviewStage"]
+[node name="MiddleCharacter" type="AnimatedSprite2D" parent="StageRow/SuitPreviewCard/PreviewVBox/PreviewStage" unique_id=1021909832]
 texture_filter = 1
 position = Vector2(126, 114)
 scale = Vector2(0.45, 0.45)
@@ -393,7 +393,7 @@ sprite_frames = SubResource("SpriteFrames_3cexa")
 autoplay = "default"
 frame_progress = 0.00856879
 
-[node name="PreviewHint" type="Label" parent="StageRow/SuitPreviewCard/PreviewVBox"]
+[node name="PreviewHint" type="Label" parent="StageRow/SuitPreviewCard/PreviewVBox" unique_id=1372440889]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.768627, 0.858824, 0.94902, 0.95)
 theme_override_fonts/font = ExtResource("3_yxnfg")
@@ -401,26 +401,26 @@ theme_override_font_sizes/font_size = 22
 text = "Click a card to select"
 horizontal_alignment = 1
 
-[node name="FemaleCard" type="PanelContainer" parent="StageRow"]
+[node name="FemaleCard" type="PanelContainer" parent="StageRow" unique_id=236040817]
 custom_minimum_size = Vector2(268, 356)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_default_cursor_shape = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_card_normal")
 
-[node name="FemaleVBox" type="VBoxContainer" parent="StageRow/FemaleCard"]
+[node name="FemaleVBox" type="VBoxContainer" parent="StageRow/FemaleCard" unique_id=2090132939]
 layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="PortraitFrame" type="PanelContainer" parent="StageRow/FemaleCard/FemaleVBox"]
+[node name="PortraitFrame" type="PanelContainer" parent="StageRow/FemaleCard/FemaleVBox" unique_id=1654626]
 custom_minimum_size = Vector2(220, 220)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_portrait_frame")
 
-[node name="FemaleButton" type="TextureButton" parent="StageRow/FemaleCard/FemaleVBox/PortraitFrame"]
+[node name="FemaleButton" type="TextureButton" parent="StageRow/FemaleCard/FemaleVBox/PortraitFrame" unique_id=2001095807]
 texture_filter = 1
 custom_minimum_size = Vector2(192, 192)
 layout_mode = 2
@@ -431,7 +431,7 @@ texture_normal = ExtResource("5_h1oeh")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="FemaleTitle" type="Label" parent="StageRow/FemaleCard/FemaleVBox"]
+[node name="FemaleTitle" type="Label" parent="StageRow/FemaleCard/FemaleVBox" unique_id=464297854]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.988235, 0.721569, 0.862745, 1)
 theme_override_fonts/font = ExtResource("3_yxnfg")
@@ -440,7 +440,7 @@ text = "FEMALE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="FemaleRole" type="Label" parent="StageRow/FemaleCard/FemaleVBox"]
+[node name="FemaleRole" type="Label" parent="StageRow/FemaleCard/FemaleVBox" unique_id=126486560]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.752941, 0.831373, 0.921569, 0.95)
 theme_override_fonts/font = ExtResource("3_yxnfg")
@@ -449,7 +449,7 @@ text = "Commander Suit B"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="FooterLabel" type="Label" parent="."]
+[node name="FooterLabel" type="Label" parent="." unique_id=1721253856]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -470,7 +470,7 @@ text = "Tip: Mission logs and Earth Communications will address you as Commander
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="NameModal" type="ColorRect" parent="."]
+[node name="NameModal" type="ColorRect" parent="." unique_id=2063811783]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -480,7 +480,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0156863, 0.027451, 0.0705882, 0.74)
 
-[node name="NamePanel" type="PanelContainer" parent="NameModal"]
+[node name="NamePanel" type="PanelContainer" parent="NameModal" unique_id=859544075]
 custom_minimum_size = Vector2(460, 292)
 layout_mode = 1
 anchors_preset = 8
@@ -496,12 +496,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_modal_panel")
 
-[node name="NameVBox" type="VBoxContainer" parent="NameModal/NamePanel"]
+[node name="NameVBox" type="VBoxContainer" parent="NameModal/NamePanel" unique_id=381525420]
 layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="SelectedProfileLabel" type="Label" parent="NameModal/NamePanel/NameVBox"]
+[node name="SelectedProfileLabel" type="Label" parent="NameModal/NamePanel/NameVBox" unique_id=613878080]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.45098, 0.831373, 0.992157, 1)
 theme_override_fonts/font = ExtResource("3_yxnfg")
@@ -509,7 +509,7 @@ theme_override_font_sizes/font_size = 24
 text = "PROFILE: MALE COMMANDER"
 horizontal_alignment = 1
 
-[node name="NamePromptLabel" type="Label" parent="NameModal/NamePanel/NameVBox"]
+[node name="NamePromptLabel" type="Label" parent="NameModal/NamePanel/NameVBox" unique_id=998060882]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.956863, 0.976471, 1, 1)
 theme_override_fonts/font = ExtResource("3_yxnfg")
@@ -517,9 +517,9 @@ theme_override_font_sizes/font_size = 40
 text = "ENTER COMMANDER NAME"
 horizontal_alignment = 1
 
-[node name="NameLineEdit" type="LineEdit" parent="NameModal/NamePanel/NameVBox"]
-clip_contents = true
+[node name="NameLineEdit" type="LineEdit" parent="NameModal/NamePanel/NameVBox" unique_id=1261657023]
 custom_minimum_size = Vector2(380, 46)
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.956863, 0.976471, 1, 1)
@@ -531,10 +531,9 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_lineedit_normal")
 theme_override_styles/focus = SubResource("StyleBoxFlat_lineedit_focus")
 placeholder_text = "Type commander name..."
 alignment = 1
-expand_to_text_length = false
 caret_blink = true
 
-[node name="ErrorLabel" type="Label" parent="NameModal/NamePanel/NameVBox"]
+[node name="ErrorLabel" type="Label" parent="NameModal/NamePanel/NameVBox" unique_id=1550511270]
 custom_minimum_size = Vector2(380, 22)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -544,12 +543,12 @@ theme_override_font_sizes/font_size = 22
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonRow" type="HBoxContainer" parent="NameModal/NamePanel/NameVBox"]
+[node name="ButtonRow" type="HBoxContainer" parent="NameModal/NamePanel/NameVBox" unique_id=993071123]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="CancelButton" type="Button" parent="NameModal/NamePanel/NameVBox/ButtonRow"]
+[node name="CancelButton" type="Button" parent="NameModal/NamePanel/NameVBox/ButtonRow" unique_id=1016822819]
 custom_minimum_size = Vector2(148, 44)
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -562,7 +561,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_btn_secondary_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_btn_secondary_hover")
 text = "CHANGE"
 
-[node name="EnterNameButton" type="Button" parent="NameModal/NamePanel/NameVBox/ButtonRow"]
+[node name="EnterNameButton" type="Button" parent="NameModal/NamePanel/NameVBox/ButtonRow" unique_id=1904523657]
 custom_minimum_size = Vector2(192, 44)
 layout_mode = 2
 mouse_default_cursor_shape = 2

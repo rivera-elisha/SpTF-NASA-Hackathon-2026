@@ -45,6 +45,45 @@ var mission_complete: bool = false
 var life_support_readings: Dictionary = {}
 var radiation_deadline_msec: int = 0
 var _radiation_event_generation: int = 0
+var checkpoint_scene_path := ""
+var checkpoint_spawn_marker: StringName = &""
+var checkpoint_state: Dictionary = {}
+
+const CHECKPOINT_FIELDS := [
+	"movement_speed_multiplier",
+	"static_message_pending",
+	"map_intro_shown",
+	"room1_intro_seen",
+	"life_support_checked",
+	"spacesuits_checked",
+	"exercise_prompt_completed",
+	"communication_call_completed",
+	"did_exercise",
+	"eva_equipment_obtained",
+	"eva_search_started",
+	"rock_collection_started",
+	"rock_samples_collected",
+	"collected_rock_sample_ids",
+	"radiation_event_started",
+	"radiation_warning_active",
+	"radiation_shelter_complete",
+	"greenhouse_visited",
+	"eva_briefing_seen",
+	"rock_search_briefing_seen",
+	"glow_spotted",
+	"glowing_object_collected",
+	"lab_analysis_started",
+	"cleaned_solar_panel_ids",
+	"discovery_named",
+	"discovery_name",
+	"comms_static_part3_pending",
+	"comms_part3_arrived",
+	"part4_choice",
+	"part4_rocket_boarding_ready",
+	"part4_ending_reached",
+	"mission_complete",
+	"life_support_readings",
+]
 
 
 func reset_mission() -> void:
@@ -83,6 +122,54 @@ func reset_mission() -> void:
 	life_support_readings.clear()
 	radiation_deadline_msec = 0
 	_radiation_event_generation += 1
+	target_spawn_marker = &""
+	target_spawn_position = Vector2.ZERO
+	player_facing_direction = "down"
+	checkpoint_state.clear()
+	save_mission_checkpoint("res://Scenes/Room_1.tscn")
+
+
+func save_mission_checkpoint(scene_path: String, spawn_marker: StringName = &"") -> void:
+	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+		push_error("Cannot save mission checkpoint for missing scene: %s" % scene_path)
+		return
+	checkpoint_scene_path = scene_path
+	checkpoint_spawn_marker = spawn_marker
+	checkpoint_state.clear()
+	for field in CHECKPOINT_FIELDS:
+		var field_name := StringName(field)
+		var value: Variant = get(field_name)
+		if value is Array or value is Dictionary:
+			checkpoint_state[field_name] = value.duplicate(true)
+		else:
+			checkpoint_state[field_name] = value
+
+
+func retry_from_last_completed_mission() -> void:
+	if checkpoint_scene_path.is_empty() or checkpoint_state.is_empty():
+		push_error("No completed mission checkpoint is available for retry.")
+		get_tree().reload_current_scene()
+		return
+	for field in CHECKPOINT_FIELDS:
+		var field_name := StringName(field)
+		if not checkpoint_state.has(field_name):
+			push_error("Mission checkpoint is missing progress field: %s" % field_name)
+			return
+		var value: Variant = checkpoint_state[field_name]
+		if value is Array or value is Dictionary:
+			value = value.duplicate(true)
+		set(field_name, value)
+	radiation_deadline_msec = 0
+	_radiation_event_generation += 1
+	target_spawn_marker = checkpoint_spawn_marker
+	target_spawn_position = Vector2.ZERO
+	player_facing_direction = "down"
+	var error := get_tree().change_scene_to_file(checkpoint_scene_path)
+	if error != OK:
+		push_error("Could not load mission checkpoint scene '%s': %s" % [
+			checkpoint_scene_path,
+			error_string(error)
+		])
 
 
 func get_player_display_name() -> String:

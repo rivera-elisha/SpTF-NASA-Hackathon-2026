@@ -182,6 +182,8 @@ func _ready() -> void:
 			return
 		Global.eva_search_started = true
 		Global.rock_collection_started = true
+		if Global.rock_samples_collected >= 6 and not Global.radiation_event_started:
+			Global.start_radiation_event()
 		_refresh_rock_samples()
 		if Global.rock_samples_collected < 6:
 			dialogue.set_mission(
@@ -310,6 +312,10 @@ func _on_rock_sample_area_entered(body: Node2D, sample_id: int) -> void:
 		return
 	Global.collected_rock_sample_ids.append(sample_id)
 	Global.rock_samples_collected += 1
+	Global.save_mission_checkpoint(
+		"res://Scenes/mars_map.tscn",
+		&"MainBuildingOutsideSpawn"
+	)
 	var picked_gpos := rock_samples[sample_id].global_position if sample_id < rock_samples.size() else player.global_position
 	InteractiveAssets.play_sfx(self, "pickup", -9.0)
 	InteractiveAssets.spawn_ring_vfx(self, picked_gpos, Color(0.95, 0.72, 0.35, 0.92), 34.0, 0.42)
@@ -467,6 +473,10 @@ func _on_glowing_object_entered(body: Node2D) -> void:
 	if Global.rock_samples_collected < 7:
 		return
 	Global.glowing_object_collected = true
+	Global.save_mission_checkpoint(
+		"res://Scenes/mars_map.tscn",
+		&"MainBuildingOutsideSpawn"
+	)
 	part3_dialogue_running = true
 	var glow_gpos := glowing_object_area.global_position if is_instance_valid(glowing_object_area) else player.global_position
 	InteractiveAssets.play_sfx(self, "success", -7.0)

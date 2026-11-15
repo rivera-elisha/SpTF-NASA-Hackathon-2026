@@ -407,7 +407,6 @@ class InteractManager extends Node2D:
 			cb.call()
 
 	func _play_interact_sfx() -> void:
-		var stream := preload("res://Scripts/interactive_assets.gd")._get_or_build_sfx("interact") if false else null
 		# Built inline to avoid cyclic script reference while sharing audio cache cleanly
 		var ap := AudioStreamPlayer.new()
 		ap.volume_db = -10.0

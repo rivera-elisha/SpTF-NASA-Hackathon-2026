@@ -77,11 +77,10 @@ func say(speaker: String, message: String, duration: float = 3.0) -> void:
 	message_label.text = message
 	dialogue_panel.show()
 	_layout_dialogue_panel()
-	advance_button.text = (
-		"click to advance to next dialogue or wait"
-		if duration > 0.0
-		else "click to advance dialogue"
-	)
+	if duration > 0.0:
+		advance_button.text = "click to advance to next dialogue or wait"
+	else:
+		advance_button.text = "click to advance dialogue"
 	advance_button.show()
 	dialogue_generation += 1
 	var current_generation := dialogue_generation
@@ -130,16 +129,6 @@ func choose(
 
 func hide_dialogue() -> void:
 	dialogue_panel.hide()
-
-
-func is_busy() -> bool:
-	return (
-		dialogue_panel.visible
-		or information_panel.visible
-		or input_panel.visible
-		or game_over_panel.visible
-		or (is_instance_valid(credits_panel) and credits_panel.visible)
-	)
 
 
 func set_interaction_hint(text: String) -> void:
@@ -776,8 +765,7 @@ func _play_pcm_samples(sample_rate: int, audio_data: PackedByteArray) -> void:
 
 
 func _on_try_again_pressed() -> void:
-	Global.reset_mission()
-	get_tree().reload_current_scene()
+	Global.retry_from_last_completed_mission()
 
 
 func _on_exit_pressed() -> void:
