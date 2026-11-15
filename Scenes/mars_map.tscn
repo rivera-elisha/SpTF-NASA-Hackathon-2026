@@ -3,6 +3,14 @@
 [ext_resource type="Texture2D" uid="uid://3imyyhyvxmtq" path="res://Assets/marsmap2 (1).png" id="1_8dhvu"]
 [ext_resource type="Script" uid="uid://cpm7y7pdynbsb" path="res://Scripts/camera_view_for_mars_map.gd" id="1_c28fd"]
 [ext_resource type="PackedScene" uid="uid://8ipplarxlcr8" path="res://Scenes/character_body_2d.tscn" id="2_ewhud"]
+[ext_resource type="Texture2D" uid="uid://ci8swrpgbfmco" path="res://Assets/Pixel Art Mars Outpost Main Building.png" id="3_jl8qv"]
+[ext_resource type="Texture2D" uid="uid://ydm46kgvcdbt" path="res://Assets/Futuristic Safety Building Pixel Art.png" id="4_y21ir"]
+[ext_resource type="Texture2D" uid="uid://dhrpy7oojy7va" path="res://Assets/Personal Building Habitat Module.png" id="5_kd0vp"]
+[ext_resource type="Texture2D" uid="uid://cut5oa7frblva" path="res://Assets/Pixel Art Sci‑Fi Garage Hangar.png" id="6_i5kw0"]
+[ext_resource type="Texture2D" uid="uid://3hhosg3qnvn7" path="res://Assets/newmarsrover.png" id="8_3gxo6"]
+[ext_resource type="Texture2D" uid="uid://b28u0lournasv" path="res://Assets/newsolarpanels.png" id="9_t0unr"]
+[ext_resource type="Texture2D" uid="uid://d23yq7ts5rdik" path="res://Assets/Sci-Fi Rocket Launch Platform.png" id="10_km6uj"]
+[ext_resource type="Texture2D" uid="uid://c4k50trqp73os" path="res://Assets/Symmetrical Pixel-Art Rocket Spritesheet.png" id="11_qfotr"]
 
 [node name="MarsMap" type="Node2D" unique_id=1102803395]
 position = Vector2(567, 327)
@@ -14,8 +22,56 @@ texture = ExtResource("1_8dhvu")
 
 [node name="Buildings" type="Node2D" parent="." unique_id=837884156]
 
+[node name="MainBuilding" type="Node2D" parent="Buildings" unique_id=124612412]
+
+[node name="PixelArtMarsOutpostMainBuilding" type="Sprite2D" parent="Buildings/MainBuilding" unique_id=222205488]
+position = Vector2(-10, -158.00002)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_jl8qv")
+
+[node name="SafetyBuilding" type="Node2D" parent="Buildings" unique_id=1268724013]
+
+[node name="FuturisticSafetyBuildingPixelArt" type="Sprite2D" parent="Buildings/SafetyBuilding" unique_id=342793196]
+position = Vector2(329, -231.00002)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_y21ir")
+
+[node name="PersonalBuilding" type="Node2D" parent="Buildings" unique_id=820706295]
+
+[node name="PersonalBuildingHabitatModule" type="Sprite2D" parent="Buildings/PersonalBuilding" unique_id=477144012]
+position = Vector2(-336, -231.99997)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("5_kd0vp")
+
+[node name="GarageBuilding" type="Node2D" parent="Buildings" unique_id=183957636]
+
+[node name="NewgarageEdited" type="Sprite2D" parent="Buildings/GarageBuilding" unique_id=2030927658]
+position = Vector2(-359.00003, 37.000015)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("6_i5kw0")
+
 [node name="SolarPanels" type="Node2D" parent="." unique_id=1822161006]
 
 [node name="MarsRover" type="Node2D" parent="." unique_id=387306666]
 
 [node name="CharacterBody2d" parent="." unique_id=1825796566 instance=ExtResource("2_ewhud")]
+
+[node name="Newmarsrover" type="Sprite2D" parent="." unique_id=474797432]
+position = Vector2(-167.00005, 73)
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("8_3gxo6")
+
+[node name="Newsolarpanels" type="Sprite2D" parent="." unique_id=1543126822]
+position = Vector2(536, -137)
+scale = Vector2(0.04, 0.04)
+texture = ExtResource("9_t0unr")
+
+[node name="SciFiRocketLaunchPlatform" type="Sprite2D" parent="." unique_id=1655339193]
+position = Vector2(330, 65)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_km6uj")
+
+[node name="SymmetricalPixelArtRocketSpritesheet" type="Sprite2D" parent="." unique_id=571033359]
+position = Vector2(327, -15.999983)
+scale = Vector2(0.18, 0.18)
+texture = ExtResource("11_qfotr")
