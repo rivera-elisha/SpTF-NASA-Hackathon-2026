@@ -157,9 +157,17 @@ func check_exit_requirement():
 func enter_exit():
 
 	if can_exit:
-		get_tree().change_scene_to_file(
-			"res://Scenes/mars_map.tscn"
+		# Set the spawn point outside the Main Building
+		Global.target_spawn_marker = &"MainBuildingOutsideSpawn"
+		Global.target_spawn_position = Vector2.ZERO
+		Global.player_facing_direction = "down"
+
+		# Return to MarsMap
+		get_tree().call_deferred(
+			"change_scene_to_file",
+            "res://Scenes/mars_map.tscn"
 		)
+
 	else:
 		game_over()
 
