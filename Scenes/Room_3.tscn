@@ -7,6 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://dt4olvs2cghgw" path="res://Assets/telephone.png" id="5_b3qkb"]
 [ext_resource type="PackedScene" uid="uid://8ipplarxlcr8" path="res://Scenes/character_body_2d.tscn" id="6_eaj6e"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_68l6a"]
+size = Vector2(477.3672, 20)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3em2h"]
 size = Vector2(1161.4463, 85.17975)
 
@@ -52,6 +55,13 @@ position = Vector2(936.2267, 610.5816)
 rotation = 6.2711267
 scale = Vector2(0.06274134, -0.03250428)
 texture = ExtResource("5_b3qkb")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="telephone" unique_id=798778506]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="telephone/StaticBody2D" unique_id=427572086]
+position = Vector2(80.67455, 29.380007)
+scale = Vector2(1.0000001, 1.0000001)
+shape = SubResource("RectangleShape2D_68l6a")
 
 [node name="CharacterBody2d" parent="." unique_id=1825796566 instance=ExtResource("6_eaj6e")]
 position = Vector2(596.8824, 606.5178)

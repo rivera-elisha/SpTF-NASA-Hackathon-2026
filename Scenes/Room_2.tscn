@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://d1p7k6drq4tpg" path="res://Assets/ROOM-2-MARS.png" id="1_okprb"]
 [ext_resource type="Texture2D" uid="uid://b6l8f7ggn27my" path="res://Assets/bed.png" id="2_21c7e"]
+[ext_resource type="Texture2D" uid="uid://c6yc3cw56iwh4" path="res://Assets/comfortroom.png" id="7_gn0og"]
 [ext_resource type="Texture2D" uid="uid://chqv8l8wtsyp" path="res://Assets/Medical Room-3.png (1).png" id="7_wrjmp"]
 [ext_resource type="Texture2D" uid="uid://dyafcno81rqax" path="res://Assets/Medical Room-2.png (1).png" id="8_6qkpp"]
 [ext_resource type="Texture2D" uid="uid://db2rc3xko5x7t" path="res://Assets/T2 Treadmill.png" id="9_psbb0"]
@@ -26,6 +27,9 @@ size = Vector2(393.39844, 485.5985)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_67ovf"]
 size = Vector2(418.91846, 466.67383)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_68l6a"]
+size = Vector2(1393.4589, 439.80865)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nkbuv"]
 size = Vector2(248.37198, 306.53247)
@@ -138,6 +142,20 @@ texture = ExtResource("10_fdcj0")
 position = Vector2(-2.8081055, -6.8896484)
 scale = Vector2(0.99999994, 0.99999994)
 shape = SubResource("RectangleShape2D_67ovf")
+
+[node name="comfortRoom" type="Sprite2D" parent="Sprite2D" unique_id=2125871905]
+position = Vector2(10.585529, -312.87476)
+rotation = 3.134049
+scale = Vector2(-0.40724477, -0.34951237)
+skew = 0.009922266
+texture = ExtResource("7_gn0og")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D/comfortRoom" unique_id=58185168]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/comfortRoom/StaticBody2D" unique_id=697533373]
+position = Vector2(-27.768677, -33.319275)
+scale = Vector2(0.99999946, 0.99999946)
+shape = SubResource("RectangleShape2D_68l6a")
 
 [node name="food cabinet" type="Sprite2D" parent="Sprite2D" unique_id=1774110403]
 position = Vector2(-613.9639, 271.28647)
