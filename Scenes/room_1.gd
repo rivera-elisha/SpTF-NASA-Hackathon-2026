@@ -21,11 +21,24 @@ func _ready() -> void:
 	$CanvasLayer/GameOverPanel/ExitButton.pressed.connect(_on_exit_pressed)
 	dialogue = DialogueController.new()
 	add_child(dialogue)
-	dialogue.set_mission("Check the life-support system.", $LifeSupportArea)
+	visited_life_support = Global.life_support_checked
+	visited_spacesuits = Global.spacesuits_checked
+	can_exit = visited_life_support and visited_spacesuits
+	if Global.mission_complete:
+		dialogue.set_mission("Mission complete.", null)
+	elif not visited_life_support:
+		dialogue.set_mission("Check the life-support system.", $LifeSupportArea)
+	elif not visited_spacesuits:
+		dialogue.set_mission("Visit the Spacesuits room.", $SpacesuitsArea)
+	else:
+		dialogue.set_mission("Proceed to the outpost Exit.", $ExitArea)
+	if Global.mission_complete:
+		return
 	donki_request = HTTPRequest.new()
 	donki_request.timeout = 12.0
 	add_child(donki_request)
-	show_popup_sequence()
+	if not Global.room1_intro_seen:
+		show_popup_sequence()
 
 
 func _configure_game_over_panel() -> void:
@@ -61,9 +74,10 @@ func show_dialogue(speaker: String, message: String, duration: float = 3.0) -> v
 
 
 func show_popup_sequence() -> void:
-	if dialogue_running:
+	if dialogue_running or Global.room1_intro_seen:
 		return
 	dialogue_running = true
+	Global.room1_intro_seen = true
 	await show_dialogue("Welcome!", "Welcome to The Martian Outpost. Let's explore it!")
 	await show_dialogue("Outpost Guide", "Let's get to know the main rooms within your outpost.")
 	dialogue.set_mission("Check the life-support system.", $LifeSupportArea)
@@ -72,9 +86,10 @@ func show_popup_sequence() -> void:
 
 
 func enter_life_support(body: Node2D) -> void:
-	if not body is CharacterBody2D or visited_life_support or dialogue_running:
+	if not body is CharacterBody2D or visited_life_support or dialogue_running or Global.mission_complete:
 		return
 	visited_life_support = true
+	Global.life_support_checked = true
 	dialogue_running = true
 	var oxygen := randi_range(85, 100)
 	var co2 := randi_range(300, 1000)
@@ -126,9 +141,10 @@ func _fetch_radiation_level() -> String:
 
 
 func enter_spacesuits(body: Node2D) -> void:
-	if not body is CharacterBody2D or visited_spacesuits or dialogue_running:
+	if not body is CharacterBody2D or visited_spacesuits or dialogue_running or Global.mission_complete:
 		return
 	visited_spacesuits = true
+	Global.spacesuits_checked = true
 	dialogue_running = true
 	await show_dialogue("Spacesuits", "Spacesuit check complete. Your equipment is ready for an EVA.")
 	can_exit = visited_life_support and visited_spacesuits
@@ -151,8 +167,7 @@ func enter_exit(body: Node2D) -> void:
 
 func game_over() -> void:
 	player.set_physics_process(false)
-	dialogue.hide_dialogue()
-	dialogue.visible = false
+	dialogue.hide_hud()
 	game_over_panel.show()
 
 

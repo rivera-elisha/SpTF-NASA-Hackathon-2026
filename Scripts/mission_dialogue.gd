@@ -10,6 +10,8 @@ var actions: HBoxContainer
 var arrow: Node2D
 var player: CharacterBody2D
 var mission_target: Node2D
+var indicator_initialized := false
+var indicator_enabled := true
 var buttons: Array[Button] = []
 var choice_value := false
 var choice_completed := false
@@ -21,8 +23,8 @@ func _ready() -> void:
 	_build_mission_panel()
 	_build_dialogue_panel()
 	arrow = _ArrowIndicator.new()
-	arrow.z_index = -1
-	add_child(arrow)
+	arrow.z_index = 20
+	get_parent().add_child(arrow)
 	get_viewport().size_changed.connect(_layout_dialogue_panel)
 	_layout_dialogue_panel()
 
@@ -30,8 +32,10 @@ func _ready() -> void:
 func set_mission(text: String, target: Node2D = null) -> void:
 	mission_label.text = text
 	mission_target = target
+	indicator_initialized = false
+	indicator_enabled = true
 	mission_status.text = "OBJECTIVE"
-	_update_indicator()
+	_update_indicator(1.0)
 
 
 func say(speaker: String, message: String, duration: float = 3.0) -> void:
@@ -61,6 +65,12 @@ func choose(speaker: String, message: String, first_choice: String, second_choic
 
 func hide_dialogue() -> void:
 	dialogue_panel.hide()
+
+
+func hide_hud() -> void:
+	indicator_enabled = false
+	arrow.hide()
+	visible = false
 
 
 func _build_mission_panel() -> void:
@@ -153,27 +163,49 @@ func _layout_dialogue_panel() -> void:
 	)
 
 
-func _process(_delta: float) -> void:
-	_update_indicator()
+func _process(delta: float) -> void:
+	_update_indicator(delta)
 
 
-func _update_indicator() -> void:
+func _update_indicator(delta: float) -> void:
+	if not indicator_enabled:
+		arrow.hide()
+		return
 	if not is_instance_valid(player) or not is_instance_valid(mission_target):
 		mission_status.text = "OBJECTIVE"
-		arrow.visible = false
+		arrow.hide()
 		return
-	var world_direction := mission_target.global_position - player.global_position
-	mission_status.text = "AREA REACHED" if world_direction.length() < 90.0 else "IN PROGRESS"
-	var screen_direction := (
-		mission_target.get_global_transform_with_canvas().origin
-		- player.get_global_transform_with_canvas().origin
-	)
-	if screen_direction.length_squared() < 1.0:
-		arrow.visible = false
+	var target_position := _get_target_position()
+	var world_direction := target_position - player.global_position
+	var target_area := mission_target as Area2D
+	var target_reached := target_area.overlaps_body(player) if target_area != null else world_direction.length() < 24.0
+	mission_status.text = "AREA REACHED" if target_reached else "IN PROGRESS"
+	if world_direction.length_squared() < 1.0:
+		arrow.hide()
 		return
-	arrow.position = player.get_global_transform_with_canvas().origin + screen_direction.normalized() * 38.0
-	arrow.rotation = screen_direction.angle()
-	arrow.visible = world_direction.length() >= 45.0
+	var target_angle := world_direction.angle()
+	if indicator_initialized:
+		var rotation_weight := 1.0 - exp(-12.0 * delta)
+		arrow.global_rotation = lerp_angle(arrow.global_rotation, target_angle, rotation_weight)
+	else:
+		arrow.global_rotation = target_angle
+		indicator_initialized = true
+	var direction := Vector2.RIGHT.rotated(arrow.global_rotation)
+	var desired_position := player.global_position + direction * 42.0
+	if delta > 0.0:
+		var position_weight := 1.0 - exp(-18.0 * delta)
+		arrow.global_position = arrow.global_position.lerp(desired_position, position_weight)
+	else:
+		arrow.global_position = desired_position
+	arrow.visible = not target_reached
+
+
+func _get_target_position() -> Vector2:
+	if mission_target is Area2D:
+		var collision_shape := mission_target.get_node_or_null("CollisionShape2D") as CollisionShape2D
+		if collision_shape != null:
+			return collision_shape.global_position
+	return mission_target.global_position
 
 
 func _add_choice_button(text: String, value: bool) -> void:

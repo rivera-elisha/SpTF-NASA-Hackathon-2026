@@ -462,7 +462,7 @@ shape = SubResource("RectangleShape2D_exercise_area")
 [node name="ExitMainDoor" type="Area2D" parent="." unique_id=557511506]
 script = ExtResource("13_wehui")
 destination_scene_path = "res://Scenes/mars_map.tscn"
-destination_spawn_marker = &"ExerciseBuildingOutsideSpawn"
+destination_spawn_marker = &"PersonalBuildingOutsideSpawn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitMainDoor" unique_id=263433000]
 position = Vector2(579, 609.3652)

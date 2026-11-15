@@ -166,11 +166,11 @@ shape = SubResource("RectangleShape2D_6xjdm")
 position = Vector2(0.5, -38)
 shape = SubResource("RectangleShape2D_eapqo")
 
-[node name="SafetyDoor" type="Area2D" parent="WorldObjects/PersonalBuilding" unique_id=1323994135]
+[node name="ExerciseDoor" type="Area2D" parent="WorldObjects/PersonalBuilding" unique_id=1323994135]
 script = ExtResource("4_kd0vp")
-destination_scene_path = "uid://dwvbnv0xoeeaw"
+destination_scene_path = "res://Scenes/Room_2.tscn"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/PersonalBuilding/SafetyDoor" unique_id=593335590]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/PersonalBuilding/ExerciseDoor" unique_id=593335590]
 position = Vector2(0.5, -12)
 shape = SubResource("RectangleShape2D_nbrum")
 
@@ -187,15 +187,6 @@ texture = ExtResource("6_i5kw0")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/GarageBuilding/StaticBody2D" unique_id=1551568882]
 position = Vector2(0.5, -34.5)
 shape = SubResource("RectangleShape2D_i18yx")
-
-[node name="ExerciseDoor" type="Area2D" parent="WorldObjects/GarageBuilding" unique_id=2108180912]
-position = Vector2(0, 27)
-script = ExtResource("4_kd0vp")
-destination_scene_path = "res://Scenes/Room_2.tscn"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/GarageBuilding/ExerciseDoor" unique_id=1751130400]
-position = Vector2(0, -12)
-shape = SubResource("RectangleShape2D_nbrum")
 
 [node name="Rocket" type="Node2D" parent="WorldObjects" unique_id=1999129357]
 
@@ -293,6 +284,3 @@ position = Vector2(-336, -135)
 
 [node name="SafetyBuildingOutsideSpawn" type="Marker2D" parent="WorldObjects" unique_id=1449814977]
 position = Vector2(330, -134)
-
-[node name="ExerciseBuildingOutsideSpawn" type="Marker2D" parent="WorldObjects" unique_id=926994312]
-position = Vector2(-359, 168)

@@ -30,12 +30,14 @@ func _ready():
 
 	var dialogue: CanvasLayer = DialogueController.new()
 	add_child(dialogue)
-	if not Global.map_intro_shown:
+	if Global.mission_complete:
+		dialogue.set_mission("Mission complete.")
+	elif not Global.map_intro_shown:
 		Global.map_intro_shown = true
-		dialogue.set_mission("Explore the outpost and find the Exercise Room.", $WorldObjects/GarageBuilding/ExerciseDoor)
+		dialogue.set_mission("Explore the Personal Building and find the Exercise Room.", $WorldObjects/PersonalBuilding/ExerciseDoor)
 		player.set_physics_process(false)
 		await dialogue.say("Outpost Guide", "This is your whole Mars Outpost. Proceed to the other rooms and find the exercise room.")
-		await dialogue.say("Outpost Guide", "The Exercise Room is in the Garage module.")
+		await dialogue.say("Outpost Guide", "The Exercise Room is in the Personal Building.")
 		player.set_physics_process(true)
 	elif Global.static_message_pending:
 		dialogue.set_mission("Find the Communications room.", $WorldObjects/SafetyBuilding/PersonalDoor)

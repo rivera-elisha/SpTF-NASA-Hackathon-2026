@@ -11,6 +11,12 @@ var call_started := false
 func _ready() -> void:
 	dialogue = DialogueController.new()
 	add_child(dialogue)
+	if Global.mission_complete:
+		dialogue.set_mission("Mission complete.")
+		return
+	if Global.communication_call_completed:
+		dialogue.set_mission("Crew call complete. Return outside.", $ExitMainDoor)
+		return
 	dialogue.set_mission("Go to the Communications room.", $CommunicationsArea)
 	$CommunicationsArea.body_entered.connect(_on_communications_area_body_entered)
 
@@ -35,5 +41,7 @@ func _on_communications_area_body_entered(body: Node2D) -> void:
 	)
 	await dialogue.say("Player", "Copy.")
 	await dialogue.say("Communications", "End call.")
+	Global.communication_call_completed = true
+	Global.mission_complete = true
 	dialogue.set_mission("Return outside to the outpost.", $ExitMainDoor)
 	player.set_physics_process(true)

@@ -11,6 +11,12 @@ var exercise_prompt_started := false
 func _ready() -> void:
 	dialogue = DialogueController.new()
 	add_child(dialogue)
+	if Global.mission_complete:
+		dialogue.set_mission("Mission complete.")
+		return
+	if Global.exercise_prompt_completed:
+		dialogue.set_mission("Return outside to the outpost.", $ExitMainDoor)
+		return
 	dialogue.set_mission("Find the Exercise Room.", $ExerciseArea)
 	$ExerciseArea.body_entered.connect(_on_exercise_area_body_entered)
 
@@ -25,6 +31,7 @@ func _on_exercise_area_body_entered(body: Node2D) -> void:
 		"This is the Exercise Room where we will train your bones and muscles just like on Earth."
 	)
 	var exercised: bool = await dialogue.choose("Exercise", "Start Exercise?", "Yes", "No")
+	Global.exercise_prompt_completed = true
 	if exercised:
 		await dialogue.say("Exercise", "Exercise in progress...", 0.0)
 		await get_tree().create_timer(3.0).timeout
