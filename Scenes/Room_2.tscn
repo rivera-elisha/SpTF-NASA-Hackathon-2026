@@ -1,11 +1,7 @@
 [gd_scene format=3 uid="uid://dwvbnv0xoeeaw"]
 
 [ext_resource type="Texture2D" uid="uid://d1p7k6drq4tpg" path="res://Assets/ROOM-2-MARS.png" id="1_okprb"]
-[ext_resource type="Texture2D" uid="uid://b82c3h6o3qnj1" path="res://Assets/bed 1-4.png (1).png" id="2_m4443"]
-[ext_resource type="Texture2D" uid="uid://bd7lpt4er3q4v" path="res://Assets/bed 1-3.png (1).png" id="3_3mqva"]
-[ext_resource type="Texture2D" uid="uid://tcdrs5tye42t" path="res://Assets/bed 1-2.png (1).png" id="4_ay3a5"]
-[ext_resource type="Texture2D" uid="uid://dcxiyfkwr0r0b" path="res://Assets/bed 1-1.png (1).png" id="5_13xhy"]
-[ext_resource type="Texture2D" uid="uid://c6yc3cw56iwh4" path="res://Assets/New Piskel-2.png (2).png" id="6_saj80"]
+[ext_resource type="Texture2D" uid="uid://b6l8f7ggn27my" path="res://Assets/bed.png" id="2_21c7e"]
 [ext_resource type="Texture2D" uid="uid://chqv8l8wtsyp" path="res://Assets/Medical Room-3.png (1).png" id="7_wrjmp"]
 [ext_resource type="Texture2D" uid="uid://dyafcno81rqax" path="res://Assets/Medical Room-2.png (1).png" id="8_6qkpp"]
 [ext_resource type="Texture2D" uid="uid://db2rc3xko5x7t" path="res://Assets/T2 Treadmill.png" id="9_psbb0"]
@@ -15,6 +11,33 @@
 [ext_resource type="Texture2D" uid="uid://g2ton0smru5h" path="res://Assets/MSG (Microgravity Science Glovebox).png" id="13_iw4c1"]
 [ext_resource type="Texture2D" uid="uid://dck4gswb8piqy" path="res://Assets/CIR (Combustion Integrated Rack).png" id="14_awy1y"]
 [ext_resource type="PackedScene" uid="uid://8ipplarxlcr8" path="res://Scenes/character_body_2d.tscn" id="15_3mqva"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dleah"]
+size = Vector2(266, 109.16359)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1pahx"]
+size = Vector2(424.4004, 308.55396)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3eay8"]
+size = Vector2(347.23694, 264.10327)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0hdbm"]
+size = Vector2(393.39844, 485.5985)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_67ovf"]
+size = Vector2(418.91846, 466.67383)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nkbuv"]
+size = Vector2(248.37198, 306.53247)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2ceif"]
+size = Vector2(196.82266, 331.58105)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nr8jk"]
+size = Vector2(673.0513, 682.202)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w1qhw"]
+size = Vector2(515.97046, 720.4674)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3em2h"]
 size = Vector2(3178.0774, 20)
@@ -37,27 +60,35 @@ position = Vector2(577.00006, 322.99994)
 scale = Vector2(0.75574476, 0.7261698)
 texture = ExtResource("1_okprb")
 
-[node name="Sprite2D" type="Sprite2D" parent="Sprite2D" unique_id=1065410384]
-position = Vector2(-624.54956, -300.20517)
-scale = Vector2(0.5935064, 0.31410232)
-texture = ExtResource("2_m4443")
+[node name="beds" type="Sprite2D" parent="Sprite2D" unique_id=1690493624]
+position = Vector2(-763.48535, -444.7994)
+scale = Vector2(1.3231981, 1.3770883)
 
-[node name="Sprite2D2" type="Sprite2D" parent="Sprite2D/Sprite2D" unique_id=1657132130]
-position = Vector2(144.91483, -8.768402)
-texture = ExtResource("3_3mqva")
+[node name="bed3" type="Sprite2D" parent="Sprite2D/beds" unique_id=1935624564]
+position = Vector2(234.99998, 111.6017)
+scale = Vector2(0.23618524, 0.15816186)
+texture = ExtResource("2_21c7e")
 
-[node name="Sprite2D3" type="Sprite2D" parent="Sprite2D/Sprite2D" unique_id=1024587666]
-position = Vector2(283.14127, 4.3842163)
-texture = ExtResource("4_ay3a5")
+[node name="bed4" type="Sprite2D" parent="Sprite2D/beds" unique_id=68802744]
+position = Vector2(101, 108.638824)
+scale = Vector2(0.23618524, 0.15816186)
+texture = ExtResource("2_21c7e")
 
-[node name="Sprite2D4" type="Sprite2D" parent="Sprite2D/Sprite2D" unique_id=1422188110]
-position = Vector2(430.28555, 4.3842163)
-texture = ExtResource("5_13xhy")
+[node name="bed5" type="Sprite2D" parent="Sprite2D/beds" unique_id=1335646280]
+position = Vector2(168, 110.61406)
+scale = Vector2(0.23618524, 0.15816186)
+texture = ExtResource("2_21c7e")
 
-[node name="comfort_room" type="Sprite2D" parent="Sprite2D/Sprite2D" unique_id=2013206382]
-position = Vector2(1065.6814, -92.06824)
-scale = Vector2(0.676226, 1.2563323)
-texture = ExtResource("6_saj80")
+[node name="bed6" type="Sprite2D" parent="Sprite2D/beds" unique_id=1154833557]
+position = Vector2(297, 111.6017)
+scale = Vector2(0.23618524, 0.15816186)
+texture = ExtResource("2_21c7e")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D/beds" unique_id=514369808]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/beds/StaticBody2D" unique_id=1313462683]
+position = Vector2(202, 111.33932)
+shape = SubResource("RectangleShape2D_dleah")
 
 [node name="medical_1" type="Sprite2D" parent="Sprite2D" unique_id=1852168023]
 position = Vector2(27.787083, 86.75665)
@@ -69,18 +100,44 @@ position = Vector2(-257.2124, -349.1753)
 scale = Vector2(0.8361356, 0.8709697)
 texture = ExtResource("8_6qkpp")
 
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D/medical_1" unique_id=1930528562]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/medical_1/StaticBody2D" unique_id=363251997]
+position = Vector2(6.430176, -7.588867)
+shape = SubResource("RectangleShape2D_1pahx")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Sprite2D/medical_1" unique_id=1099580074]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/medical_1/StaticBody2D2" unique_id=379136440]
+position = Vector2(-257.2124, -366.51855)
+shape = SubResource("RectangleShape2D_3eay8")
+
 [node name="T2 Treadmill" type="Sprite2D" parent="Sprite2D" unique_id=1272251605]
-position = Vector2(410.19125, 304.33655)
-rotation = -0.0036153956
+position = Vector2(354.6171, 297.78683)
+rotation = 1.5642419
 scale = Vector2(0.30761623, -0.23970546)
 texture = ExtResource("9_psbb0")
 
-[node name="ARED" type="Sprite2D" parent="Sprite2D/T2 Treadmill" unique_id=195671051]
-position = Vector2(667.01294, 100.31421)
-rotation = 1.5646527
-scale = Vector2(1.2697984, 0.81141084)
-skew = -0.00397408
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D/T2 Treadmill" unique_id=316905000]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/T2 Treadmill/StaticBody2D" unique_id=60305848]
+position = Vector2(-6.5891113, 0.11767578)
+scale = Vector2(0.99999964, 0.9999999)
+shape = SubResource("RectangleShape2D_0hdbm")
+
+[node name="ARED" type="Sprite2D" parent="Sprite2D" unique_id=195671051]
+position = Vector2(592.79266, 244.74493)
+rotation = -3.1491363
+scale = Vector2(0.39060357, -0.19451115)
+skew = 0.009922385
 texture = ExtResource("10_fdcj0")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D/ARED" unique_id=1064560402]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/ARED/StaticBody2D" unique_id=1430562014]
+position = Vector2(-2.8081055, -6.8896484)
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_67ovf")
 
 [node name="food cabinet" type="Sprite2D" parent="Sprite2D" unique_id=1774110403]
 position = Vector2(-613.9639, 271.28647)
@@ -90,8 +147,21 @@ texture = ExtResource("11_2sn6j")
 
 [node name="food shelf" type="Sprite2D" parent="Sprite2D/food cabinet" unique_id=850208904]
 position = Vector2(-86.64554, 625.59845)
-rotation = -1.5417261
+rotation = -1.5575352
 texture = ExtResource("12_ib6vf")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D/food cabinet/food shelf" unique_id=468847789]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/food cabinet/food shelf/StaticBody2D" unique_id=303841157]
+position = Vector2(1.6306152, -19.105347)
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_nkbuv")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D/food cabinet" unique_id=1422670501]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/food cabinet/StaticBody2D" unique_id=1460628159]
+position = Vector2(8.639282, -1.4335938)
+shape = SubResource("RectangleShape2D_2ceif")
 
 [node name="MSG" type="Sprite2D" parent="Sprite2D" unique_id=1825037973]
 position = Vector2(403.57538, -279.54883)
@@ -100,12 +170,25 @@ scale = Vector2(0.23335615, 0.23418628)
 skew = 0.0011473894
 texture = ExtResource("13_iw4c1")
 
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D/MSG" unique_id=2027686909]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/MSG/StaticBody2D" unique_id=1844380874]
+position = Vector2(-0.118652344, -20.305786)
+scale = Vector2(0.99999976, 0.9999999)
+shape = SubResource("RectangleShape2D_nr8jk")
+
 [node name="CIR" type="Sprite2D" parent="Sprite2D" unique_id=1847733087]
 position = Vector2(574.26794, -252.0071)
 rotation = 3.1275055
 scale = Vector2(0.26323095, 0.27815583)
 skew = 0.015794396
 texture = ExtResource("14_awy1y")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D/CIR" unique_id=564435974]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/CIR/StaticBody2D" unique_id=1089950773]
+position = Vector2(-9.07666, 18.09375)
+shape = SubResource("RectangleShape2D_w1qhw")
 
 [node name="CharacterBody2d" parent="." unique_id=1825796566 instance=ExtResource("15_3mqva")]
 position = Vector2(582, 603.43945)
