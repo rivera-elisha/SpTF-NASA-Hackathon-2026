@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://bq4vedgn6ey80"]
 
+[ext_resource type="Script" uid="uid://cttacpbyr6cu4" path="res://Scenes/room_1.gd" id="1_dowsv"]
 [ext_resource type="Texture2D" uid="uid://b526c43fga2iw" path="res://Assets/ROOM-1-MARS.png" id="1_g06qp"]
 [ext_resource type="Texture2D" uid="uid://bi53nn4e0xx1r" path="res://Assets/astronaut.png" id="2_7fl63"]
 [ext_resource type="Texture2D" uid="uid://bk3daw7yt63qv" path="res://Assets/lifesupport_monitor.png" id="3_bbstb"]
@@ -9,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://ifoephhwp64w" path="res://Assets/datastorage.png" id="7_0o7xt"]
 [ext_resource type="Texture2D" uid="uid://bwv57gmm4ufmc" path="res://Assets/datastorage2.png" id="8_dowsv"]
 [ext_resource type="PackedScene" uid="uid://8ipplarxlcr8" path="res://Scenes/character_body_2d.tscn" id="9_bdwgh"]
+[ext_resource type="Script" uid="uid://4cf5eyfbngau" path="res://Scenes/dialogue_text.gd" id="10_0o7xt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a2380"]
 size = Vector2(85.94479, 50.081337)
@@ -148,8 +150,18 @@ size = Vector2(88.14961, 836.687)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g5xyo"]
 size = Vector2(37.954956, 598.9564)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_djc3y"]
+size = Vector2(65.332184, 113.56767)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v62l1"]
+size = Vector2(20, 73.07083)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0s052"]
+size = Vector2(2.8872771, 27.299587)
+
 [node name="Room1" type="Node2D" unique_id=1778353023]
 scale = Vector2(1.0016125, 1.0076497)
+script = ExtResource("1_dowsv")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1969905346]
 position = Vector2(579.00006, 320.00003)
@@ -157,6 +169,7 @@ scale = Vector2(0.7595847, 0.7344619)
 texture = ExtResource("1_g06qp")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D" unique_id=1542067811]
+visible = false
 
 [node name="border14" type="CollisionShape2D" parent="Sprite2D/StaticBody2D" unique_id=1636551726]
 position = Vector2(-340.9966, -242.47078)
@@ -326,6 +339,7 @@ texture = ExtResource("2_7fl63")
 [node name="StaticBody2D" type="StaticBody2D" parent="astronaut_suit_1" unique_id=1009118362]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="astronaut_suit_1/StaticBody2D" unique_id=177035559]
+visible = false
 position = Vector2(-0.10456848, 1.3643646)
 scale = Vector2(1, 1.0000004)
 shape = SubResource("RectangleShape2D_67ovf")
@@ -339,6 +353,7 @@ texture = ExtResource("2_7fl63")
 [node name="StaticBody2D" type="StaticBody2D" parent="astronaut_suit_2" unique_id=1416402676]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="astronaut_suit_2/StaticBody2D" unique_id=296245010]
+visible = false
 position = Vector2(0.104599, 1.2279053)
 scale = Vector2(1, 1.0000004)
 shape = SubResource("RectangleShape2D_0hdbm")
@@ -351,21 +366,25 @@ texture = ExtResource("3_bbstb")
 [node name="StaticBody2D" type="StaticBody2D" parent="lifesupportmonitor" unique_id=237680971]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="lifesupportmonitor/StaticBody2D" unique_id=1091193287]
+visible = false
 position = Vector2(-12.137695, 13.989258)
 scale = Vector2(1, 0.99999976)
 shape = SubResource("RectangleShape2D_3eay8")
 
 [node name="bed1" type="CollisionShape2D" parent="lifesupportmonitor/StaticBody2D" unique_id=1556128108]
+visible = false
 position = Vector2(-1072.3896, 1086.663)
 scale = Vector2(1, 0.99999976)
 shape = SubResource("RectangleShape2D_2ceif")
 
 [node name="bed2" type="CollisionShape2D" parent="lifesupportmonitor/StaticBody2D" unique_id=568291810]
+visible = false
 position = Vector2(1183.4119, 1091.1573)
 scale = Vector2(1, 0.99999976)
 shape = SubResource("RectangleShape2D_nkbuv")
 
 [node name="random_2" type="Sprite2D" parent="." unique_id=1259566258]
+visible = false
 position = Vector2(221.6426, 186.57275)
 rotation = 1.5653288
 scale = Vector2(0.031074828, 0.02757141)
@@ -386,6 +405,7 @@ texture = ExtResource("5_4mssj")
 [node name="StaticBody2D" type="StaticBody2D" parent="engine" unique_id=64108285]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="engine/StaticBody2D" unique_id=30273473]
+visible = false
 position = Vector2(-176.98926, -511.98853)
 scale = Vector2(1.0139129, -23.891264)
 shape = SubResource("RectangleShape2D_w1qhw")
@@ -399,6 +419,7 @@ texture = ExtResource("6_bdwgh")
 [node name="StaticBody2D" type="StaticBody2D" parent="monitor2" unique_id=1932485415]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="monitor2/StaticBody2D" unique_id=1449696354]
+visible = false
 position = Vector2(49.212402, -275.56348)
 scale = Vector2(1.6425532, -0.13469018)
 shape = SubResource("RectangleShape2D_nr8jk")
@@ -411,6 +432,7 @@ texture = ExtResource("7_0o7xt")
 [node name="StaticBody2D" type="StaticBody2D" parent="datastorage1" unique_id=134093368]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="datastorage1/StaticBody2D" unique_id=266562628]
+visible = false
 position = Vector2(-21.000977, -125.131836)
 scale = Vector2(55.002174, 50.607307)
 shape = SubResource("RectangleShape2D_68l6a")
@@ -423,16 +445,20 @@ texture = ExtResource("8_dowsv")
 [node name="StaticBody2D" type="StaticBody2D" parent="datastorage2" unique_id=1796503253]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="datastorage2/StaticBody2D" unique_id=364814740]
+visible = false
 position = Vector2(0, -110.674805)
 scale = Vector2(63.035103, 96.13983)
 shape = SubResource("RectangleShape2D_dleah")
 
 [node name="CharacterBody2d" parent="." unique_id=1825796566 instance=ExtResource("9_bdwgh")]
 position = Vector2(583.0598, 307.6466)
+collision_layer = 0
 
 [node name="WorldCollisionsNode2D" type="Node2D" parent="." unique_id=95348728]
+visible = false
 
 [node name="TopWall" type="StaticBody2D" parent="WorldCollisionsNode2D" unique_id=914957000]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorldCollisionsNode2D/TopWall" unique_id=1550080114]
 position = Vector2(574.0744, 0.1771801)
@@ -464,3 +490,85 @@ scale = Vector2(1.0000004, 1)
 position = Vector2(1146.1514, 315.58585)
 scale = Vector2(1.0000004, 1.0844296)
 shape = SubResource("RectangleShape2D_g5xyo")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1111325828]
+
+[node name="DialoguePanel" type="Panel" parent="CanvasLayer" unique_id=185486798]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -209.99997
+offset_top = -102.00006
+offset_right = -63.0
+offset_bottom = -2.000061
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(2.9834814, 1.026401)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/DialoguePanel" unique_id=1937896542]
+layout_mode = 0
+offset_left = 28.825373
+offset_top = 3.8972003
+offset_right = 167.82538
+offset_bottom = 107.8972
+scale = Vector2(0.6382496, 1.0943762)
+
+[node name="CharacterName" type="Label" parent="CanvasLayer/DialoguePanel/VBoxContainer" unique_id=249837016]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+text = "Welcome to The Martian Outpost. Let’s explore it!"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="DialogueText" type="RichTextLabel" parent="CanvasLayer/DialoguePanel/VBoxContainer" unique_id=1758561539]
+layout_mode = 2
+script = ExtResource("10_0o7xt")
+
+[node name="GameOverPanel" type="Panel" parent="CanvasLayer" unique_id=363524421]
+offset_left = 366.00003
+offset_top = 545.99994
+offset_right = 406.00003
+offset_bottom = 585.99994
+
+[node name="TryAgainButton" type="Button" parent="CanvasLayer/GameOverPanel" unique_id=734070440]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="ExitButton" type="Button" parent="CanvasLayer/GameOverPanel" unique_id=1495050051]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="SpacesuitsArea" type="Area2D" parent="." unique_id=2000393528]
+position = Vector2(365.41083, 541.855)
+scale = Vector2(2.9786785, 1.018609)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpacesuitsArea" unique_id=1446570973]
+position = Vector2(189.71123, -28.254063)
+scale = Vector2(0.9999999, 0.9999996)
+shape = SubResource("RectangleShape2D_djc3y")
+
+[node name="ExitArea" type="Area2D" parent="." unique_id=2103243778]
+position = Vector2(365.41086, 541.85504)
+scale = Vector2(2.9786787, 1.018609)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitArea" unique_id=1423695779]
+position = Vector2(71.39307, 59.91803)
+scale = Vector2(0.9999999, 0.9999998)
+shape = SubResource("RectangleShape2D_v62l1")
+
+[node name="LifeSupportArea" type="Area2D" parent="." unique_id=728436336]
+position = Vector2(121.803604, 96.26364)
+scale = Vector2(23.513689, -1.9812114)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LifeSupportArea" unique_id=734618984]
+position = Vector2(3.5241747, -24.043667)
+shape = SubResource("RectangleShape2D_0s052")
+
+[connection signal="body_entered" from="SpacesuitsArea" to="." method="enter_spacesuits"]
+[connection signal="body_entered" from="ExitArea" to="." method="enter_exit"]
+[connection signal="body_entered" from="LifeSupportArea" to="." method="enter_life_support"]
