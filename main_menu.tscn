@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://ji8m7e807xet" path="res://Game Framework.png" id="1_7vrkn"]
 [ext_resource type="FontFile" uid="uid://gchkqr30j2vj" path="res://Pixeltype.ttf" id="2_fu7sn"]
 [ext_resource type="Script" uid="uid://vivrug6g4tig" path="res://Scripts/main_menu.gd" id="3_mmenu"]
+[ext_resource type="Texture2D" uid="uid://br8kpwdxyj6on" path="res://Untitled design(6).png" id="4_jix8l"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bpoi5"]
 texture = ExtResource("1_7vrkn")
@@ -56,6 +57,9 @@ corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2njp7"]
+texture = ExtResource("4_jix8l")
+
 [node name="MainMenu" type="Control" unique_id=734481564]
 layout_mode = 3
 anchors_preset = 15
@@ -108,3 +112,15 @@ theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_jix8l")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vpa8i")
 text = "Exit Game"
+
+[node name="Panel2" type="Panel" parent="." unique_id=1182596133]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -229.0
+offset_top = 26.0
+offset_right = 223.0
+offset_bottom = 276.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_2njp7")
