@@ -8,6 +8,10 @@ var dialogue: CanvasLayer
 var call_started := false
 var greenhouse_dialogue_running := false
 var comms_part3_running := false
+var asset_dialogue_running := false
+var interact_mgr: InteractiveAssets.InteractManager
+var monitor_fx: Node2D
+var phone_fx: Node2D
 
 
 func _ready() -> void:
@@ -18,6 +22,7 @@ func _ready() -> void:
 	Global.radiation_event_expired.connect(_on_radiation_event_expired)
 	$RadiationShelterArea.body_entered.connect(_on_radiation_shelter_area_entered)
 	$GreenhouseArea.body_entered.connect(_on_greenhouse_area_entered)
+	_setup_room3_assets()
 	if Global.mission_complete:
 		dialogue.set_mission("Mission complete.")
 		return
@@ -55,6 +60,130 @@ func _ready() -> void:
 	else:
 		dialogue.set_mission("Go to the Communications room.", $CommunicationsArea)
 		$CommunicationsArea.body_entered.connect(_on_communications_area_body_entered)
+
+
+func _setup_room3_assets() -> void:
+	interact_mgr = InteractiveAssets.create_interact_manager(
+		self,
+		player,
+		func() -> bool:
+			return (
+				dialogue.is_busy()
+				or greenhouse_dialogue_running
+				or comms_part3_running
+				or asset_dialogue_running
+			)
+	)
+
+	var gh := get_node_or_null("greenhouse") as Node2D
+	if gh:
+		InteractiveAssets.attach_world_fx(self, gh.global_position, "greenhouse", Vector2(124, 68))
+		interact_mgr.add_interactable(
+			"greenhouse_rack",
+			gh.global_position,
+			"Tend Hydroponic Crops",
+			func() -> void: _on_interact_greenhouse(gh.global_position),
+			106.0,
+			Vector2(142, 84),
+			func() -> bool: return Global.greenhouse_visited or not Global.radiation_shelter_complete
+		)
+
+	var mon := get_node_or_null("monitor") as Node2D
+	if mon:
+		monitor_fx = InteractiveAssets.attach_world_fx(self, mon.global_position, "monitor_radar", Vector2(120, 84))
+		monitor_fx.set_meta("urgent_mode", (Global.comms_static_part3_pending or Global.discovery_named) and Global.part4_choice.is_empty())
+		interact_mgr.add_interactable(
+			"comms_radar",
+			mon.global_position,
+			"Scan Deep-Space Radar",
+			func() -> void: _on_interact_comms_monitor(mon.global_position),
+			96.0,
+			Vector2(138, 102),
+			func() -> bool: return Global.communication_call_completed and (Global.part4_choice != "" or not Global.discovery_named)
+		)
+
+	var tel := get_node_or_null("telephone") as Node2D
+	if tel:
+		phone_fx = InteractiveAssets.attach_world_fx(self, tel.global_position, "comms_phone", Vector2(96, 72))
+		phone_fx.set_meta("urgent_mode", (Global.comms_static_part3_pending or Global.discovery_named) and Global.part4_choice.is_empty())
+		interact_mgr.add_interactable(
+			"earth_transceiver",
+			tel.global_position,
+			"Inspect Earth Transceiver",
+			func() -> void: _on_interact_telephone(tel.global_position),
+			104.0,
+			Vector2(160, 92),
+			func() -> bool: return Global.communication_call_completed and (Global.part4_choice != "" or not Global.discovery_named)
+		)
+
+	var rad_unit := get_node_or_null("random1") as Node2D
+	if rad_unit:
+		InteractiveAssets.attach_world_fx(self, rad_unit.global_position, "scrubber_panel", Vector2(78, 72))
+		interact_mgr.add_interactable(
+			"radiation_array",
+			rad_unit.global_position,
+			"Check Bunker Shielding",
+			func() -> void: _on_interact_shield_console(rad_unit.global_position),
+			100.0,
+			Vector2(106, 98)
+		)
+
+
+func _on_interact_greenhouse(pos: Vector2) -> void:
+	if asset_dialogue_running:
+		return
+	asset_dialogue_running = true
+	player.set_physics_process(false)
+	InteractiveAssets.play_sfx(self, "mist", -8.0)
+	InteractiveAssets.spawn_burst_vfx(self, pos, Color(0.55, 1.0, 0.72, 0.9), 22, 68.0, 3.0)
+	InteractiveAssets.spawn_floating_text(self, pos, "CROPS WATERED: +O2", Color(0.55, 1.0, 0.7))
+	await dialogue.say("Hydroponic Greenhouse", "LED purple/white spectrum arrays nourishing dwarf tomatoes & kale. Fresh crops scrub excess CO2 and boost crew morale.", 0.0)
+	player.set_physics_process(true)
+	asset_dialogue_running = false
+
+
+func _on_interact_comms_monitor(pos: Vector2) -> void:
+	if asset_dialogue_running:
+		return
+	asset_dialogue_running = true
+	player.set_physics_process(false)
+	InteractiveAssets.play_sfx(self, "scan", -8.0)
+	InteractiveAssets.spawn_ring_vfx(self, pos, Color(0.35, 1.0, 0.58, 0.92), 48.0, 0.48)
+	InteractiveAssets.spawn_scan_beam_vfx(self, pos, Color(0.35, 1.0, 0.58, 0.9), 112.0, 80.0, 0.7)
+	InteractiveAssets.spawn_floating_text(self, pos, "DSN LINK: 214M KM", Color(0.5, 1.0, 0.68))
+	var interference := "Heavy dust-storm multipath interference detected." if Global.is_outpost_dusty() else "Clear X-Band telemetry lock with Earth DSN Goldstone."
+	await dialogue.say("Deep-Space Comms Radar", "Mars-to-Earth Round-Trip Signal Delay: 14m 22s. Status: %s" % interference, 0.0)
+	player.set_physics_process(true)
+	asset_dialogue_running = false
+
+
+func _on_interact_telephone(pos: Vector2) -> void:
+	if asset_dialogue_running:
+		return
+	asset_dialogue_running = true
+	player.set_physics_process(false)
+	InteractiveAssets.play_sfx(self, "interact", -8.0)
+	InteractiveAssets.spawn_ring_vfx(self, pos, Color(0.45, 0.92, 1.0, 0.9), 44.0, 0.45)
+	InteractiveAssets.spawn_floating_text(self, pos, "ENCRYPTED LOGS READY", Color(0.6, 0.95, 1.0))
+	var hr_note := "Last Earth message indicated unusual static interference during transmission." if Global.part4_choice == "leave_mars" else "Earth downlink channel idle."
+	await dialogue.say("Earth Transceiver Deck", "High-Gain Antenna Transceiver. %s" % hr_note, 0.0)
+	player.set_physics_process(true)
+	asset_dialogue_running = false
+
+
+func _on_interact_shield_console(pos: Vector2) -> void:
+	if asset_dialogue_running:
+		return
+	asset_dialogue_running = true
+	player.set_physics_process(false)
+	InteractiveAssets.play_sfx(self, "heal", -8.0)
+	InteractiveAssets.spawn_ring_vfx(self, pos, Color(0.38, 0.92, 1.0, 0.92), 44.0, 0.48)
+	InteractiveAssets.spawn_burst_vfx(self, pos, Color(0.48, 0.95, 1.0, 0.9), 18, 66.0, 3.0)
+	InteractiveAssets.spawn_floating_text(self, pos, "SHIELDING: 100% SEALED", Color(0.5, 0.96, 1.0))
+	var storm := "ACTIVE SOLAR EVENT CONTAINED" if Global.radiation_warning_active else "NOMINAL COSMIC RAY BLOCKING"
+	await dialogue.say("Safety Bunker Shielding Array", "High-density polyethylene & water-wall storm shelter shielding active. Current Status: %s." % storm, 0.0)
+	player.set_physics_process(true)
+	asset_dialogue_running = false
 
 
 func _on_communications_area_body_entered(body: Node2D) -> void:
@@ -124,6 +253,9 @@ func _on_greenhouse_area_entered(body: Node2D) -> void:
 		return
 	greenhouse_dialogue_running = true
 	Global.greenhouse_visited = true
+	InteractiveAssets.play_sfx(self, "mist", -8.0)
+	InteractiveAssets.spawn_ring_vfx(self, $GreenhouseArea.global_position, Color(0.45, 1.0, 0.65, 0.9), 48.0, 0.5)
+	InteractiveAssets.spawn_burst_vfx(self, $GreenhouseArea.global_position, Color(0.55, 1.0, 0.72, 0.9), 24, 72.0, 3.2)
 	player.set_physics_process(false)
 	await dialogue.say("Greenhouse", "This is the Greenhouse room where you can plant.")
 	await dialogue.say("Greenhouse", "Your crew members already planted some tomatoes. They will be ready to harvest some time.")
@@ -182,6 +314,12 @@ func _run_part4_communications() -> void:
 	Global.mission_complete = true
 	dialogue.set_mission("Fix the Communications Room.")
 	dialogue.play_static_sound(0.8)
+	if is_instance_valid(monitor_fx):
+		monitor_fx.set_meta("urgent_mode", false)
+	if is_instance_valid(phone_fx):
+		phone_fx.set_meta("urgent_mode", false)
+	InteractiveAssets.spawn_ring_vfx(self, $CommunicationsArea.global_position, Color(1.0, 0.55, 0.25, 0.92), 48.0, 0.55)
+	InteractiveAssets.spawn_burst_vfx(self, $CommunicationsArea.global_position, Color(1.0, 0.72, 0.3, 0.95), 26, 86.0, 3.2)
 	await dialogue.say("Communications", "Repairing communications relay and filtering dust storm interference...", 0.0)
 	await get_tree().create_timer(1.5).timeout
 	dialogue.hide_dialogue()

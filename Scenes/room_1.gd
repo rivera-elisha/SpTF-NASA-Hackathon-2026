@@ -14,6 +14,8 @@ var donki_request: HTTPRequest
 var nearby_life_support_monitor := false
 var lab_analysis_visual: Node2D
 var lab_pulse_elapsed := 0.0
+var asset_dialogue_running := false
+var interact_mgr: InteractiveAssets.InteractManager
 
 
 func _ready() -> void:
@@ -31,6 +33,7 @@ func _ready() -> void:
 	$MainLaboratoryArea.body_entered.connect(_on_main_laboratory_area_entered)
 	_create_lab_analysis_visual()
 	_update_lab_visual()
+	_setup_room1_assets()
 	visited_life_support = Global.life_support_checked
 	visited_spacesuits = Global.spacesuits_checked
 	can_exit = visited_life_support and visited_spacesuits
@@ -86,9 +89,192 @@ func _unhandled_input(event: InputEvent) -> void:
 	_open_life_support_monitor()
 
 
+func _setup_room1_assets() -> void:
+	interact_mgr = InteractiveAssets.create_interact_manager(
+		self,
+		player,
+		func() -> bool:
+			return dialogue_running or asset_dialogue_running or dialogue.is_busy() or dialogue.game_over_visible
+	)
+
+	var lsm := get_node_or_null("lifesupportmonitor") as Node2D
+	if lsm:
+		InteractiveAssets.attach_world_fx(self, lsm.global_position, "monitor_vitals", Vector2(72, 58))
+
+	for suit_name in ["astronaut_suit_1", "astronaut_suit_2"]:
+		var suit := get_node_or_null(suit_name) as Node2D
+		if suit:
+			InteractiveAssets.attach_world_fx(self, suit.global_position, "eva_suit", Vector2(46, 56))
+			var s_pos := suit.global_position
+			interact_mgr.add_interactable(
+				suit_name,
+				s_pos,
+				"Inspect EMU Spacesuit",
+				func() -> void: _inspect_eva_suit(s_pos, suit_name),
+				72.0,
+				Vector2(56, 62)
+			)
+
+	var eng := get_node_or_null("engine") as Node2D
+	if eng:
+		InteractiveAssets.attach_world_fx(self, eng.global_position, "reactor_engine", Vector2(68, 56))
+		interact_mgr.add_interactable(
+			"power_core",
+			eng.global_position,
+			"Check Power Core",
+			func() -> void: _inspect_power_core(eng.global_position),
+			78.0,
+			Vector2(76, 66)
+		)
+
+	var mon2 := get_node_or_null("monitor2") as Node2D
+	if mon2:
+		InteractiveAssets.attach_world_fx(self, mon2.global_position, "monitor_radar", Vector2(62, 54))
+		interact_mgr.add_interactable(
+			"telemetry_console",
+			mon2.global_position,
+			"View Atmosphere Log",
+			func() -> void: _inspect_atmosphere_log(mon2.global_position),
+			76.0,
+			Vector2(68, 58)
+		)
+
+	var scrubber := get_node_or_null("random_2") as Node2D
+	if scrubber:
+		InteractiveAssets.attach_world_fx(self, scrubber.global_position, "scrubber_panel", Vector2(68, 60))
+		interact_mgr.add_interactable(
+			"air_scrubber",
+			scrubber.global_position,
+			"Cycle O2 Scrubber",
+			func() -> void: _cycle_air_scrubber(scrubber.global_position),
+			78.0,
+			Vector2(76, 68)
+		)
+
+	for ds_name in ["datastorage1", "datastorage2"]:
+		var ds := get_node_or_null(ds_name) as Node2D
+		if ds:
+			InteractiveAssets.attach_world_fx(self, ds.global_position, "server_racks", Vector2(92, 84))
+			var d_pos := ds.global_position
+			interact_mgr.add_interactable(
+				ds_name,
+				d_pos,
+				"Access Mission Archive",
+				func() -> void: _inspect_data_archive(d_pos),
+				84.0,
+				Vector2(104, 96)
+			)
+
+	var lab_area := get_node_or_null("MainLaboratoryArea") as Node2D
+	if lab_area:
+		InteractiveAssets.attach_world_fx(self, lab_area.global_position, "glovebox", Vector2(88, 64))
+		interact_mgr.add_interactable(
+			"main_lab_bench",
+			lab_area.global_position,
+			"View Specimen Scan",
+			func() -> void: _inspect_lab_specimen(lab_area.global_position),
+			86.0,
+			Vector2(96, 72),
+			func() -> bool: return Global.discovery_named
+		)
+
+
+func _inspect_eva_suit(pos: Vector2, suit_id: String) -> void:
+	if asset_dialogue_running:
+		return
+	asset_dialogue_running = true
+	player.set_physics_process(false)
+	InteractiveAssets.play_sfx(self, "scan", -9.0)
+	InteractiveAssets.spawn_scan_beam_vfx(self, pos, Color(0.4, 0.92, 1.0, 0.9), 52.0, 62.0, 0.7)
+	InteractiveAssets.spawn_burst_vfx(self, pos, Color(0.55, 0.95, 1.0, 0.85), 16, 62.0, 2.8)
+	InteractiveAssets.spawn_floating_text(self, pos, "PLSS SEAL: 100%", Color(0.55, 0.96, 1.0))
+	var label := "Unit A (Commander EVA Suit)" if suit_id == "astronaut_suit_1" else "Unit B (Reserve Exploration Suit)"
+	var rad_note := "STORM SHIELDING: ELEVATED" if Global.radiation_warning_active else "Radiation Liner: Nominal"
+	await dialogue.say("EMU Spacesuit Check", "%s — O2 Tanks: 98%% | Thermal Liquid Cooling: 21°C | %s." % [label, rad_note], 0.0)
+	player.set_physics_process(true)
+	asset_dialogue_running = false
+
+
+func _inspect_power_core(pos: Vector2) -> void:
+	if asset_dialogue_running:
+		return
+	asset_dialogue_running = true
+	player.set_physics_process(false)
+	InteractiveAssets.play_sfx(self, "flame", -9.0)
+	InteractiveAssets.spawn_ring_vfx(self, pos, Color(1.0, 0.68, 0.25, 0.92), 42.0, 0.45)
+	InteractiveAssets.spawn_burst_vfx(self, pos, Color(1.0, 0.78, 0.35, 0.9), 20, 74.0, 3.0)
+	var solar := "100% Optimal (Dust Cleared)" if Global.all_solar_panels_cleaned() else ("42% Output (Dusty Panels)" if Global.is_outpost_dusty() else "94% Nominal")
+	InteractiveAssets.spawn_floating_text(self, pos, "SOLAR INPUT: " + ("100%" if Global.all_solar_panels_cleaned() else "NOMINAL"), Color(1.0, 0.85, 0.35))
+	await dialogue.say("Outpost Power Core", "Solar Array Input: %s | Fuel Cell Backup: 96%% | Habitat Load: 3.4 kW." % solar, 0.0)
+	player.set_physics_process(true)
+	asset_dialogue_running = false
+
+
+func _inspect_atmosphere_log(pos: Vector2) -> void:
+	if asset_dialogue_running:
+		return
+	asset_dialogue_running = true
+	player.set_physics_process(false)
+	InteractiveAssets.play_sfx(self, "scan", -9.0)
+	InteractiveAssets.spawn_scan_beam_vfx(self, pos, Color(0.35, 1.0, 0.55, 0.9), 58.0, 48.0, 0.65)
+	InteractiveAssets.spawn_floating_text(self, pos, "MARS METEO UPDATED", Color(0.45, 1.0, 0.65))
+	var dust_idx := "2.4 (Active Dust Storm Squall)" if Global.is_outpost_dusty() else "0.4 (Clear Martian Skies)"
+	await dialogue.say("Mars Surface Meteorology", "External Temp: -63°C | Pressure: 6.1 mbar (CO2 95.3%%) | Dust Opacity Tau: %s." % dust_idx, 0.0)
+	player.set_physics_process(true)
+	asset_dialogue_running = false
+
+
+func _cycle_air_scrubber(pos: Vector2) -> void:
+	if asset_dialogue_running:
+		return
+	asset_dialogue_running = true
+	player.set_physics_process(false)
+	InteractiveAssets.play_sfx(self, "mist", -8.0)
+	InteractiveAssets.spawn_burst_vfx(self, pos, Color(0.55, 0.96, 1.0, 0.9), 20, 70.0, 3.0)
+	InteractiveAssets.spawn_floating_text(self, pos, "O2 PURGE: 99.6% PURE", Color(0.5, 0.98, 1.0))
+	await dialogue.say("Sabatier Air Scrubber", "Zeolite CO2 scrubbers purged successfully. Cabin O2 partial pressure stabilized at 21.1 kPa.", 0.0)
+	player.set_physics_process(true)
+	asset_dialogue_running = false
+
+
+func _inspect_data_archive(pos: Vector2) -> void:
+	if asset_dialogue_running:
+		return
+	asset_dialogue_running = true
+	player.set_physics_process(false)
+	InteractiveAssets.play_sfx(self, "interact", -8.0)
+	InteractiveAssets.spawn_ring_vfx(self, pos, Color(0.35, 0.88, 1.0, 0.9), 44.0, 0.45)
+	InteractiveAssets.spawn_burst_vfx(self, pos, Color(0.4, 0.92, 1.0, 0.9), 20, 72.0, 3.0)
+	InteractiveAssets.spawn_floating_text(self, pos, "ARCHIVE SYNCED", Color(0.5, 0.92, 1.0))
+	var sample_note := "%d/7 basalt & regolith samples" % Global.rock_samples_collected
+	var mat_note := Global.discovery_name if Global.discovery_named else "Pending Identification"
+	await dialogue.say("Mission Data Archive", "Logged Geological Samples: %s | Priority Discovery: %s | DONKI Space Weather Feed: Online." % [sample_note, mat_note], 0.0)
+	player.set_physics_process(true)
+	asset_dialogue_running = false
+
+
+func _inspect_lab_specimen(pos: Vector2) -> void:
+	if asset_dialogue_running:
+		return
+	asset_dialogue_running = true
+	player.set_physics_process(false)
+	InteractiveAssets.play_sfx(self, "success", -9.0)
+	InteractiveAssets.spawn_ring_vfx(self, pos, Color(0.45, 0.95, 1.0, 0.95), 46.0, 0.5)
+	InteractiveAssets.spawn_burst_vfx(self, pos, Color(0.6, 0.96, 1.0, 0.95), 24, 82.0, 3.4)
+	InteractiveAssets.spawn_floating_text(self, pos, Global.discovery_name.to_upper(), Color(0.55, 0.98, 1.0))
+	await dialogue.say("Main Laboratory Spectrometer", "Catalogued Discovery '%s': Luminescent Martian crystalline silicate exhibiting anomalous photonic resonance." % Global.discovery_name, 0.0)
+	player.set_physics_process(true)
+	asset_dialogue_running = false
+
+
 func _open_life_support_monitor() -> void:
 	player.set_physics_process(false)
 	dialogue.set_interaction_hint("")
+	var lsm := get_node_or_null("lifesupportmonitor") as Node2D
+	if lsm:
+		InteractiveAssets.play_sfx(self, "scan", -9.0)
+		InteractiveAssets.spawn_ring_vfx(self, lsm.global_position, Color(0.32, 0.95, 1.0, 0.9), 42.0, 0.45)
+		InteractiveAssets.spawn_scan_beam_vfx(self, lsm.global_position, Color(0.3, 1.0, 0.65, 0.9), 64.0, 56.0, 0.6)
 	await dialogue.show_information("Life-Support Readings", Global.get_life_support_readings_text())
 	player.set_physics_process(true)
 	if nearby_life_support_monitor:
@@ -298,6 +484,10 @@ func _on_main_laboratory_area_entered(body: Node2D) -> void:
 		dialogue_running = true
 		Global.lab_analysis_started = true
 		_update_lab_visual()
+		InteractiveAssets.play_sfx(self, "scan", -8.0)
+		InteractiveAssets.spawn_scan_beam_vfx(self, $MainLaboratoryArea.global_position, Color(0.4, 0.95, 1.0, 0.9), 76.0, 62.0, 0.85)
+		InteractiveAssets.spawn_ring_vfx(self, $MainLaboratoryArea.global_position, Color(0.45, 0.95, 1.0, 0.9), 48.0, 0.55)
+		InteractiveAssets.spawn_burst_vfx(self, $MainLaboratoryArea.global_position, Color(0.5, 0.96, 1.0, 0.9), 24, 78.0, 3.2)
 		player.set_physics_process(false)
 		await dialogue.say(
 			"Main Laboratory",
@@ -326,6 +516,10 @@ func _on_main_laboratory_area_entered(body: Node2D) -> void:
 		Global.discovery_name = chosen_name
 		Global.discovery_named = true
 		_update_lab_visual()
+		InteractiveAssets.play_sfx(self, "success", -7.0)
+		InteractiveAssets.spawn_ring_vfx(self, $MainLaboratoryArea.global_position, Color(0.55, 1.0, 0.78, 0.95), 54.0, 0.55)
+		InteractiveAssets.spawn_burst_vfx(self, $MainLaboratoryArea.global_position, Color(0.5, 0.96, 1.0, 0.95), 32, 96.0, 3.6)
+		InteractiveAssets.spawn_floating_text(self, $MainLaboratoryArea.global_position, "DISCOVERED: " + Global.discovery_name, Color(0.55, 1.0, 0.8), 1.5)
 		await dialogue.say(
 			speaker,
 			"I can now go back on Earth to showcase %s." % Global.discovery_name

@@ -64,6 +64,537 @@ size = Vector2(2066.6663, 966.6648)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ivuis"]
 size = Vector2(2400.001, 1090)
 
+[sub_resource type="RectangleShape2D" id="RockCol_1"]
+size = Vector2(28.2, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_2"]
+size = Vector2(52.9, 33.6)
+
+[sub_resource type="RectangleShape2D" id="RockCol_3"]
+size = Vector2(49.4, 40.3)
+
+[sub_resource type="RectangleShape2D" id="RockCol_4"]
+size = Vector2(35.3, 30.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_5"]
+size = Vector2(98.8, 60.5)
+
+[sub_resource type="RectangleShape2D" id="RockCol_6"]
+size = Vector2(31.8, 30.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_7"]
+size = Vector2(112.9, 63.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_8"]
+size = Vector2(28.2, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_9"]
+size = Vector2(52.9, 33.6)
+
+[sub_resource type="RectangleShape2D" id="RockCol_10"]
+size = Vector2(24.7, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_11"]
+size = Vector2(49.4, 33.6)
+
+[sub_resource type="RectangleShape2D" id="RockCol_12"]
+size = Vector2(102.3, 60.5)
+
+[sub_resource type="RectangleShape2D" id="RockCol_13"]
+size = Vector2(14.1, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_14"]
+size = Vector2(130.5, 100.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_15"]
+size = Vector2(35.3, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_16"]
+size = Vector2(24.7, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_17"]
+size = Vector2(24.7, 30.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_18"]
+size = Vector2(70.6, 60.5)
+
+[sub_resource type="RectangleShape2D" id="RockCol_19"]
+size = Vector2(49.4, 50.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_20"]
+size = Vector2(14.1, 23.5)
+
+[sub_resource type="RectangleShape2D" id="RockCol_21"]
+size = Vector2(21.2, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_22"]
+size = Vector2(42.3, 33.6)
+
+[sub_resource type="RectangleShape2D" id="RockCol_23"]
+size = Vector2(28.2, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_24"]
+size = Vector2(17.6, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_25"]
+size = Vector2(17.6, 10)
+
+[sub_resource type="RectangleShape2D" id="RockCol_26"]
+size = Vector2(88.2, 47)
+
+[sub_resource type="RectangleShape2D" id="RockCol_27"]
+size = Vector2(31.8, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_28"]
+size = Vector2(21.2, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_29"]
+size = Vector2(35.3, 26.9)
+
+[sub_resource type="RectangleShape2D" id="RockCol_30"]
+size = Vector2(120, 77.3)
+
+[sub_resource type="RectangleShape2D" id="RockCol_31"]
+size = Vector2(14.1, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_32"]
+size = Vector2(14.1, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_33"]
+size = Vector2(21.2, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_34"]
+size = Vector2(21.2, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_35"]
+size = Vector2(21.2, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_36"]
+size = Vector2(35.3, 50.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_37"]
+size = Vector2(60, 70.6)
+
+[sub_resource type="RectangleShape2D" id="RockCol_38"]
+size = Vector2(155.2, 80.6)
+
+[sub_resource type="RectangleShape2D" id="RockCol_39"]
+size = Vector2(14.1, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_40"]
+size = Vector2(17.6, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_41"]
+size = Vector2(49.4, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_42"]
+size = Vector2(21.2, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_43"]
+size = Vector2(84.7, 30.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_44"]
+size = Vector2(21.2, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_45"]
+size = Vector2(24.7, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_46"]
+size = Vector2(14.1, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_47"]
+size = Vector2(28.2, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_48"]
+size = Vector2(24.7, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_49"]
+size = Vector2(17.6, 10)
+
+[sub_resource type="RectangleShape2D" id="RockCol_50"]
+size = Vector2(14.1, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_51"]
+size = Vector2(17.6, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_52"]
+size = Vector2(49.4, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_53"]
+size = Vector2(35.3, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_54"]
+size = Vector2(24.7, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_55"]
+size = Vector2(14.1, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_56"]
+size = Vector2(21.2, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_57"]
+size = Vector2(21.2, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_58"]
+size = Vector2(45.9, 33.6)
+
+[sub_resource type="RectangleShape2D" id="RockCol_59"]
+size = Vector2(14.1, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_60"]
+size = Vector2(31.8, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_61"]
+size = Vector2(14.1, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_62"]
+size = Vector2(88.2, 57.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_63"]
+size = Vector2(81.1, 70.6)
+
+[sub_resource type="RectangleShape2D" id="RockCol_64"]
+size = Vector2(17.6, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_65"]
+size = Vector2(95.3, 30.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_66"]
+size = Vector2(14.1, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_67"]
+size = Vector2(14.1, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_68"]
+size = Vector2(60, 68)
+
+[sub_resource type="RectangleShape2D" id="RockCol_69"]
+size = Vector2(56.4, 30.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_70"]
+size = Vector2(24.7, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_71"]
+size = Vector2(14, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_72"]
+size = Vector2(67, 94.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_73"]
+size = Vector2(17.6, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_74"]
+size = Vector2(84.7, 47)
+
+[sub_resource type="RectangleShape2D" id="RockCol_75"]
+size = Vector2(24.7, 10)
+
+[sub_resource type="RectangleShape2D" id="RockCol_76"]
+size = Vector2(45.9, 23.5)
+
+[sub_resource type="RectangleShape2D" id="RockCol_77"]
+size = Vector2(24.7, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_78"]
+size = Vector2(14.1, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_79"]
+size = Vector2(14.1, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_80"]
+size = Vector2(17.6, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_81"]
+size = Vector2(17.6, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_82"]
+size = Vector2(24.7, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_83"]
+size = Vector2(24.7, 33.6)
+
+[sub_resource type="RectangleShape2D" id="RockCol_84"]
+size = Vector2(70.6, 70.6)
+
+[sub_resource type="RectangleShape2D" id="RockCol_85"]
+size = Vector2(35.3, 23.5)
+
+[sub_resource type="RectangleShape2D" id="RockCol_86"]
+size = Vector2(31.8, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_87"]
+size = Vector2(70.6, 30.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_88"]
+size = Vector2(17.6, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_89"]
+size = Vector2(56.4, 40.3)
+
+[sub_resource type="RectangleShape2D" id="RockCol_90"]
+size = Vector2(14, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_91"]
+size = Vector2(63.5, 43.7)
+
+[sub_resource type="RectangleShape2D" id="RockCol_92"]
+size = Vector2(21.2, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_93"]
+size = Vector2(31.8, 23.5)
+
+[sub_resource type="RectangleShape2D" id="RockCol_94"]
+size = Vector2(14, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_95"]
+size = Vector2(35.3, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_96"]
+size = Vector2(38.8, 47)
+
+[sub_resource type="RectangleShape2D" id="RockCol_97"]
+size = Vector2(84.7, 60.5)
+
+[sub_resource type="RectangleShape2D" id="RockCol_98"]
+size = Vector2(14.1, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_99"]
+size = Vector2(24.7, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_100"]
+size = Vector2(21.2, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_101"]
+size = Vector2(74.1, 23.5)
+
+[sub_resource type="RectangleShape2D" id="RockCol_102"]
+size = Vector2(24.7, 10)
+
+[sub_resource type="RectangleShape2D" id="RockCol_103"]
+size = Vector2(14, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_104"]
+size = Vector2(102.3, 63.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_105"]
+size = Vector2(84.7, 104.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_106"]
+size = Vector2(17.6, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_107"]
+size = Vector2(21.2, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_108"]
+size = Vector2(24.7, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_109"]
+size = Vector2(17.6, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_110"]
+size = Vector2(14.1, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_111"]
+size = Vector2(67, 40.3)
+
+[sub_resource type="RectangleShape2D" id="RockCol_112"]
+size = Vector2(24.7, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_113"]
+size = Vector2(21.2, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_114"]
+size = Vector2(17.6, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_115"]
+size = Vector2(28.2, 23.5)
+
+[sub_resource type="RectangleShape2D" id="RockCol_116"]
+size = Vector2(77.6, 33.6)
+
+[sub_resource type="RectangleShape2D" id="RockCol_117"]
+size = Vector2(28.2, 26.9)
+
+[sub_resource type="RectangleShape2D" id="RockCol_118"]
+size = Vector2(17.6, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_119"]
+size = Vector2(63.5, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_120"]
+size = Vector2(105.8, 23.5)
+
+[sub_resource type="RectangleShape2D" id="RockCol_121"]
+size = Vector2(24.7, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_122"]
+size = Vector2(56.4, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_123"]
+size = Vector2(56.4, 57.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_124"]
+size = Vector2(28.2, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_125"]
+size = Vector2(21.2, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_126"]
+size = Vector2(17.6, 30.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_127"]
+size = Vector2(21.2, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_128"]
+size = Vector2(38.8, 26.9)
+
+[sub_resource type="RectangleShape2D" id="RockCol_129"]
+size = Vector2(112.9, 77.3)
+
+[sub_resource type="RectangleShape2D" id="RockCol_130"]
+size = Vector2(14, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_131"]
+size = Vector2(28.2, 23.5)
+
+[sub_resource type="RectangleShape2D" id="RockCol_132"]
+size = Vector2(38.8, 26.9)
+
+[sub_resource type="RectangleShape2D" id="RockCol_133"]
+size = Vector2(28.2, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_134"]
+size = Vector2(17.6, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_135"]
+size = Vector2(45.9, 26.9)
+
+[sub_resource type="RectangleShape2D" id="RockCol_136"]
+size = Vector2(28.2, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_137"]
+size = Vector2(49.4, 43.7)
+
+[sub_resource type="RectangleShape2D" id="RockCol_138"]
+size = Vector2(67, 77.3)
+
+[sub_resource type="RectangleShape2D" id="RockCol_139"]
+size = Vector2(14.1, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_140"]
+size = Vector2(31.8, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_141"]
+size = Vector2(17.6, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_142"]
+size = Vector2(14.1, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_143"]
+size = Vector2(17.6, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_144"]
+size = Vector2(42.3, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_145"]
+size = Vector2(24.7, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_146"]
+size = Vector2(35.3, 30.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_147"]
+size = Vector2(21.2, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_148"]
+size = Vector2(14.1, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_149"]
+size = Vector2(130.5, 97.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_150"]
+size = Vector2(14.1, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_151"]
+size = Vector2(24.7, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_152"]
+size = Vector2(24.7, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_153"]
+size = Vector2(45.9, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_154"]
+size = Vector2(52.9, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_155"]
+size = Vector2(14.1, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_156"]
+size = Vector2(21.2, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_157"]
+size = Vector2(109.4, 73.9)
+
+[sub_resource type="RectangleShape2D" id="RockCol_158"]
+size = Vector2(120, 73.9)
+
+[sub_resource type="RectangleShape2D" id="RockCol_159"]
+size = Vector2(95.3, 50.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_160"]
+size = Vector2(14.1, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_161"]
+size = Vector2(17.6, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_162"]
+size = Vector2(21.2, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_163"]
+size = Vector2(14, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_164"]
+size = Vector2(116.4, 50.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_165"]
+size = Vector2(52.9, 50.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_166"]
+size = Vector2(88.2, 50.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_167"]
+size = Vector2(67, 33.6)
+
+[sub_resource type="RectangleShape2D" id="RockCol_168"]
+size = Vector2(49.4, 40.3)
+
+[sub_resource type="RectangleShape2D" id="RockCol_169"]
+size = Vector2(24.7, 20.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_170"]
+size = Vector2(42.3, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_171"]
+size = Vector2(56.4, 37)
+
+[sub_resource type="RectangleShape2D" id="RockCol_172"]
+size = Vector2(42.3, 30.2)
+
+[sub_resource type="RectangleShape2D" id="RockCol_173"]
+size = Vector2(42.3, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_174"]
+size = Vector2(24.7, 13.4)
+
+[sub_resource type="RectangleShape2D" id="RockCol_175"]
+size = Vector2(17.6, 10.1)
+
+[sub_resource type="RectangleShape2D" id="RockCol_176"]
+size = Vector2(31.8, 16.8)
+
+[sub_resource type="RectangleShape2D" id="RockCol_177"]
+size = Vector2(17.6, 10.1)
+
 [node name="MarsMap" type="Node2D" unique_id=1102803395]
 position = Vector2(567, 327)
 script = ExtResource("1_c28fd")
@@ -284,3 +815,713 @@ position = Vector2(-336, -135)
 
 [node name="SafetyBuildingOutsideSpawn" type="Marker2D" parent="WorldObjects" unique_id=1449814977]
 position = Vector2(330, -134)
+
+[node name="PerimeterRockCollisions" type="StaticBody2D" parent="."]
+
+[node name="RockCollision_1" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-452.4, -496.3)
+shape = SubResource("RockCol_1")
+
+[node name="RockCollision_2" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-442.8, -486.7)
+shape = SubResource("RockCol_2")
+
+[node name="RockCollision_3" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(17.2, -482.8)
+shape = SubResource("RockCol_3")
+
+[node name="RockCollision_4" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(248.7, -488.6)
+shape = SubResource("RockCol_4")
+
+[node name="RockCollision_5" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(284.3, -471.2)
+shape = SubResource("RockCol_5")
+
+[node name="RockCollision_6" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(566, -488.6)
+shape = SubResource("RockCol_6")
+
+[node name="RockCollision_7" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(594.6, -469.3)
+shape = SubResource("RockCol_7")
+
+[node name="RockCollision_8" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(467.4, -492.1)
+shape = SubResource("RockCol_8")
+
+[node name="RockCollision_9" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(477, -482.5)
+shape = SubResource("RockCol_9")
+
+[node name="RockCollision_10" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(587.2, -492.1)
+shape = SubResource("RockCol_10")
+
+[node name="RockCollision_11" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-251.6, -478.3)
+shape = SubResource("RockCol_11")
+
+[node name="RockCollision_12" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(42.6, -462.8)
+shape = SubResource("RockCol_12")
+
+[node name="RockCollision_13" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(698.9, -487.6)
+shape = SubResource("RockCol_13")
+
+[node name="RockCollision_14" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(801.8, -435.4)
+shape = SubResource("RockCol_14")
+
+[node name="RockCollision_15" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(706.5, -477.6)
+shape = SubResource("RockCol_15")
+
+[node name="RockCollision_16" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-693.8, -475.3)
+shape = SubResource("RockCol_16")
+
+[node name="RockCollision_17" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-622.4, -467.6)
+shape = SubResource("RockCol_17")
+
+[node name="RockCollision_18" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-609.3, -450.2)
+shape = SubResource("RockCol_18")
+
+[node name="RockCollision_19" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-827, -447.6)
+shape = SubResource("RockCol_19")
+
+[node name="RockCollision_20" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-611.5, -463.1)
+shape = SubResource("RockCol_20")
+
+[node name="RockCollision_21" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(156.8, -468.9)
+shape = SubResource("RockCol_21")
+
+[node name="RockCollision_22" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-398.3, -453.1)
+shape = SubResource("RockCol_22")
+
+[node name="RockCollision_23" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-498.6, -458.5)
+shape = SubResource("RockCol_23")
+
+[node name="RockCollision_24" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-155.9, -462.4)
+shape = SubResource("RockCol_24")
+
+[node name="RockCollision_25" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-286.1, -460.1)
+shape = SubResource("RockCol_25")
+
+[node name="RockCollision_26" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-381, -428.6)
+shape = SubResource("RockCol_26")
+
+[node name="RockCollision_27" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-282.4, -444)
+shape = SubResource("RockCol_27")
+
+[node name="RockCollision_28" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(387.8, -444)
+shape = SubResource("RockCol_28")
+
+[node name="RockCollision_29" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-784.5, -435.9)
+shape = SubResource("RockCol_29")
+
+[node name="RockCollision_30" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-800.1, -407)
+shape = SubResource("RockCol_30")
+
+[node name="RockCollision_31" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-216.7, -435.3)
+shape = SubResource("RockCol_31")
+
+[node name="RockCollision_32" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(446.9, -418.5)
+shape = SubResource("RockCol_32")
+
+[node name="RockCollision_33" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-821.8, -412)
+shape = SubResource("RockCol_33")
+
+[node name="RockCollision_34" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(337.4, -410.1)
+shape = SubResource("RockCol_34")
+
+[node name="RockCollision_35" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-44.8, -403.9)
+shape = SubResource("RockCol_35")
+
+[node name="RockCollision_36" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(467.1, -376.2)
+shape = SubResource("RockCol_36")
+
+[node name="RockCollision_37" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(476.8, -356.2)
+shape = SubResource("RockCol_37")
+
+[node name="RockCollision_38" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-179.7, -346.2)
+shape = SubResource("RockCol_38")
+
+[node name="RockCollision_39" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-695.5, -380.7)
+shape = SubResource("RockCol_39")
+
+[node name="RockCollision_40" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-428.9, -380.7)
+shape = SubResource("RockCol_40")
+
+[node name="RockCollision_41" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(29.8, -378.4)
+shape = SubResource("RockCol_41")
+
+[node name="RockCollision_42" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(581, -374.5)
+shape = SubResource("RockCol_42")
+
+[node name="RockCollision_43" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(209.2, -358.4)
+shape = SubResource("RockCol_43")
+
+[node name="RockCollision_44" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-355.6, -365.8)
+shape = SubResource("RockCol_44")
+
+[node name="RockCollision_45" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-635, -361.6)
+shape = SubResource("RockCol_45")
+
+[node name="RockCollision_46" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-531.7, -361.6)
+shape = SubResource("RockCol_46")
+
+[node name="RockCollision_47" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(656.4, -355.8)
+shape = SubResource("RockCol_47")
+
+[node name="RockCollision_48" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-420.8, -353.5)
+shape = SubResource("RockCol_48")
+
+[node name="RockCollision_49" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(45.7, -355.1)
+shape = SubResource("RockCol_49")
+
+[node name="RockCollision_50" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(358.7, -353.2)
+shape = SubResource("RockCol_50")
+
+[node name="RockCollision_51" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-739.7, -347.1)
+shape = SubResource("RockCol_51")
+
+[node name="RockCollision_52" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-411.2, -343.2)
+shape = SubResource("RockCol_52")
+
+[node name="RockCollision_53" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(51.3, -347.1)
+shape = SubResource("RockCol_53")
+
+[node name="RockCollision_54" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(868.6, -340.9)
+shape = SubResource("RockCol_54")
+
+[node name="RockCollision_55" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-867.7, -340.6)
+shape = SubResource("RockCol_55")
+
+[node name="RockCollision_56" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(807.8, -332.5)
+shape = SubResource("RockCol_56")
+
+[node name="RockCollision_57" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(698.6, -326.4)
+shape = SubResource("RockCol_57")
+
+[node name="RockCollision_58" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(813.3, -318.7)
+shape = SubResource("RockCol_58")
+
+[node name="RockCollision_59" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-867.7, -311.2)
+shape = SubResource("RockCol_59")
+
+[node name="RockCollision_60" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-857.8, -305.4)
+shape = SubResource("RockCol_60")
+
+[node name="RockCollision_61" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-682.9, -302.8)
+shape = SubResource("RockCol_61")
+
+[node name="RockCollision_62" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-624.6, -275.8)
+shape = SubResource("RockCol_62")
+
+[node name="RockCollision_63" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(849.8, -251.2)
+shape = SubResource("RockCol_63")
+
+[node name="RockCollision_64" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(696.7, -261.1)
+shape = SubResource("RockCol_64")
+
+[node name="RockCollision_65" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-839.1, -245)
+shape = SubResource("RockCol_65")
+
+[node name="RockCollision_66" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(724.1, -246.3)
+shape = SubResource("RockCol_66")
+
+[node name="RockCollision_67" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(757.7, -248.2)
+shape = SubResource("RockCol_67")
+
+[node name="RockCollision_68" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(626, -194.7)
+shape = SubResource("RockCol_68")
+
+[node name="RockCollision_69" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-730.6, -203)
+shape = SubResource("RockCol_69")
+
+[node name="RockCollision_70" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(742.6, -192)
+shape = SubResource("RockCol_70")
+
+[node name="RockCollision_71" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(890.1, -195.9)
+shape = SubResource("RockCol_71")
+
+[node name="RockCollision_72" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-859.1, -145.3)
+shape = SubResource("RockCol_72")
+
+[node name="RockCollision_73" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(835.3, -181.3)
+shape = SubResource("RockCol_73")
+
+[node name="RockCollision_74" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(847.6, -159.8)
+shape = SubResource("RockCol_74")
+
+[node name="RockCollision_75" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(864.4, -174.5)
+shape = SubResource("RockCol_75")
+
+[node name="RockCollision_76" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-770.1, -131.3)
+shape = SubResource("RockCol_76")
+
+[node name="RockCollision_77" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-681.2, -137.1)
+shape = SubResource("RockCol_77")
+
+[node name="RockCollision_78" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(808.1, -132.9)
+shape = SubResource("RockCol_78")
+
+[node name="RockCollision_79" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-766.9, -101.2)
+shape = SubResource("RockCol_79")
+
+[node name="RockCollision_80" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(696.7, -101.2)
+shape = SubResource("RockCol_80")
+
+[node name="RockCollision_81" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(801.7, -97.3)
+shape = SubResource("RockCol_81")
+
+[node name="RockCollision_82" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-677, -82.5)
+shape = SubResource("RockCol_82")
+
+[node name="RockCollision_83" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(822.4, -66.7)
+shape = SubResource("RockCol_83")
+
+[node name="RockCollision_84" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(814.5, -41.2)
+shape = SubResource("RockCol_84")
+
+[node name="RockCollision_85" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(555.3, -38.9)
+shape = SubResource("RockCol_85")
+
+[node name="RockCollision_86" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-773.8, -30.1)
+shape = SubResource("RockCol_86")
+
+[node name="RockCollision_87" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-756.3, -18.2)
+shape = SubResource("RockCol_87")
+
+[node name="RockCollision_88" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(805.9, -29.8)
+shape = SubResource("RockCol_88")
+
+[node name="RockCollision_89" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(714.2, 0.2)
+shape = SubResource("RockCol_89")
+
+[node name="RockCollision_90" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-890.7, -2.7)
+shape = SubResource("RockCol_90")
+
+[node name="RockCollision_91" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-844.3, 14.7)
+shape = SubResource("RockCol_91")
+
+[node name="RockCollision_92" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(602, 3.5)
+shape = SubResource("RockCol_92")
+
+[node name="RockCollision_93" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(868.4, 24.1)
+shape = SubResource("RockCol_93")
+
+[node name="RockCollision_94" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(801.9, 41.6)
+shape = SubResource("RockCol_94")
+
+[node name="RockCollision_95" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-662.7, 45.8)
+shape = SubResource("RockCol_95")
+
+[node name="RockCollision_96" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(817.7, 75.4)
+shape = SubResource("RockCol_96")
+
+[node name="RockCollision_97" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(835, 87.4)
+shape = SubResource("RockCol_97")
+
+[node name="RockCollision_98" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-754.3, 64.5)
+shape = SubResource("RockCol_98")
+
+[node name="RockCollision_99" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-853.4, 74.9)
+shape = SubResource("RockCol_99")
+
+[node name="RockCollision_100" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-821.8, 79.1)
+shape = SubResource("RockCol_100")
+
+[node name="RockCollision_101" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-594.7, 91.3)
+shape = SubResource("RockCol_101")
+
+[node name="RockCollision_102" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-618.2, 85.9)
+shape = SubResource("RockCol_102")
+
+[node name="RockCollision_103" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(726.3, 89.7)
+shape = SubResource("RockCol_103")
+
+[node name="RockCollision_104" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(605.4, 122.9)
+shape = SubResource("RockCol_104")
+
+[node name="RockCollision_105" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-857.6, 162.9)
+shape = SubResource("RockCol_105")
+
+[node name="RockCollision_106" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-743.9, 121.4)
+shape = SubResource("RockCol_106")
+
+[node name="RockCollision_107" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-817.6, 134)
+shape = SubResource("RockCol_107")
+
+[node name="RockCollision_108" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-765.2, 148.2)
+shape = SubResource("RockCol_108")
+
+[node name="RockCollision_109" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(747.1, 154.7)
+shape = SubResource("RockCol_109")
+
+[node name="RockCollision_110" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(690.5, 161.1)
+shape = SubResource("RockCol_110")
+
+[node name="RockCollision_111" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(858.7, 180.8)
+shape = SubResource("RockCol_111")
+
+[node name="RockCollision_112" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-891.2, 171.5)
+shape = SubResource("RockCol_112")
+
+[node name="RockCollision_113" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-763, 203.1)
+shape = SubResource("RockCol_113")
+
+[node name="RockCollision_114" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(751.3, 203.1)
+shape = SubResource("RockCol_114")
+
+[node name="RockCollision_115" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(757.2, 208.9)
+shape = SubResource("RockCol_115")
+
+[node name="RockCollision_116" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(852, 235.7)
+shape = SubResource("RockCol_116")
+
+[node name="RockCollision_117" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-582.6, 240.3)
+shape = SubResource("RockCol_117")
+
+[node name="RockCollision_118" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-806.9, 249.3)
+shape = SubResource("RockCol_118")
+
+[node name="RockCollision_119" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-743.5, 253.5)
+shape = SubResource("RockCol_119")
+
+[node name="RockCollision_120" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-728.2, 263.5)
+shape = SubResource("RockCol_120")
+
+[node name="RockCollision_121" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(570.4, 259.7)
+shape = SubResource("RockCol_121")
+
+[node name="RockCollision_122" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(46.4, 272.3)
+shape = SubResource("RockCol_122")
+
+[node name="RockCollision_123" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-848.2, 299.6)
+shape = SubResource("RockCol_123")
+
+[node name="RockCollision_124" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-859.8, 282.6)
+shape = SubResource("RockCol_124")
+
+[node name="RockCollision_125" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(245, 285.2)
+shape = SubResource("RockCol_125")
+
+[node name="RockCollision_126" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(721.9, 296.8)
+shape = SubResource("RockCol_126")
+
+[node name="RockCollision_127" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(833, 295.2)
+shape = SubResource("RockCol_127")
+
+[node name="RockCollision_128" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-685.9, 303.3)
+shape = SubResource("RockCol_128")
+
+[node name="RockCollision_129" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-581.4, 336.4)
+shape = SubResource("RockCol_129")
+
+[node name="RockCollision_130" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(755.7, 299.7)
+shape = SubResource("RockCol_130")
+
+[node name="RockCollision_131" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(354, 309.7)
+shape = SubResource("RockCol_131")
+
+[node name="RockCollision_132" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(128.9, 328.5)
+shape = SubResource("RockCol_132")
+
+[node name="RockCollision_133" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(858, 322.7)
+shape = SubResource("RockCol_133")
+
+[node name="RockCollision_134" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(583.3, 328.8)
+shape = SubResource("RockCol_134")
+
+[node name="RockCollision_135" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(863.7, 332.7)
+shape = SubResource("RockCol_135")
+
+[node name="RockCollision_136" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-364.2, 331.1)
+shape = SubResource("RockCol_136")
+
+[node name="RockCollision_137" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(596.8, 346.5)
+shape = SubResource("RockCol_137")
+
+[node name="RockCollision_138" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(455.5, 374.2)
+shape = SubResource("RockCol_138")
+
+[node name="RockCollision_139" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-170.5, 339.8)
+shape = SubResource("RockCol_139")
+
+[node name="RockCollision_140" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-727.6, 348.2)
+shape = SubResource("RockCol_140")
+
+[node name="RockCollision_141" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-458.3, 352.1)
+shape = SubResource("RockCol_141")
+
+[node name="RockCollision_142" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(698.9, 354)
+shape = SubResource("RockCol_142")
+
+[node name="RockCollision_143" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(747.1, 358.5)
+shape = SubResource("RockCol_143")
+
+[node name="RockCollision_144" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-142.1, 370.8)
+shape = SubResource("RockCol_144")
+
+[node name="RockCollision_145" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(37, 370.8)
+shape = SubResource("RockCol_145")
+
+[node name="RockCollision_146" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-860.1, 385)
+shape = SubResource("RockCol_146")
+
+[node name="RockCollision_147" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-19.6, 383.7)
+shape = SubResource("RockCol_147")
+
+[node name="RockCollision_148" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-107.5, 386)
+shape = SubResource("RockCol_148")
+
+[node name="RockCollision_149" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(818.6, 436.2)
+shape = SubResource("RockCol_149")
+
+[node name="RockCollision_150" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(652.7, 392.1)
+shape = SubResource("RockCol_150")
+
+[node name="RockCollision_151" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(175.6, 402.5)
+shape = SubResource("RockCol_151")
+
+[node name="RockCollision_152" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-332.6, 402.8)
+shape = SubResource("RockCol_152")
+
+[node name="RockCollision_153" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-320.7, 408.6)
+shape = SubResource("RockCol_153")
+
+[node name="RockCollision_154" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-6, 404.7)
+shape = SubResource("RockCol_154")
+
+[node name="RockCollision_155" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(228.5, 404.7)
+shape = SubResource("RockCol_155")
+
+[node name="RockCollision_156" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(64.4, 408.9)
+shape = SubResource("RockCol_156")
+
+[node name="RockCollision_157" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-822.8, 452.1)
+shape = SubResource("RockCol_157")
+
+[node name="RockCollision_158" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-619.5, 452.1)
+shape = SubResource("RockCol_158")
+
+[node name="RockCollision_159" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-183.9, 438.6)
+shape = SubResource("RockCol_159")
+
+[node name="RockCollision_160" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(73.1, 419.6)
+shape = SubResource("RockCol_160")
+
+[node name="RockCollision_161" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(742.9, 419.6)
+shape = SubResource("RockCol_161")
+
+[node name="RockCollision_162" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-721, 438)
+shape = SubResource("RockCol_162")
+
+[node name="RockCollision_163" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-361.5, 446.7)
+shape = SubResource("RockCol_163")
+
+[node name="RockCollision_164" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(25.3, 468)
+shape = SubResource("RockCol_164")
+
+[node name="RockCollision_165" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(149.4, 468)
+shape = SubResource("RockCol_165")
+
+[node name="RockCollision_166" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(547.2, 468)
+shape = SubResource("RockCol_166")
+
+[node name="RockCollision_167" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-455.9, 462.5)
+shape = SubResource("RockCol_167")
+
+[node name="RockCollision_168" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(697.6, 466.4)
+shape = SubResource("RockCol_168")
+
+[node name="RockCollision_169" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(360.4, 459)
+shape = SubResource("RockCol_169")
+
+[node name="RockCollision_170" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(227.5, 461.3)
+shape = SubResource("RockCol_170")
+
+[node name="RockCollision_171" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(487.4, 477.1)
+shape = SubResource("RockCol_171")
+
+[node name="RockCollision_172" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-284.9, 481.6)
+shape = SubResource("RockCol_172")
+
+[node name="RockCollision_173" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-95.9, 473.9)
+shape = SubResource("RockCol_173")
+
+[node name="RockCollision_174" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(541, 476.1)
+shape = SubResource("RockCol_174")
+
+[node name="RockCollision_175" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-323.9, 486.8)
+shape = SubResource("RockCol_175")
+
+[node name="RockCollision_176" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(318.2, 490.7)
+shape = SubResource("RockCol_176")
+
+[node name="RockCollision_177" type="CollisionShape2D" parent="PerimeterRockCollisions"]
+position = Vector2(-512.9, 491)
+shape = SubResource("RockCol_177")

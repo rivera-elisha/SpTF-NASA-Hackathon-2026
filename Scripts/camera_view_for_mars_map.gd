@@ -17,6 +17,11 @@ var solar_panels_material: ShaderMaterial
 var part3_dialogue_running := false
 var rocket_boarding_area: Area2D
 var rocket_launch_running := false
+var asset_dialogue_running := false
+var interact_mgr: InteractiveAssets.InteractManager
+var solar_glint_fx: Node2D
+var rocket_cryo_fx: Node2D
+var powerwash_overlay: PowerWashMinigame
 
 const GLOWING_OBJECT_POSITION := Vector2(-220, 230)
 const ROCKET_BOARDING_POSITION := Vector2(330, 152)
@@ -115,6 +120,7 @@ func _ready() -> void:
 	_refresh_glowing_object()
 	_refresh_solar_panel_areas()
 	_refresh_rocket_boarding_area()
+	_setup_mars_assets()
 	if Global.mission_complete:
 		dialogue.set_mission("Mission complete.")
 		return
@@ -302,6 +308,11 @@ func _on_rock_sample_area_entered(body: Node2D, sample_id: int) -> void:
 		return
 	Global.collected_rock_sample_ids.append(sample_id)
 	Global.rock_samples_collected += 1
+	var picked_gpos := rock_samples[sample_id].global_position if sample_id < rock_samples.size() else player.global_position
+	InteractiveAssets.play_sfx(self, "pickup", -9.0)
+	InteractiveAssets.spawn_ring_vfx(self, picked_gpos, Color(0.95, 0.72, 0.35, 0.92), 34.0, 0.42)
+	InteractiveAssets.spawn_burst_vfx(self, picked_gpos, Color(0.92, 0.56, 0.3, 0.9), 18, 70.0, 3.0)
+	InteractiveAssets.spawn_floating_text(self, picked_gpos, "ROCK SAMPLE %d/7" % Global.rock_samples_collected, Color(1.0, 0.88, 0.55))
 	_refresh_rock_samples()
 	dialogue.notify_item("Rock Sample")
 	if Global.rock_samples_collected == 6:
@@ -455,6 +466,11 @@ func _on_glowing_object_entered(body: Node2D) -> void:
 		return
 	Global.glowing_object_collected = true
 	part3_dialogue_running = true
+	var glow_gpos := glowing_object_area.global_position if is_instance_valid(glowing_object_area) else player.global_position
+	InteractiveAssets.play_sfx(self, "success", -7.0)
+	InteractiveAssets.spawn_ring_vfx(self, glow_gpos, Color(0.45, 0.96, 1.0, 0.96), 56.0, 0.55)
+	InteractiveAssets.spawn_burst_vfx(self, glow_gpos, Color(0.6, 0.98, 1.0, 0.96), 34, 102.0, 3.6)
+	InteractiveAssets.spawn_floating_text(self, glow_gpos, "UNIDENTIFIED SAMPLE!", Color(0.6, 0.98, 1.0), 1.4)
 	_refresh_glowing_object()
 	player.set_physics_process(false)
 	dialogue.notify_item("Unidentified Object")
@@ -508,6 +524,10 @@ func _refresh_solar_panel_areas() -> void:
 		var highlight := area.get_node_or_null("DirtyHighlight") as Polygon2D
 		if highlight != null:
 			highlight.visible = needs_cleaning
+	if is_instance_valid(solar_glint_fx):
+		var dusty: bool = Global.is_outpost_dusty()
+		solar_glint_fx.set_meta("dirty_top", dusty and not Global.cleaned_solar_panel_ids.has(0))
+		solar_glint_fx.set_meta("dirty_bottom", dusty and not Global.cleaned_solar_panel_ids.has(1))
 
 
 func _get_next_dirty_solar_panel() -> Area2D:
@@ -518,14 +538,63 @@ func _get_next_dirty_solar_panel() -> Area2D:
 
 
 func _on_solar_panel_area_entered(body: Node2D, panel_id: int) -> void:
-	if body != player or not Global.lab_analysis_started:
+	if body != player or not Global.lab_analysis_started or part3_dialogue_running:
 		return
 	if Global.cleaned_solar_panel_ids.has(panel_id):
 		return
-	Global.cleaned_solar_panel_ids.append(panel_id)
+	if powerwash_overlay != null:
+		return
+	open_powerwash_minigame(panel_id)
+
+
+func open_powerwash_minigame(panel_id: int) -> void:
+	if powerwash_overlay != null or Global.cleaned_solar_panel_ids.has(panel_id):
+		return
+	part3_dialogue_running = true
+	player.set_physics_process(false)
+
+	var pw := PowerWashMinigame.new()
+	powerwash_overlay = pw
+	add_child(pw)
+	pw.start_for_panel(panel_id)
+
+	pw.washed_progress.connect(func(pid: int, pct: float) -> void:
+		if solar_panels_material != null:
+			var param_name := "dust_top" if pid == 0 else "dust_bottom"
+			solar_panels_material.set_shader_parameter(param_name, clampf(1.0 - pct, 0.0, 1.0))
+	)
+
+	pw.cancelled.connect(func(pid: int) -> void:
+		if solar_panels_material != null and not Global.cleaned_solar_panel_ids.has(pid):
+			var param_name := "dust_top" if pid == 0 else "dust_bottom"
+			solar_panels_material.set_shader_parameter(param_name, 1.0 if Global.is_outpost_dusty() else 0.0)
+		if is_instance_valid(powerwash_overlay):
+			powerwash_overlay.queue_free()
+			powerwash_overlay = null
+		player.set_physics_process(true)
+		part3_dialogue_running = false
+	)
+
+	pw.completed.connect(func(pid: int) -> void:
+		if is_instance_valid(powerwash_overlay):
+			powerwash_overlay.queue_free()
+			powerwash_overlay = null
+		await complete_solar_panel_clean(pid)
+	)
+
+
+func complete_solar_panel_clean(panel_id: int) -> void:
+	if not Global.cleaned_solar_panel_ids.has(panel_id):
+		Global.cleaned_solar_panel_ids.append(panel_id)
 	_refresh_solar_panel_areas()
 	_tween_solar_panel_clean(panel_id)
-	_spawn_clean_flash(SOLAR_PANEL_POSITIONS[panel_id])
+	var local_pos := SOLAR_PANEL_POSITIONS[panel_id]
+	_spawn_clean_flash(local_pos)
+	var world_p := ($WorldObjects as Node2D).to_global(local_pos)
+	InteractiveAssets.play_sfx(self, "success", -8.0)
+	InteractiveAssets.spawn_ring_vfx(self, world_p, Color(0.55, 0.96, 1.0, 0.95), 44.0, 0.5)
+	InteractiveAssets.spawn_burst_vfx(self, world_p, Color(0.7, 0.96, 1.0, 0.95), 26, 86.0, 3.2)
+	InteractiveAssets.spawn_floating_text(self, world_p, "PANEL %d CLEANED!" % (panel_id + 1), Color(0.55, 0.98, 1.0))
 
 	if Global.all_solar_panels_cleaned():
 		part3_dialogue_running = true
@@ -548,6 +617,142 @@ func _on_solar_panel_area_entered(body: Node2D, panel_id: int) -> void:
 			_get_next_dirty_solar_panel()
 		)
 		dialogue.notify_item("Solar Panel Cleaned (%d/2)" % Global.cleaned_solar_panel_ids.size())
+		player.set_physics_process(true)
+		part3_dialogue_running = false
+
+
+func _setup_mars_assets() -> void:
+	interact_mgr = InteractiveAssets.create_interact_manager(
+		self,
+		player,
+		func() -> bool:
+			return (
+				dialogue.is_busy()
+				or part3_dialogue_running
+				or rocket_launch_running
+				or asset_dialogue_running
+				or powerwash_overlay != null
+			)
+	)
+
+	var rover := get_node_or_null("WorldObjects/Newmarsrover") as Node2D
+	if rover:
+		InteractiveAssets.attach_world_fx(self, rover.global_position, "mars_rover", Vector2(72, 64))
+		interact_mgr.add_interactable(
+			"mars_rover",
+			rover.global_position,
+			"Scan with Mars Rover",
+			func() -> void: _on_interact_mars_rover(rover.global_position),
+			86.0,
+			Vector2(78, 76)
+		)
+
+	var garage := get_node_or_null("WorldObjects/GarageBuilding") as Node2D
+	if garage:
+		var hangar_door_pos := garage.global_position + Vector2(0, -14)
+		var g_beacon := InteractiveAssets.attach_world_fx(self, hangar_door_pos, "building_beacon", Vector2(24, 24))
+		g_beacon.set_meta("dusty_mode", Global.is_outpost_dusty())
+		interact_mgr.add_interactable(
+			"eva_garage",
+			hangar_door_pos,
+			"Inspect EVA Garage",
+			func() -> void: _on_interact_garage(hangar_door_pos),
+			92.0,
+			Vector2(118, 64)
+		)
+
+	for door_path in [
+		"WorldObjects/MainBuilding/MainDoor",
+		"WorldObjects/SafetyBuilding/PersonalDoor",
+		"WorldObjects/PersonalBuilding/ExerciseDoor"
+	]:
+		var door := get_node_or_null(door_path) as Node2D
+		if door:
+			var b := InteractiveAssets.attach_world_fx(self, door.global_position + Vector2(26, -12), "building_beacon", Vector2(18, 18))
+			b.set_meta("dusty_mode", Global.is_outpost_dusty())
+
+	var panels := get_node_or_null("WorldObjects/Newsolarpanels") as Node2D
+	if panels:
+		solar_glint_fx = InteractiveAssets.attach_world_fx(self, panels.global_position, "solar_panel_glint", Vector2(96, 86))
+		_refresh_solar_panel_areas()
+		for idx in SOLAR_PANEL_POSITIONS.size():
+			var p_idx := idx
+			var p_world := ($WorldObjects as Node2D).to_global(SOLAR_PANEL_POSITIONS[idx])
+			interact_mgr.add_interactable(
+				"powerwash_panel_%d" % p_idx,
+				p_world,
+				"PowerWash Solar Panel %d/2" % (p_idx + 1),
+				func() -> void: open_powerwash_minigame(p_idx),
+				72.0,
+				Vector2(88, 42),
+				func() -> bool: return Global.lab_analysis_started and not Global.cleaned_solar_panel_ids.has(p_idx)
+			)
+		interact_mgr.add_interactable(
+			"solar_array_inspect",
+			panels.global_position,
+			"Inspect Solar Array Output",
+			func() -> void: _on_interact_solar_panels(panels.global_position),
+			92.0,
+			Vector2(102, 98),
+			func() -> bool: return not Global.lab_analysis_started or Global.all_solar_panels_cleaned()
+		)
+
+	var rocket_sprite := get_node_or_null("WorldObjects/Rocket/SymmetricalPixelArtRocketSpritesheet") as Node2D
+	if rocket_sprite:
+		rocket_cryo_fx = InteractiveAssets.attach_world_fx(self, rocket_sprite.global_position + Vector2(0, 26), "rocket_cryo", Vector2(68, 86))
+		rocket_cryo_fx.set_meta("rocket_ready", Global.part4_rocket_boarding_ready and not Global.part4_ending_reached)
+
+
+func _on_interact_mars_rover(pos: Vector2) -> void:
+	if asset_dialogue_running:
+		return
+	asset_dialogue_running = true
+	player.set_physics_process(false)
+	InteractiveAssets.play_sfx(self, "scan", -8.0)
+	InteractiveAssets.spawn_ring_vfx(self, pos, Color(0.42, 0.94, 1.0, 0.92), 48.0, 0.5)
+	InteractiveAssets.spawn_scan_beam_vfx(self, pos, Color(1.0, 0.35, 0.28, 0.9), 74.0, 68.0, 0.7)
+	InteractiveAssets.spawn_burst_vfx(self, pos, Color(0.95, 0.55, 0.32, 0.85), 16, 62.0, 2.8)
+	InteractiveAssets.spawn_floating_text(self, pos, "MASTCAM-Z: ONLINE", Color(0.55, 0.96, 1.0))
+	var anom := "Strange bioluminescent trace logged to SW quadrant." if Global.glow_spotted or Global.glowing_object_collected else "Perimeter geological sweep ongoing."
+	await dialogue.say(
+		"Autonomous Mars Rover",
+		"Wheel Traction: Nominal | Battery Reserve: 89%% | Basalt Cores Analyzed: %d/7 | %s" % [Global.rock_samples_collected, anom],
+		0.0
+	)
+	player.set_physics_process(true)
+	asset_dialogue_running = false
+
+
+func _on_interact_garage(pos: Vector2) -> void:
+	if asset_dialogue_running:
+		return
+	asset_dialogue_running = true
+	player.set_physics_process(false)
+	InteractiveAssets.play_sfx(self, "interact", -8.0)
+	InteractiveAssets.spawn_ring_vfx(self, pos, Color(1.0, 0.76, 0.3, 0.9), 44.0, 0.45)
+	InteractiveAssets.spawn_floating_text(self, pos, "BAY AIRLOCK: SEALED", Color(1.0, 0.85, 0.4))
+	var dust_note := "External dust seal engaged due to storm." if Global.is_outpost_dusty() else "Standby for rover battery docking."
+	await dialogue.say("EVA Garage & Hangar Bay", "Pressurized maintenance bay holding spare rover mesh wheels, nitrogen purge cylinders, and high-pressure powerwasher gear. %s" % dust_note, 0.0)
+	player.set_physics_process(true)
+	asset_dialogue_running = false
+
+
+func _on_interact_solar_panels(pos: Vector2) -> void:
+	if asset_dialogue_running:
+		return
+	asset_dialogue_running = true
+	player.set_physics_process(false)
+	InteractiveAssets.play_sfx(self, "scan", -8.0)
+	InteractiveAssets.spawn_ring_vfx(self, pos, Color(0.5, 0.95, 1.0, 0.9), 48.0, 0.45)
+	var msg := (
+		"Photovoltaic Arrays washed clean! Generating 100% power output (8.4 kW)."
+		if Global.all_solar_panels_cleaned()
+		else "Photovoltaic Arrays generating baseline power (8.2 kW). Regular dust cleaning keeps life-support nominal."
+	)
+	InteractiveAssets.spawn_floating_text(self, pos, "SOLAR: 8.4 KW" if Global.all_solar_panels_cleaned() else "SOLAR: NOMINAL", Color(0.6, 0.98, 1.0))
+	await dialogue.say("Mars Solar Farm", msg, 0.0)
+	player.set_physics_process(true)
+	asset_dialogue_running = false
 
 
 func _tween_solar_panel_clean(panel_id: int) -> void:
@@ -633,6 +838,8 @@ func _play_rocket_launch_cutscene() -> void:
 	player.set_physics_process(false)
 	dialogue.set_hud_visible(false)
 	dialogue.clear_radiation_warning()
+	if is_instance_valid(rocket_cryo_fx):
+		rocket_cryo_fx.visible = false
 	player.z_index = 10
 
 	await _walk_player_to_rocket_hatch()
