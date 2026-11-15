@@ -4,6 +4,7 @@ extends Control
 @onready var male_button: TextureButton = $HBoxContainer/MaleButton
 @onready var female_button: TextureButton = $HBoxContainer/FemaleButton
 @onready var middle_character: AnimatedSprite2D = $MiddleCharacter
+@onready var back_button: TextureButton = $backButton
 
 # Name popup nodes
 @onready var name_panel: Control = $NamePanel
@@ -11,6 +12,7 @@ extends Control
 @onready var enter_name_button: Button = $NamePanel/EnterNameButton
 
 # Next scene
+const MAIN_MENU_SCENE = "res://main_menu.tscn"
 const NEXT_SCENE = "res://Scenes/Room_1.tscn"
 
 var is_animating = false
@@ -30,6 +32,14 @@ func _ready():
 
 	# Connect name button
 	enter_name_button.pressed.connect(_on_enter_name_pressed)
+
+	# Connect back button to return to main menu
+	if back_button:
+		back_button.pressed.connect(_on_back_pressed)
+
+
+func _on_back_pressed():
+	get_tree().change_scene_to_file(MAIN_MENU_SCENE)
 
 
 func _on_male_pressed():
