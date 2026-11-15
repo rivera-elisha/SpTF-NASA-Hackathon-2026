@@ -27,8 +27,11 @@ func _ready() -> void:
 		dialogue.clear_sandstorm()
 		if $RadiationShelterArea.overlaps_body(player):
 			Global.try_enter_radiation_shelter()
-	elif Global.comms_part3_arrived:
-		dialogue.set_mission("Communications Room reached. Standby for incoming message.")
+	elif Global.part4_rocket_boarding_ready and not Global.part4_ending_reached:
+		dialogue.set_mission("Go outside to the rocket ship cockpit.", $ExitMainDoor)
+	elif Global.comms_part3_arrived and Global.part4_choice.is_empty():
+		dialogue.set_mission("Use the Communications Room terminal.", $CommunicationsArea)
+		$CommunicationsArea.body_entered.connect(_on_communications_part3_entered)
 	elif Global.comms_static_part3_pending or Global.discovery_named:
 		dialogue.set_mission("Go to the Communication Room.", $CommunicationsArea)
 		$CommunicationsArea.body_entered.connect(_on_communications_part3_entered)
@@ -130,18 +133,70 @@ func _on_greenhouse_area_entered(body: Node2D) -> void:
 
 
 func _on_communications_part3_entered(body: Node2D) -> void:
-	if body != player or comms_part3_running or Global.comms_part3_arrived:
+	if (
+		body != player
+		or comms_part3_running
+		or Global.mission_complete
+		or not Global.part4_choice.is_empty()
+	):
 		return
 	if not Global.comms_static_part3_pending and not Global.discovery_named:
 		return
 	comms_part3_running = true
 	Global.comms_part3_arrived = true
 	player.set_physics_process(false)
+	await _run_part4_communications()
+
+
+func _run_part4_communications() -> void:
+	var speaker: String = Global.get_player_display_name()
 	dialogue.play_static_sound()
 	await dialogue.say(
-		"Communications",
-		"(Static sound) Static crackles across the communications terminal..."
+		speaker,
+		"I have good news! I can now go back to Earth after my personal mission has been accomplished."
 	)
-	dialogue.set_mission("Communications Room reached. Standby for incoming message.")
-	player.set_physics_process(true)
+	dialogue.play_static_sound()
+	await dialogue.say(
+		"Astronaut HR",
+		"Commander, we had data here on Earth that there would be a disastrous— (static: communication delay due to dust storms)."
+	)
+	var leave_mars: bool = await dialogue.choose(
+		"Mission",
+		"You need to choose: fix the Communications Room to know what Astronaut HR is about to say, or go to the cockpit and leave Mars immediately.",
+		"Leave Mars",
+		"Fix Communications Room",
+		true
+	)
+	if leave_mars:
+		Global.part4_choice = "leave_mars"
+		Global.part4_rocket_boarding_ready = true
+		await dialogue.say(speaker, "I'm going to the cockpit to leave Mars immediately.")
+		dialogue.set_mission("Go outside to the rocket ship cockpit.", $ExitMainDoor)
+		await dialogue.say("Mission", "Proceed outside to the rocket ship and leave Mars.")
+		player.set_physics_process(true)
+		comms_part3_running = false
+		return
+
+	Global.part4_choice = "fix_comms"
+	Global.part4_ending_reached = true
+	Global.mission_complete = true
+	dialogue.set_mission("Fix the Communications Room.")
+	dialogue.play_static_sound(0.8)
+	await dialogue.say("Communications", "Repairing communications relay and filtering dust storm interference...", 0.0)
+	await get_tree().create_timer(1.5).timeout
+	dialogue.hide_dialogue()
+	await dialogue.say("Astronaut HR", "It's better for you to stay there for a while.")
+	await dialogue.say(speaker, "What do you mean?")
+	await dialogue.say(
+		"Astronaut HR",
+		"You’re already on Mars, where it's peaceful. Why would you want to go back here?"
+	)
+	await dialogue.say(speaker, "…")
+	await dialogue.say(speaker, "BRING ME BACK!")
+	await dialogue.show_static_screen(2.0)
 	comms_part3_running = false
+	await dialogue.show_end_credits(
+		"ENDING 1 OF 2 — STATIC ON MARS",
+		"You repaired the Communications Room, only to be left behind in silence.",
+		"Outcome: Remaining on Mars Outpost"
+	)

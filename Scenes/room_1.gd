@@ -39,6 +39,8 @@ func _ready() -> void:
 		$EquipmentArea.body_entered.connect(_on_equipment_area_body_entered)
 	if Global.mission_complete:
 		dialogue.set_mission("Mission complete.", null)
+	elif Global.part4_rocket_boarding_ready and not Global.part4_ending_reached:
+		dialogue.set_mission("Return outside and board the rocket ship.", $ExitArea)
 	elif Global.comms_static_part3_pending and not Global.comms_part3_arrived:
 		dialogue.set_mission("Go to the Communication Room.", $ExitArea)
 	elif Global.all_solar_panels_cleaned() and not Global.discovery_named:

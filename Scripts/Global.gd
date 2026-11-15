@@ -38,6 +38,9 @@ var discovery_named: bool = false
 var discovery_name: String = ""
 var comms_static_part3_pending: bool = false
 var comms_part3_arrived: bool = false
+var part4_choice: String = ""
+var part4_rocket_boarding_ready: bool = false
+var part4_ending_reached: bool = false
 var mission_complete: bool = false
 var life_support_readings: Dictionary = {}
 var radiation_deadline_msec: int = 0
@@ -73,6 +76,9 @@ func reset_mission() -> void:
 	discovery_name = ""
 	comms_static_part3_pending = false
 	comms_part3_arrived = false
+	part4_choice = ""
+	part4_rocket_boarding_ready = false
+	part4_ending_reached = false
 	mission_complete = false
 	life_support_readings.clear()
 	radiation_deadline_msec = 0

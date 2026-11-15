@@ -17,7 +17,9 @@ func _ready() -> void:
 		dialogue.set_mission("Mission complete.")
 		return
 	if Global.exercise_prompt_completed:
-		if Global.comms_static_part3_pending and not Global.comms_part3_arrived:
+		if Global.part4_rocket_boarding_ready and not Global.part4_ending_reached:
+			dialogue.set_mission("Return outside and board the rocket ship.", $ExitMainDoor)
+		elif Global.comms_static_part3_pending and not Global.comms_part3_arrived:
 			dialogue.set_mission("Return outside and go to the Communication Room.", $ExitMainDoor)
 		elif Global.all_solar_panels_cleaned() and not Global.discovery_named:
 			dialogue.set_mission("Return outside and check the Main Laboratory Room.", $ExitMainDoor)

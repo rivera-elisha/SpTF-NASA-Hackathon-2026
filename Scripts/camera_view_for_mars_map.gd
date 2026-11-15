@@ -15,8 +15,19 @@ var solar_panel_areas: Array[Area2D] = []
 var dust_materials: Array[ShaderMaterial] = []
 var solar_panels_material: ShaderMaterial
 var part3_dialogue_running := false
+var rocket_boarding_area: Area2D
+var rocket_launch_running := false
 
 const GLOWING_OBJECT_POSITION := Vector2(-220, 230)
+const ROCKET_BOARDING_POSITION := Vector2(330, 152)
+const ROCKET_HATCH_POSITION := Vector2(330, 54)
+const AWARD_CEREMONY_SCENE := "res://Scenes/award_ceremony.tscn"
+const ROCKET_ANIMATION_PATHS: Array[String] = [
+	"res://Assets/rocket animations/Pixel Rocket with Smaller Flames.png",
+	"res://Assets/rocket animations/Rocket With Flickering Exhaust Flames.png",
+	"res://Assets/rocket animations/Detailed Orange-and-White Rocket Vector.png",
+	"res://Assets/rocket animations/Dynamic Pixel Rocket with Segmented Flames.png"
+]
 const SOLAR_PANEL_POSITIONS: Array[Vector2] = [
 	Vector2(537, -162),
 	Vector2(537, -108)
@@ -94,6 +105,7 @@ func _ready() -> void:
 	_create_rock_samples()
 	_create_glowing_object()
 	_create_solar_panel_areas()
+	_create_rocket_boarding_area()
 	dialogue = DialogueController.new()
 	add_child(dialogue)
 	Global.radiation_warning_started.connect(_on_radiation_warning_started)
@@ -102,11 +114,14 @@ func _ready() -> void:
 	_refresh_rock_samples()
 	_refresh_glowing_object()
 	_refresh_solar_panel_areas()
+	_refresh_rocket_boarding_area()
 	if Global.mission_complete:
 		dialogue.set_mission("Mission complete.")
 		return
-	if Global.comms_part3_arrived:
-		dialogue.set_mission("Communications Room reached. Standby for incoming message.")
+	if Global.part4_rocket_boarding_ready and not Global.part4_ending_reached:
+		dialogue.set_mission("Board the rocket ship to leave Mars.", rocket_boarding_area)
+	elif Global.comms_part3_arrived and Global.part4_choice.is_empty():
+		dialogue.set_mission("Go to the Communication Room.", $WorldObjects/SafetyBuilding/PersonalDoor)
 	elif Global.comms_static_part3_pending or Global.discovery_named:
 		dialogue.set_mission("Go to the Communication Room.", $WorldObjects/SafetyBuilding/PersonalDoor)
 	elif Global.all_solar_panels_cleaned() and not Global.discovery_named:
@@ -324,6 +339,13 @@ func _process(delta: float) -> void:
 			inner_ring.scale = Vector2.ONE * s2
 		if core != null:
 			core.rotation = glowing_pulse_elapsed * 0.9
+	if is_instance_valid(rocket_boarding_area) and rocket_boarding_area.visible:
+		glowing_pulse_elapsed += delta
+		var beacon := rocket_boarding_area.get_node_or_null("BoardingBeacon") as Polygon2D
+		if beacon != null:
+			var pulse := 0.88 + 0.16 * sin(glowing_pulse_elapsed * 4.5)
+			beacon.scale = Vector2.ONE * pulse
+			beacon.color.a = 0.28 + 0.16 * sin(glowing_pulse_elapsed * 4.5)
 
 
 func _setup_mars_dust_materials() -> void:
@@ -558,3 +580,249 @@ func _spawn_clean_flash(world_pos: Vector2) -> void:
 	await tween.finished
 	if is_instance_valid(sparkle):
 		sparkle.queue_free()
+
+
+func _create_rocket_boarding_area() -> void:
+	rocket_boarding_area = Area2D.new()
+	rocket_boarding_area.name = "RocketBoardingArea"
+	rocket_boarding_area.position = ROCKET_BOARDING_POSITION
+	rocket_boarding_area.monitoring = false
+	rocket_boarding_area.visible = false
+
+	var collision := CollisionShape2D.new()
+	var shape := RectangleShape2D.new()
+	shape.size = Vector2(150, 88)
+	collision.shape = shape
+	rocket_boarding_area.add_child(collision)
+
+	var beacon := Polygon2D.new()
+	beacon.name = "BoardingBeacon"
+	beacon.polygon = PackedVector2Array([
+		Vector2(-32, 0), Vector2(0, -18), Vector2(32, 0), Vector2(0, 18)
+	])
+	beacon.color = Color(0.45, 0.92, 1.0, 0.36)
+	rocket_boarding_area.add_child(beacon)
+
+	$WorldObjects.add_child(rocket_boarding_area)
+	rocket_boarding_area.body_entered.connect(_on_rocket_boarding_area_entered)
+
+
+func _refresh_rocket_boarding_area() -> void:
+	if not is_instance_valid(rocket_boarding_area):
+		return
+	var active := Global.part4_rocket_boarding_ready and not Global.part4_ending_reached and not rocket_launch_running
+	rocket_boarding_area.visible = active
+	rocket_boarding_area.set_deferred("monitoring", active)
+
+
+func _on_rocket_boarding_area_entered(body: Node2D) -> void:
+	if (
+		body != player
+		or rocket_launch_running
+		or not Global.part4_rocket_boarding_ready
+		or Global.part4_ending_reached
+	):
+		return
+	rocket_launch_running = true
+	Global.part4_ending_reached = true
+	_refresh_rocket_boarding_area()
+	await _play_rocket_launch_cutscene()
+
+
+func _play_rocket_launch_cutscene() -> void:
+	player.set_physics_process(false)
+	dialogue.set_hud_visible(false)
+	dialogue.clear_radiation_warning()
+	player.z_index = 10
+
+	await _walk_player_to_rocket_hatch()
+
+	var rocket_sprite := $WorldObjects/Rocket/SymmetricalPixelArtRocketSpritesheet as Sprite2D
+	if rocket_sprite == null:
+		await dialogue.fade_to_black(0.8)
+		get_tree().change_scene_to_file(AWARD_CEREMONY_SCENE)
+		return
+	rocket_sprite.z_index = 12
+
+	var rocket_frames: Array[Texture2D] = []
+	for path in ROCKET_ANIMATION_PATHS:
+		var tex := load(path) as Texture2D
+		if tex != null:
+			rocket_frames.append(tex)
+
+	var pad_dust := _create_launch_particles(
+		"PadDustParticles",
+		Vector2(330, 126),
+		120.0,
+		45.0,
+		125.0,
+		6.0,
+		15.0,
+		Color("e39660"),
+		Color("9f4722", 0.0),
+		Vector2(0, -16),
+		46,
+		1.05
+	)
+	var exhaust_smoke := _create_launch_particles(
+		"RocketExhaustSmoke",
+		rocket_sprite.position + Vector2(0, 124),
+		46.0,
+		70.0,
+		155.0,
+		7.0,
+		17.0,
+		Color("fff2cc"),
+		Color("b8b8c2", 0.0),
+		Vector2(0, 42),
+		56,
+		0.85
+	)
+	$WorldObjects/Rocket.add_child(pad_dust)
+	$WorldObjects/Rocket.add_child(exhaust_smoke)
+	pad_dust.emitting = true
+	exhaust_smoke.emitting = true
+
+	dialogue.play_rocket_rumble(4.6)
+
+	# Clear lingering surface dust off rocket hull as thrusters ignite
+	var rocket_mat := rocket_sprite.material as ShaderMaterial
+	if rocket_mat != null:
+		var dust_clear := create_tween()
+		dust_clear.tween_method(
+			func(v: float) -> void:
+				rocket_mat.set_shader_parameter("dust_top", v),
+			rocket_mat.get_shader_parameter("dust_top"),
+			0.0,
+			0.45
+		)
+
+	var base_pos := rocket_sprite.position
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 9091
+
+	# Phase 1: Ignition rumble & rocket shaking on the launchpad
+	var ignition_elapsed := 0.0
+	var ignition_duration := 1.4
+	var frame_timer := 0.0
+	var frame_idx := 0
+	while ignition_elapsed < ignition_duration:
+		await get_tree().process_frame
+		var dt := get_process_delta_time()
+		ignition_elapsed += dt
+		frame_timer += dt
+		if not rocket_frames.is_empty() and frame_timer >= 0.085:
+			frame_timer = 0.0
+			frame_idx = (frame_idx + 1) % mini(2, rocket_frames.size())
+			rocket_sprite.texture = rocket_frames[frame_idx]
+		var shake_strength := lerpf(1.2, 3.6, minf(1.0, ignition_elapsed / ignition_duration))
+		var lift_nudge := maxf(0.0, ignition_elapsed - 0.85) * 24.0
+		rocket_sprite.position = base_pos + Vector2(
+			rng.randf_range(-shake_strength, shake_strength),
+			-lift_nudge + rng.randf_range(-shake_strength * 0.7, shake_strength * 0.7)
+		)
+		camera.offset = Vector2(
+			rng.randf_range(-shake_strength * 0.75, shake_strength * 0.75),
+			rng.randf_range(-shake_strength * 0.75, shake_strength * 0.75)
+		)
+		exhaust_smoke.position = rocket_sprite.position + Vector2(0, 124)
+
+	# Phase 2: Slow accelerating liftoff until completely out of camera view
+	var start_y := rocket_sprite.position.y
+	var target_out_of_view_y := -580.0
+	var climb_elapsed := 0.0
+	var climb_duration := 3.15
+	while climb_elapsed < climb_duration:
+		await get_tree().process_frame
+		var dt := get_process_delta_time()
+		climb_elapsed += dt
+		frame_timer += dt
+		if rocket_frames.size() >= 2 and frame_timer >= 0.075:
+			frame_timer = 0.0
+			var thrust_index := 1 + ((frame_idx + 1) % (rocket_frames.size() - 1))
+			frame_idx = thrust_index
+			rocket_sprite.texture = rocket_frames[thrust_index]
+		var progress := clampf(climb_elapsed / climb_duration, 0.0, 1.0)
+		var eased_y := lerpf(start_y, target_out_of_view_y, progress * progress * progress * 0.55 + progress * progress * 0.45)
+		var shake := lerpf(3.0, 0.4, progress)
+		rocket_sprite.position = Vector2(
+			base_pos.x + rng.randf_range(-shake, shake),
+			eased_y
+		)
+		var cam_shake := lerpf(2.4, 0.0, progress)
+		camera.offset = Vector2(
+			rng.randf_range(-cam_shake, cam_shake),
+			rng.randf_range(-cam_shake, cam_shake)
+		)
+		exhaust_smoke.position = rocket_sprite.position + Vector2(0, 126)
+		if progress > 0.48:
+			pad_dust.emitting = false
+
+	rocket_sprite.position.y = target_out_of_view_y
+	rocket_sprite.visible = false
+	camera.offset = Vector2.ZERO
+	exhaust_smoke.emitting = false
+	pad_dust.emitting = false
+
+	await dialogue.fade_to_black(1.0)
+	await get_tree().create_timer(0.35).timeout
+	get_tree().change_scene_to_file(AWARD_CEREMONY_SCENE)
+
+
+func _walk_player_to_rocket_hatch() -> void:
+	var ramp_entry := Vector2(ROCKET_HATCH_POSITION.x, ROCKET_BOARDING_POSITION.y)
+	if absf(player.position.x - ramp_entry.x) > 4.0:
+		player.anim.play("walk_right" if ramp_entry.x > player.position.x else "walk_left")
+		var h_dist := absf(ramp_entry.x - player.position.x)
+		var h_tween := create_tween()
+		h_tween.tween_property(player, "position:x", ramp_entry.x, clampf(h_dist / 120.0, 0.12, 0.55))
+		await h_tween.finished
+
+	player.anim.play("walk_up")
+	var v_dist := player.position.distance_to(ROCKET_HATCH_POSITION)
+	var v_tween := create_tween()
+	v_tween.tween_property(player, "position", ROCKET_HATCH_POSITION, clampf(v_dist / 110.0, 0.35, 1.0))
+	await v_tween.finished
+
+	player.anim.play("idle_up")
+	var enter_tween := create_tween()
+	enter_tween.tween_property(player, "scale", Vector2(0.55, 0.55), 0.24)
+	enter_tween.parallel().tween_property(player, "modulate:a", 0.0, 0.24)
+	await enter_tween.finished
+	player.visible = false
+
+
+func _create_launch_particles(
+	node_name: String,
+	emit_pos: Vector2,
+	spread_deg: float,
+	vel_min: float,
+	vel_max: float,
+	scale_min: float,
+	scale_max: float,
+	start_color: Color,
+	end_color: Color,
+	particle_gravity: Vector2,
+	particle_amount: int,
+	particle_lifetime: float
+) -> CPUParticles2D:
+	var particles := CPUParticles2D.new()
+	particles.name = node_name
+	particles.position = emit_pos
+	particles.z_index = 6
+	particles.emitting = false
+	particles.amount = particle_amount
+	particles.lifetime = particle_lifetime
+	particles.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
+	particles.emission_rect_extents = Vector2(26, 6)
+	particles.direction = Vector2(0, 1)
+	particles.spread = spread_deg
+	particles.initial_velocity_min = vel_min
+	particles.initial_velocity_max = vel_max
+	particles.gravity = particle_gravity
+	particles.scale_amount_min = scale_min
+	particles.scale_amount_max = scale_max
+	var gradient := Gradient.new()
+	gradient.colors = PackedColorArray([start_color, end_color])
+	particles.color_ramp = gradient
+	return particles
