@@ -5,16 +5,31 @@ extends Control
 @onready var female_button: TextureButton = $HBoxContainer/FemaleButton
 @onready var middle_character: AnimatedSprite2D = $MiddleCharacter
 
+# Name popup nodes
+@onready var name_panel: Control = $NamePanel
+@onready var name_line_edit: LineEdit = $NamePanel/NameLineEdit
+@onready var enter_name_button: Button = $NamePanel/EnterNameButton
+
+# Next scene
+const NEXT_SCENE = "res://Scenes/Room_1.tscn"
+
 var is_animating = false
+
 
 func _ready():
 	# Show and continuously rotate the center character
 	middle_character.visible = true
 	middle_character.play()
 
-	# Connect buttons
+	# Hide name popup when the scene starts
+	name_panel.hide()
+
+	# Connect gender buttons
 	male_button.pressed.connect(_on_male_pressed)
 	female_button.pressed.connect(_on_female_pressed)
+
+	# Connect name button
+	enter_name_button.pressed.connect(_on_enter_name_pressed)
 
 
 func _on_male_pressed():
@@ -47,12 +62,12 @@ func select_gender(selected_button: TextureButton, gender: String):
 	placeholder.custom_minimum_size = selected_button.size
 	placeholder.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 
-# Insert placeholder where the selected button was
+	# Insert placeholder where the selected button was
 	var button_index = selected_button.get_index()
 	$HBoxContainer.add_child(placeholder)
 	$HBoxContainer.move_child(placeholder, button_index)
 
-# Move selected button out of HBoxContainer
+	# Move selected button out of HBoxContainer
 	selected_button.reparent(self, true)
 
 	# Move selected button toward the center
@@ -65,16 +80,45 @@ func select_gender(selected_button: TextureButton, gender: String):
 		1.0
 	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
-	# WAIT until the button reaches the center
+	# Wait until the button reaches the center
 	await tween.finished
 
-	# NOW stop the center character's rotation
+	# Stop the center character's animation
 	middle_character.stop()
 
-	# Hide the rotating center character
+	# Keep your original character behavior
 	middle_character.visible = true
-
-	# Keep the selected character at the center
 	selected_button.visible = false
 
 	is_animating = false
+
+	# Show name popup
+	name_panel.show()
+	name_line_edit.grab_focus()
+
+
+# Handle player name input
+func _on_enter_name_pressed():
+
+	var player_name = name_line_edit.text.strip_edges()
+
+	# Check if name is empty
+	if player_name.is_empty():
+		print("Please enter your character name!")
+		name_line_edit.grab_focus()
+		return
+
+	# Save player information
+	Global.player_name = player_name
+
+	print("Player Name: ", Global.player_name)
+	print("Player Gender: ", Global.player_gender)
+
+	# Change to next scene
+	print("Loading Room_1...")
+
+	var error = get_tree().change_scene_to_file(NEXT_SCENE)
+
+	if error != OK:
+		print("ERROR: Could not load scene!")
+		print("Check your scene path: ", NEXT_SCENE)

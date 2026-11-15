@@ -14,6 +14,19 @@
 [ext_resource type="Texture2D" uid="uid://cbo0xsejimigj" path="res://Assets/food shelf.png" id="12_ib6vf"]
 [ext_resource type="Texture2D" uid="uid://g2ton0smru5h" path="res://Assets/MSG (Microgravity Science Glovebox).png" id="13_iw4c1"]
 [ext_resource type="Texture2D" uid="uid://dck4gswb8piqy" path="res://Assets/CIR (Combustion Integrated Rack).png" id="14_awy1y"]
+[ext_resource type="PackedScene" uid="uid://8ipplarxlcr8" path="res://Scenes/character_body_2d.tscn" id="15_3mqva"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3em2h"]
+size = Vector2(3178.0774, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lugb0"]
+size = Vector2(1100.1458, 20.2182)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3cexa"]
+size = Vector2(61.395287, 1544.6504)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g5xyo"]
+size = Vector2(87.33104, 908.5121)
 
 [node name="Room2" type="Node2D" unique_id=438353697]
 position = Vector2(0, -3)
@@ -93,3 +106,39 @@ rotation = 3.1275055
 scale = Vector2(0.26323095, 0.27815583)
 skew = 0.015794396
 texture = ExtResource("14_awy1y")
+
+[node name="CharacterBody2d" parent="." unique_id=1825796566 instance=ExtResource("15_3mqva")]
+position = Vector2(582, 603.43945)
+
+[node name="WorldCollisionsNode2D" type="Node2D" parent="." unique_id=281704651]
+position = Vector2(577.00006, 322.99994)
+scale = Vector2(0.75574476, 0.7261698)
+
+[node name="TopWall" type="StaticBody2D" parent="WorldCollisionsNode2D" unique_id=437315105]
+position = Vector2(-3.969675, 44.817875)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldCollisionsNode2D/TopWall" unique_id=1936841979]
+position = Vector2(1.3231394, -470.64032)
+scale = Vector2(0.48255172, -2.780661)
+shape = SubResource("RectangleShape2D_3em2h")
+
+[node name="BottomWall" type="StaticBody2D" parent="WorldCollisionsNode2D" unique_id=1090925105]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldCollisionsNode2D/BottomWall" unique_id=1008257408]
+position = Vector2(-13.23204, 422.91125)
+scale = Vector2(1.3720515, -2.9282112)
+shape = SubResource("RectangleShape2D_lugb0")
+
+[node name="LeftWall" type="StaticBody2D" parent="WorldCollisionsNode2D" unique_id=1013215848]
+scale = Vector2(0.9867067, 0.95732236)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldCollisionsNode2D/LeftWall" unique_id=726762119]
+position = Vector2(-737.683, 9.116669)
+scale = Vector2(1.1422611, 0.6062169)
+shape = SubResource("RectangleShape2D_3cexa")
+
+[node name="RightWall" type="StaticBody2D" parent="WorldCollisionsNode2D" unique_id=37427992]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldCollisionsNode2D/RightWall" unique_id=1481169134]
+position = Vector2(717.17334, 17.616913)
+shape = SubResource("RectangleShape2D_g5xyo")

@@ -5,6 +5,19 @@
 [ext_resource type="Texture2D" uid="uid://do2co1ic8cw12" path="res://Assets/random.png" id="3_n1idd"]
 [ext_resource type="Texture2D" uid="uid://c764mxn8taw18" path="res://Assets/monitor.png" id="4_eaj6e"]
 [ext_resource type="Texture2D" uid="uid://dt4olvs2cghgw" path="res://Assets/telephone.png" id="5_b3qkb"]
+[ext_resource type="PackedScene" uid="uid://8ipplarxlcr8" path="res://Scenes/character_body_2d.tscn" id="6_eaj6e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3em2h"]
+size = Vector2(1161.4463, 85.17975)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lugb0"]
+size = Vector2(1162.4563, 32.938522)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3cexa"]
+size = Vector2(105.101, 38.885937)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g5xyo"]
+size = Vector2(15.784563, 36.711388)
 
 [node name="Room3" type="Node2D" unique_id=528259187]
 position = Vector2(-4.9999995, 4.9999995)
@@ -39,3 +52,37 @@ position = Vector2(936.2267, 610.5816)
 rotation = 6.2711267
 scale = Vector2(0.06274134, -0.03250428)
 texture = ExtResource("5_b3qkb")
+
+[node name="CharacterBody2d" parent="." unique_id=1825796566 instance=ExtResource("6_eaj6e")]
+position = Vector2(596.8824, 606.5178)
+
+[node name="WorldCollisionsNode2D" type="Node2D" parent="." unique_id=1988626252]
+position = Vector2(596.88226, 606.51776)
+scale = Vector2(0.9999999, 0.99999994)
+
+[node name="TopWall" type="StaticBody2D" parent="WorldCollisionsNode2D" unique_id=199313653]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldCollisionsNode2D/TopWall" unique_id=1447433398]
+position = Vector2(-8.079474, -601.4382)
+scale = Vector2(1, 0.5376196)
+shape = SubResource("RectangleShape2D_3em2h")
+
+[node name="BottomWall" type="StaticBody2D" parent="WorldCollisionsNode2D" unique_id=1018891819]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldCollisionsNode2D/BottomWall" unique_id=2132584394]
+position = Vector2(-2.0198975, 35.343872)
+shape = SubResource("RectangleShape2D_lugb0")
+
+[node name="LeftWall" type="StaticBody2D" parent="WorldCollisionsNode2D" unique_id=1767493384]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldCollisionsNode2D/LeftWall" unique_id=439643818]
+position = Vector2(-565.5737, -285.47986)
+scale = Vector2(0.6875488, 17.07392)
+shape = SubResource("RectangleShape2D_3cexa")
+
+[node name="RightWall" type="StaticBody2D" parent="WorldCollisionsNode2D" unique_id=986675969]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldCollisionsNode2D/RightWall" unique_id=1188942352]
+position = Vector2(572.13873, -281.41617)
+scale = Vector2(6.3343787, -17.932604)
+shape = SubResource("RectangleShape2D_g5xyo")

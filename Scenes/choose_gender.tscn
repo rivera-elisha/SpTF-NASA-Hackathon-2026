@@ -1,19 +1,15 @@
 [gd_scene format=3 uid="uid://c5bca10ose5ds"]
 
 [ext_resource type="Script" uid="uid://ch6a0h38d3yyq" path="res://Scripts/choose_gender.gd" id="1_7vupr"]
-[ext_resource type="Texture2D" uid="uid://ci3k37xnar2he" path="res://assets/char select bg.png" id="2_8aftn"]
+[ext_resource type="Texture2D" uid="uid://ci3k37xnar2he" path="res://Assets/char select bg.png" id="2_8aftn"]
 [ext_resource type="Texture2D" uid="uid://cbpyg65fu2pjf" path="res://Animations/New Piskel-1.png (1).png" id="2_hirhn"]
 [ext_resource type="Texture2D" uid="uid://b4gdj86kjuv3r" path="res://Animations/New Piskel-2.png (1).png" id="3_8aftn"]
 [ext_resource type="FontFile" uid="uid://b1n8h4fuvo10d" path="res://fonts/Pixeltype.ttf" id="3_yxnfg"]
+[ext_resource type="Texture2D" uid="uid://qegasfe5mifs" path="res://Assets/male astro.png" id="4_bcw0f"]
 [ext_resource type="Texture2D" uid="uid://bxk1bsxtm7gf" path="res://Animations/New Piskel-3.png.png" id="4_yxnfg"]
 [ext_resource type="Texture2D" uid="uid://b8jpbektip23n" path="res://Animations/New Piskel-4.png.png" id="5_bcw0f"]
+[ext_resource type="Texture2D" uid="uid://bmooh4pk613wa" path="res://Assets/female astro.png" id="5_h1oeh"]
 [ext_resource type="Texture2D" uid="uid://cwggklc0hu6ey" path="res://Buttons/back-button.png" id="9_8aftn"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r8cau"]
-load_path = "res://.godot/imported/male astro.png-5dccf98499326996eedd0583a448c841.ctex"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gkoyp"]
-load_path = "res://.godot/imported/female astro.png-4aa3ce3ec42761b215abbe00b6ac081f.ctex"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3cexa"]
 animations = [{
@@ -100,10 +96,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -567.0
-offset_top = -239.00002
-offset_right = 1188.0
-offset_bottom = 260.99994
+offset_left = -548.0
+offset_top = -254.71
+offset_right = 1207.0
+offset_bottom = 245.28993
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.64417225, 1.0310386)
@@ -112,14 +108,14 @@ theme_override_constants/separation = 555
 [node name="MaleButton" type="TextureButton" parent="HBoxContainer" unique_id=2038108338]
 custom_minimum_size = Vector2(600, 250)
 layout_mode = 2
-texture_normal = SubResource("CompressedTexture2D_r8cau")
+texture_normal = ExtResource("4_bcw0f")
 ignore_texture_size = true
 stretch_mode = 5
 
 [node name="FemaleButton" type="TextureButton" parent="HBoxContainer" unique_id=1285138167]
 custom_minimum_size = Vector2(600, 250)
 layout_mode = 2
-texture_normal = SubResource("CompressedTexture2D_gkoyp")
+texture_normal = ExtResource("5_h1oeh")
 ignore_texture_size = true
 stretch_mode = 5
 
@@ -146,17 +142,15 @@ scale = Vector2(0.18825445, 0.11752678)
 texture_normal = ExtResource("9_8aftn")
 
 [node name="NamePanel" type="Panel" parent="." unique_id=2117441373]
-visible = false
 layout_mode = 0
-offset_left = 275.0
-offset_top = -179.00002
-offset_right = 315.0
-offset_bottom = -139.00002
-scale = Vector2(15.697996, 9.299721)
+offset_left = 228.0
+offset_top = -144.0
+offset_right = 268.0
+offset_bottom = -104.0
+scale = Vector2(18.192934, 7.042225)
 theme_override_styles/panel = SubResource("StyleBoxFlat_g5xyo")
 
 [node name="EnterNameLabel" type="Label" parent="NamePanel" unique_id=1532061056]
-visible = false
 layout_mode = 0
 offset_left = 7.9628
 offset_top = -2.3656611
@@ -166,16 +160,18 @@ scale = Vector2(0.27641094, 0.75716245)
 text = "Enter Name"
 
 [node name="NameLineEdit" type="LineEdit" parent="NamePanel" unique_id=1967301367]
-visible = false
 layout_mode = 0
 offset_left = 5.60581
 offset_top = 14.193976
 offset_right = 74.10581
 offset_bottom = 45.193977
 scale = Vector2(0.41863605, 0.40833288)
+alignment = 1
+max_length = 12
+expand_to_text_length = true
+caret_blink = true
 
-[node name="enter_nameButton" type="Button" parent="NamePanel" unique_id=955669837]
-visible = false
+[node name="EnterNameButton" type="Button" parent="NamePanel" unique_id=955669837]
 layout_mode = 0
 offset_left = 11.912349
 offset_top = 28.495478
