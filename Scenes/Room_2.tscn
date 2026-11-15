@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bqd2y5ne6brqe" path="res://Assets/food cabinet.png" id="11_2sn6j"]
 [ext_resource type="Texture2D" uid="uid://cbo0xsejimigj" path="res://Assets/food shelf.png" id="12_ib6vf"]
 [ext_resource type="Texture2D" uid="uid://g2ton0smru5h" path="res://Assets/MSG (Microgravity Science Glovebox).png" id="13_iw4c1"]
+[ext_resource type="Script" uid="uid://ctqv7iclsc7nm" path="res://Scripts/door_transition.gd" id="13_wehui"]
 [ext_resource type="Texture2D" uid="uid://dck4gswb8piqy" path="res://Assets/CIR (Combustion Integrated Rack).png" id="14_awy1y"]
 [ext_resource type="PackedScene" uid="uid://8ipplarxlcr8" path="res://Scenes/character_body_2d.tscn" id="15_3mqva"]
 
@@ -75,6 +76,9 @@ size = Vector2(61.395287, 1544.6504)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g5xyo"]
 size = Vector2(87.33104, 908.5121)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m4443"]
+size = Vector2(45, 9.93927)
 
 [node name="Room2" type="Node2D" unique_id=438353697]
 position = Vector2(0, -3)
@@ -258,7 +262,7 @@ position = Vector2(-101.88629, 337.90823)
 shape = SubResource("RectangleShape2D_k30xo")
 
 [node name="CharacterBody2d" parent="." unique_id=1825796566 instance=ExtResource("15_3mqva")]
-position = Vector2(582, 603.43945)
+position = Vector2(579, 601.4642)
 
 [node name="WorldCollisionsNode2D" type="Node2D" parent="." unique_id=281704651]
 position = Vector2(577.00006, 322.99994)
@@ -292,3 +296,15 @@ shape = SubResource("RectangleShape2D_3cexa")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorldCollisionsNode2D/RightWall" unique_id=1481169134]
 position = Vector2(717.17334, 17.616913)
 shape = SubResource("RectangleShape2D_g5xyo")
+
+[node name="InteriorEntrySpawn" type="Marker2D" parent="." unique_id=1541853447]
+position = Vector2(579, 592.5755)
+
+[node name="ExitMainDoor" type="Area2D" parent="." unique_id=557511506]
+script = ExtResource("13_wehui")
+destination_scene_path = "uid://dq6pto3mav34s"
+destination_spawn_marker = &"PersonalBuildingOutsideSpawn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitMainDoor" unique_id=263433000]
+position = Vector2(579, 609.3652)
+shape = SubResource("RectangleShape2D_m4443")

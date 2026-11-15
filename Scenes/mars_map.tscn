@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://cpm7y7pdynbsb" path="res://Scripts/camera_view_for_mars_map.gd" id="1_c28fd"]
 [ext_resource type="PackedScene" uid="uid://8ipplarxlcr8" path="res://Scenes/character_body_2d.tscn" id="2_ewhud"]
 [ext_resource type="Texture2D" uid="uid://ci8swrpgbfmco" path="res://Assets/Pixel Art Mars Outpost Main Building.png" id="3_jl8qv"]
+[ext_resource type="Script" uid="uid://ctqv7iclsc7nm" path="res://Scripts/door_transition.gd" id="4_kd0vp"]
 [ext_resource type="Texture2D" uid="uid://ydm46kgvcdbt" path="res://Assets/Futuristic Safety Building Pixel Art.png" id="4_y21ir"]
 [ext_resource type="Texture2D" uid="uid://dhrpy7oojy7va" path="res://Assets/Personal Building Habitat Module.png" id="5_kd0vp"]
 [ext_resource type="Texture2D" uid="uid://cut5oa7frblva" path="res://Assets/Pixel Art Sci‑Fi Garage Hangar.png" id="6_i5kw0"]
@@ -20,6 +21,9 @@ size = Vector2(25, 68)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4c5sv"]
 size = Vector2(37, 54.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nbrum"]
+size = Vector2(45, 4)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q2n8s"]
 size = Vector2(129, 60)
@@ -102,6 +106,14 @@ shape = SubResource("RectangleShape2D_mdi2g")
 position = Vector2(2, -41.25)
 shape = SubResource("RectangleShape2D_4c5sv")
 
+[node name="MainDoor" type="Area2D" parent="WorldObjects/MainBuilding" unique_id=269250221]
+script = ExtResource("4_kd0vp")
+destination_scene_path = "uid://bq4vedgn6ey80"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/MainBuilding/MainDoor" unique_id=729088491]
+position = Vector2(1, -12)
+shape = SubResource("RectangleShape2D_nbrum")
+
 [node name="SafetyBuilding" type="Node2D" parent="WorldObjects" unique_id=1268724013]
 position = Vector2(329, -135)
 
@@ -124,6 +136,14 @@ shape = SubResource("RectangleShape2D_q2n8s")
 position = Vector2(0, -37)
 shape = SubResource("RectangleShape2D_3u7t0")
 
+[node name="PersonalDoor" type="Area2D" parent="WorldObjects/SafetyBuilding" unique_id=1064257692]
+script = ExtResource("4_kd0vp")
+destination_scene_path = "uid://dctsomet2dpxk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/SafetyBuilding/PersonalDoor" unique_id=350378337]
+position = Vector2(1, -12)
+shape = SubResource("RectangleShape2D_nbrum")
+
 [node name="PersonalBuilding" type="Node2D" parent="WorldObjects" unique_id=820706295]
 position = Vector2(-336, -134)
 
@@ -145,6 +165,14 @@ shape = SubResource("RectangleShape2D_6xjdm")
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="WorldObjects/PersonalBuilding/StaticBody2D" unique_id=789253312]
 position = Vector2(0.5, -38)
 shape = SubResource("RectangleShape2D_eapqo")
+
+[node name="SafetyDoor" type="Area2D" parent="WorldObjects/PersonalBuilding" unique_id=1323994135]
+script = ExtResource("4_kd0vp")
+destination_scene_path = "uid://dwvbnv0xoeeaw"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/PersonalBuilding/SafetyDoor" unique_id=593335590]
+position = Vector2(0.5, -12)
+shape = SubResource("RectangleShape2D_nbrum")
 
 [node name="GarageBuilding" type="Node2D" parent="WorldObjects" unique_id=183957636]
 position = Vector2(-359, 124)
@@ -247,3 +275,12 @@ shape = SubResource("RectangleShape2D_ivuis")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldObjects/Newsolarpanels/StaticBody2D" unique_id=1316071082]
 position = Vector2(25, 624.9999)
 shape = SubResource("RectangleShape2D_ivuis")
+
+[node name="MainBuildingOutsideSpawn" type="Marker2D" parent="WorldObjects" unique_id=1126836227]
+position = Vector2(-9, -53)
+
+[node name="PersonalBuildingOutsideSpawn" type="Marker2D" parent="WorldObjects" unique_id=1137320265]
+position = Vector2(-336, -135)
+
+[node name="SafetyBuildingOutsideSpawn" type="Marker2D" parent="WorldObjects" unique_id=1449814977]
+position = Vector2(330, -134)
