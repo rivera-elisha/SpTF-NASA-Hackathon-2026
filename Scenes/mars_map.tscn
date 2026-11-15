@@ -1,14 +1,15 @@
 [gd_scene format=3 uid="uid://dq6pto3mav34s"]
 
 [ext_resource type="Texture2D" uid="uid://3imyyhyvxmtq" path="res://Assets/marsmap2 (1).png" id="1_8dhvu"]
+[ext_resource type="Script" uid="uid://cpm7y7pdynbsb" path="res://Scripts/camera_view_for_mars_map.gd" id="1_c28fd"]
 [ext_resource type="PackedScene" uid="uid://8ipplarxlcr8" path="res://Scenes/character_body_2d.tscn" id="2_ewhud"]
 
 [node name="MarsMap" type="Node2D" unique_id=1102803395]
 position = Vector2(567, 327)
-scale = Vector2(0.8996835, 0.9178474)
+script = ExtResource("1_c28fd")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1946880595]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.7, 0.7)
 texture = ExtResource("1_8dhvu")
 
 [node name="CharacterBody2d" parent="." unique_id=1825796566 instance=ExtResource("2_ewhud")]
