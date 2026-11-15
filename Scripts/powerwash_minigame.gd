@@ -1,5 +1,6 @@
-class_name PowerWashMinigame
 extends CanvasLayer
+
+const InteractiveAssets := preload("res://Scripts/interactive_assets.gd")
 
 signal washed_progress(panel_id: int, progress: float)
 signal completed(panel_id: int)
@@ -453,7 +454,7 @@ func _stop_spray_audio() -> void:
 
 
 class _WashCanvas extends Control:
-	var owner_minigame: PowerWashMinigame
+	var owner_minigame
 
 	func _draw() -> void:
 		if owner_minigame == null:
@@ -469,10 +470,10 @@ class _WashCanvas extends Control:
 			col.a *= clampf(float(p["life"]) / float(p["max_life"]), 0.0, 1.0)
 			draw_circle(p["pos"] as Vector2, float(p["r"]), col)
 
-		var target := owner_minigame.cursor_local
+		var target: Vector2 = owner_minigame.cursor_local
 		var nozzle_base := Vector2(CANVAS_W - 22.0, CANVAS_H + 14.0)
-		var dir := (target - nozzle_base).normalized()
-		var nozzle_tip := nozzle_base + dir * 48.0
+		var dir: Vector2 = (target - nozzle_base).normalized()
+		var nozzle_tip: Vector2 = nozzle_base + dir * 48.0
 
 		if owner_minigame.is_spraying:
 			var spread := 5.0 if owner_minigame.turbo_nozzle else 14.0

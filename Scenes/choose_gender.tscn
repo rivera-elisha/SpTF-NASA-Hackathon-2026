@@ -11,6 +11,69 @@
 [ext_resource type="Texture2D" uid="uid://bmooh4pk613wa" path="res://Assets/female astro.png" id="5_h1oeh"]
 [ext_resource type="Texture2D" uid="uid://cwggklc0hu6ey" path="res://Buttons/back-button.png" id="9_8aftn"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card_normal"]
+content_margin_left = 18.0
+content_margin_top = 18.0
+content_margin_right = 18.0
+content_margin_bottom = 18.0
+bg_color = Color(0.0509804, 0.0862745, 0.160784, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.219608, 0.439216, 0.690196, 0.9)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 12
+shadow_offset = Vector2(0, 6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_portrait_frame"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.0784314, 0.137255, 0.243137, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.321569, 0.623529, 0.913725, 0.65)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pedestal_card"]
+content_margin_left = 18.0
+content_margin_top = 18.0
+content_margin_right = 18.0
+content_margin_bottom = 18.0
+bg_color = Color(0.0392157, 0.0705882, 0.133333, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.168627, 0.34902, 0.560784, 0.75)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_holopad"]
+bg_color = Color(0.247059, 0.760784, 1, 0.2)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.360784, 0.823529, 1, 0.75)
+corner_radius_top_left = 80
+corner_radius_top_right = 80
+corner_radius_bottom_right = 80
+corner_radius_bottom_left = 80
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_3cexa"]
 animations = [{
 "frames": [{
@@ -26,160 +89,488 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("5_bcw0f")
 }],
-"loop": 1,
+"loop": true,
 "name": &"default",
 "speed": 5.0
 }]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g5xyo"]
-bg_color = Color(0.15811542, 0.22120059, 0.38304088, 1)
-border_color = Color(1, 1, 1, 1)
-border_blend = true
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal_panel"]
+content_margin_left = 28.0
+content_margin_top = 24.0
+content_margin_right = 28.0
+content_margin_bottom = 24.0
+bg_color = Color(0.054902, 0.0901961, 0.168627, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.305882, 0.678431, 0.988235, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.65)
+shadow_size = 20
+shadow_offset = Vector2(0, 8)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8aftn"]
-bg_color = Color(0.8297829, 0.90230477, 0.9766913, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lineedit_normal"]
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+bg_color = Color(0.0313726, 0.054902, 0.105882, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.247059, 0.454902, 0.690196, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
-[node name="ChooseGender" type="Control" unique_id=1405765142]
-custom_maximum_size = Vector2(-1, 7.42)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lineedit_focus"]
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+bg_color = Color(0.0431373, 0.0745098, 0.145098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.360784, 0.803922, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_secondary"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.113725, 0.172549, 0.278431, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.321569, 0.478431, 0.686275, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_secondary_hover"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.160784, 0.243137, 0.388235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.470588, 0.72549, 0.960784, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_primary"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.117647, 0.439216, 0.784314, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.415686, 0.803922, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_primary_hover"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.168627, 0.54902, 0.941176, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.658824, 0.917647, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="ChooseGender" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -6.0
-offset_top = 315.0
-offset_right = -6.0
-offset_bottom = -325.58
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_7vupr")
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=1820271382]
+[node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -320.0
-offset_bottom = 320.58
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_8aftn")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Label" type="Label" parent="." unique_id=2085445626]
+[node name="Scrim" type="ColorRect" parent="."]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -596.0
-offset_top = -314.00003
-offset_right = 690.0
-offset_bottom = -109.00003
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
-scale = Vector2(0.942821, 2.3783784)
-theme_override_colors/font_color = Color(0.79, 1, 0.91950005, 0.8352941)
-theme_override_constants/outline_size = 20
-theme_override_fonts/font = ExtResource("3_yxnfg")
-theme_override_font_sizes/font_size = 99
-text = "Choose Character"
-horizontal_alignment = 1
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.027451, 0.0470588, 0.0980392, 0.58)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=676621588]
-custom_minimum_size = Vector2(200, 250)
+[node name="backButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 76.0
+offset_bottom = 72.0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("9_8aftn")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 120.0
+offset_top = 20.0
+offset_right = -120.0
+offset_bottom = 84.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.956863, 0.976471, 1, 1)
+theme_override_colors/font_outline_color = Color(0.0313726, 0.0627451, 0.133333, 0.95)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 64
+text = "CHOOSE YOUR ASTRONAUT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 120.0
+offset_top = 80.0
+offset_right = -120.0
+offset_bottom = 112.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.678431, 0.858824, 0.980392, 1)
+theme_override_colors/font_outline_color = Color(0.0313726, 0.0627451, 0.133333, 0.9)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 24
+text = "Select a commander profile for the Ares Horizon Mars Expedition"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StageRow" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -548.0
-offset_top = -254.71
-offset_right = 1207.0
-offset_bottom = 245.28993
+offset_left = -468.0
+offset_top = -182.0
+offset_right = 468.0
+offset_bottom = 186.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.64417225, 1.0310386)
-theme_override_constants/separation = 555
+theme_override_constants/separation = 38
+alignment = 1
 
-[node name="MaleButton" type="TextureButton" parent="HBoxContainer" unique_id=2038108338]
-custom_minimum_size = Vector2(600, 250)
+[node name="MaleCard" type="PanelContainer" parent="StageRow"]
+custom_minimum_size = Vector2(268, 356)
 layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card_normal")
+
+[node name="MaleVBox" type="VBoxContainer" parent="StageRow/MaleCard"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="PortraitFrame" type="PanelContainer" parent="StageRow/MaleCard/MaleVBox"]
+custom_minimum_size = Vector2(220, 220)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_portrait_frame")
+
+[node name="MaleButton" type="TextureButton" parent="StageRow/MaleCard/MaleVBox/PortraitFrame"]
+texture_filter = 1
+custom_minimum_size = Vector2(192, 192)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("4_bcw0f")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="FemaleButton" type="TextureButton" parent="HBoxContainer" unique_id=1285138167]
-custom_minimum_size = Vector2(600, 250)
+[node name="MaleTitle" type="Label" parent="StageRow/MaleCard/MaleVBox"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.556863, 0.870588, 1, 1)
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 40
+text = "MALE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MaleRole" type="Label" parent="StageRow/MaleCard/MaleVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.752941, 0.831373, 0.921569, 0.95)
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 22
+text = "Commander Suit A"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SuitPreviewCard" type="PanelContainer" parent="StageRow"]
+custom_minimum_size = Vector2(292, 356)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pedestal_card")
+
+[node name="PreviewVBox" type="VBoxContainer" parent="StageRow/SuitPreviewCard"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="PreviewHeader" type="Label" parent="StageRow/SuitPreviewCard/PreviewVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45098, 0.831373, 0.992157, 1)
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 24
+text = "EVA SUIT PREVIEW"
+horizontal_alignment = 1
+
+[node name="PreviewStage" type="Control" parent="StageRow/SuitPreviewCard/PreviewVBox"]
+custom_minimum_size = Vector2(252, 236)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="HolopadGlow" type="Panel" parent="StageRow/SuitPreviewCard/PreviewVBox/PreviewStage"]
+layout_mode = 0
+offset_left = 46.0
+offset_top = 186.0
+offset_right = 206.0
+offset_bottom = 222.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_holopad")
+
+[node name="MiddleCharacter" type="AnimatedSprite2D" parent="StageRow/SuitPreviewCard/PreviewVBox/PreviewStage"]
+texture_filter = 1
+position = Vector2(126, 114)
+scale = Vector2(0.45, 0.45)
+sprite_frames = SubResource("SpriteFrames_3cexa")
+autoplay = "default"
+frame_progress = 0.00856879
+
+[node name="PreviewHint" type="Label" parent="StageRow/SuitPreviewCard/PreviewVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.768627, 0.858824, 0.94902, 0.95)
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 22
+text = "Click a card to select"
+horizontal_alignment = 1
+
+[node name="FemaleCard" type="PanelContainer" parent="StageRow"]
+custom_minimum_size = Vector2(268, 356)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card_normal")
+
+[node name="FemaleVBox" type="VBoxContainer" parent="StageRow/FemaleCard"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="PortraitFrame" type="PanelContainer" parent="StageRow/FemaleCard/FemaleVBox"]
+custom_minimum_size = Vector2(220, 220)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_portrait_frame")
+
+[node name="FemaleButton" type="TextureButton" parent="StageRow/FemaleCard/FemaleVBox/PortraitFrame"]
+texture_filter = 1
+custom_minimum_size = Vector2(192, 192)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("5_h1oeh")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Button" type="Button" parent="." unique_id=1642885930]
-layout_mode = 0
-offset_top = -1.0
-offset_right = 8.0
-offset_bottom = 7.0
+[node name="FemaleTitle" type="Label" parent="StageRow/FemaleCard/FemaleVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.988235, 0.721569, 0.862745, 1)
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 40
+text = "FEMALE"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="MiddleCharacter" type="AnimatedSprite2D" parent="." unique_id=1724090684]
-z_as_relative = false
-position = Vector2(602, 25)
-scale = Vector2(0.8213726, 0.9745029)
-sprite_frames = SubResource("SpriteFrames_3cexa")
-speed_scale = 0.5
+[node name="FemaleRole" type="Label" parent="StageRow/FemaleCard/FemaleVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.752941, 0.831373, 0.921569, 0.95)
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 22
+text = "Commander Suit B"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="backButton" type="TextureButton" parent="." unique_id=286852137]
-layout_mode = 0
-offset_left = 33.000004
-offset_top = -294.0
-offset_right = 545.0
-offset_bottom = 218.0
-scale = Vector2(0.18825445, 0.11752678)
-texture_normal = ExtResource("9_8aftn")
+[node name="FooterLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 120.0
+offset_top = -54.0
+offset_right = -120.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.721569, 0.819608, 0.917647, 0.9)
+theme_override_colors/font_outline_color = Color(0.0313726, 0.0627451, 0.133333, 0.9)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 22
+text = "Tip: Mission logs and Earth Communications will address you as Commander."
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="NamePanel" type="Panel" parent="." unique_id=2117441373]
-layout_mode = 0
-offset_left = 228.0
-offset_top = -144.0
-offset_right = 268.0
-offset_bottom = -104.0
-scale = Vector2(18.192934, 7.042225)
-theme_override_styles/panel = SubResource("StyleBoxFlat_g5xyo")
+[node name="NameModal" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0156863, 0.027451, 0.0705882, 0.74)
 
-[node name="EnterNameLabel" type="Label" parent="NamePanel" unique_id=1532061056]
-layout_mode = 0
-offset_left = 7.9628
-offset_top = -2.3656611
-offset_right = 100.9628
-offset_bottom = 20.634338
-scale = Vector2(0.27641094, 0.75716245)
-text = "Enter Name"
+[node name="NamePanel" type="PanelContainer" parent="NameModal"]
+custom_minimum_size = Vector2(460, 292)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -230.0
+offset_top = -146.0
+offset_right = 230.0
+offset_bottom = 146.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal_panel")
 
-[node name="NameLineEdit" type="LineEdit" parent="NamePanel" unique_id=1967301367]
-layout_mode = 0
-offset_left = 5.60581
-offset_top = 14.193976
-offset_right = 74.10581
-offset_bottom = 45.193977
-scale = Vector2(0.41863605, 0.40833288)
+[node name="NameVBox" type="VBoxContainer" parent="NameModal/NamePanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
 alignment = 1
-max_length = 12
-expand_to_text_length = true
+
+[node name="SelectedProfileLabel" type="Label" parent="NameModal/NamePanel/NameVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45098, 0.831373, 0.992157, 1)
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 24
+text = "PROFILE: MALE COMMANDER"
+horizontal_alignment = 1
+
+[node name="NamePromptLabel" type="Label" parent="NameModal/NamePanel/NameVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.956863, 0.976471, 1, 1)
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 40
+text = "ENTER COMMANDER NAME"
+horizontal_alignment = 1
+
+[node name="NameLineEdit" type="LineEdit" parent="NameModal/NamePanel/NameVBox"]
+clip_contents = true
+custom_minimum_size = Vector2(380, 46)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.956863, 0.976471, 1, 1)
+theme_override_colors/font_placeholder_color = Color(0.517647, 0.635294, 0.776471, 0.85)
+theme_override_colors/caret_color = Color(0.45098, 0.85098, 1, 1)
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_lineedit_normal")
+theme_override_styles/focus = SubResource("StyleBoxFlat_lineedit_focus")
+placeholder_text = "Type commander name..."
+alignment = 1
+expand_to_text_length = false
 caret_blink = true
 
-[node name="EnterNameButton" type="Button" parent="NamePanel" unique_id=955669837]
-layout_mode = 0
-offset_left = 11.912349
-offset_top = 28.495478
-offset_right = 90.912346
-offset_bottom = 59.495476
-scale = Vector2(0.22224641, 0.25713152)
-theme_override_colors/font_color = Color(0.8766755, 0.94469863, 0.9918714, 1)
-theme_override_colors/font_hover_color = Color(0, 0.050950192, 0.5840447, 1)
-theme_override_colors/font_outline_color = Color(0.45086092, 0.51763123, 0.4410668, 1)
-theme_override_styles/hover = SubResource("StyleBoxFlat_8aftn")
-text = "Continue"
+[node name="ErrorLabel" type="Label" parent="NameModal/NamePanel/NameVBox"]
+custom_minimum_size = Vector2(380, 22)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.458824, 0.458824, 1)
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonRow" type="HBoxContainer" parent="NameModal/NamePanel/NameVBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="CancelButton" type="Button" parent="NameModal/NamePanel/NameVBox/ButtonRow"]
+custom_minimum_size = Vector2(148, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.870588, 0.921569, 0.980392, 1)
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_secondary")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_secondary_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_secondary_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_secondary_hover")
+text = "CHANGE"
+
+[node name="EnterNameButton" type="Button" parent="NameModal/NamePanel/NameVBox/ButtonRow"]
+custom_minimum_size = Vector2(192, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_yxnfg")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_primary")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_primary_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_primary_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_primary_hover")
+text = "CONFIRM"

@@ -1,6 +1,7 @@
 extends Node2D
 
 const DialogueController = preload("res://Scripts/mission_dialogue.gd")
+const InteractiveAssets = preload("res://Scripts/interactive_assets.gd")
 
 @onready var player: CharacterBody2D = $CharacterBody2d
 
@@ -21,6 +22,7 @@ func _ready() -> void:
 	if Global.mission_complete:
 		dialogue.set_mission("Mission complete.")
 		return
+	_setup_room2_assets()
 	if Global.exercise_prompt_completed:
 		if Global.part4_rocket_boarding_ready and not Global.part4_ending_reached:
 			dialogue.set_mission("Return outside and board the rocket ship.", $ExitMainDoor)
@@ -37,7 +39,6 @@ func _ready() -> void:
 		return
 	dialogue.set_mission("Find the Exercise Room.", $ExerciseArea)
 	$ExerciseArea.body_entered.connect(_on_exercise_area_body_entered)
-	_setup_room2_assets()
 	if Global.radiation_warning_active:
 		dialogue.show_radiation_warning()
 

@@ -2,6 +2,8 @@
 extends Node2D
 
 const DialogueController = preload("res://Scripts/mission_dialogue.gd")
+const InteractiveAssets = preload("res://Scripts/interactive_assets.gd")
+const PowerWashMinigame = preload("res://Scripts/powerwash_minigame.gd")
 
 @onready var map_sprite: Sprite2D = $Background
 @onready var camera: Camera2D = $WorldObjects/CharacterBody2d/Camera2D

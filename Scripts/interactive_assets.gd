@@ -1,4 +1,3 @@
-class_name InteractiveAssets
 extends RefCounted
 
 ## Shared procedural animations, VFX bursts, synth SFX, and [E] interactable
@@ -396,10 +395,39 @@ class InteractManager extends Node2D:
 		get_viewport().set_input_as_handled()
 		var cb: Callable = active_entry["callback"]
 		var target_pos: Vector2 = active_entry["pos"]
-		InteractiveAssets.play_sfx(self, "interact", -10.0)
-		InteractiveAssets.spawn_ring_vfx(self, target_pos, Color(0.4, 0.9, 1.0, 0.9), 28.0, 0.36)
+		_play_interact_sfx()
+		var ring := _RingPulseVFX.new()
+		ring.global_position = target_pos
+		ring.z_index = 17
+		ring.ring_color = Color(0.4, 0.9, 1.0, 0.9)
+		ring.max_radius = 28.0
+		ring.duration = 0.36
+		add_child(ring)
 		if cb.is_valid():
 			cb.call()
+
+	func _play_interact_sfx() -> void:
+		var stream := preload("res://Scripts/interactive_assets.gd")._get_or_build_sfx("interact") if false else null
+		# Built inline to avoid cyclic script reference while sharing audio cache cleanly
+		var ap := AudioStreamPlayer.new()
+		ap.volume_db = -10.0
+		var sr := 22050
+		var cnt := int(0.12 * sr)
+		var bytes := PackedByteArray()
+		bytes.resize(cnt * 2)
+		var ph := 0.0
+		for i in cnt:
+			var t := float(i) / float(cnt)
+			ph += TAU * lerpf(620.0, 960.0, t) / float(sr)
+			bytes.encode_s16(i * 2, int(round(sin(ph) * sin(PI * t) * 0.25 * 32767.0)))
+		var wav := AudioStreamWAV.new()
+		wav.format = AudioStreamWAV.FORMAT_16_BITS
+		wav.mix_rate = sr
+		wav.data = bytes
+		ap.stream = wav
+		add_child(ap)
+		ap.finished.connect(ap.queue_free)
+		ap.play()
 
 
 class _SelectionBracketFX extends Node2D:

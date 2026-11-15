@@ -1,6 +1,7 @@
 extends Node2D
 
 const DialogueController = preload("res://Scripts/mission_dialogue.gd")
+const InteractiveAssets = preload("res://Scripts/interactive_assets.gd")
 
 @onready var player: CharacterBody2D = $CharacterBody2d
 

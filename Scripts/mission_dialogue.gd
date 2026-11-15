@@ -712,6 +712,17 @@ func _on_advance_button_pressed() -> void:
 	_finish_dialogue(dialogue_generation)
 
 
+func is_busy() -> bool:
+	return (
+		dialogue_waiting
+		or game_over_visible
+		or (dialogue_panel != null and dialogue_panel.visible)
+		or (information_panel != null and information_panel.visible)
+		or (input_panel != null and input_panel.visible)
+		or (credits_panel != null and credits_panel.visible)
+	)
+
+
 func _process(delta: float) -> void:
 	_update_indicator(delta)
 	if warning_panel.visible:
