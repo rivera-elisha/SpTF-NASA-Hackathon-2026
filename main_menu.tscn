@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://cp3gpekdfc4u1"]
+
+[ext_resource type="Texture2D" uid="uid://ji8m7e807xet" path="res://Game Framework.png" id="1_7vrkn"]
+[ext_resource type="FontFile" uid="uid://gchkqr30j2vj" path="res://Pixeltype.ttf" id="2_fu7sn"]
+[ext_resource type="Script" uid="uid://vivrug6g4tig" path="res://Scripts/main_menu.gd" id="3_mmenu"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bpoi5"]
+texture = ExtResource("1_7vrkn")
+modulate_color = Color(0.65834004, 0.6583399, 0.6583399, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gpemm"]
+bg_color = Color(0.51007515, 0.51007515, 0.51007515, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.25834644, 0.2605394, 0.24492723, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.34)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3rhmk"]
+bg_color = Color(0.6, 0.6, 0.6, 0.69803923)
+border_color = Color(0.25882354, 0.25882354, 0.24313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jix8l"]
+bg_color = Color(0.4818886, 0.2039575, 0.10614879, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.95710224, 0.55685836, 0.4048005, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.34)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vpa8i"]
+bg_color = Color(0.48235294, 0.20392157, 0.105882354, 0.7176471)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.95686275, 0.5568628, 0.40392157, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="MainMenu" type="Control" unique_id=734481564]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_mmenu")
+
+[node name="Panel" type="Panel" parent="." unique_id=632767840]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_bpoi5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=129994718]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -199.5
+offset_top = -3.5
+offset_right = 199.5
+offset_bottom = 211.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Button" type="Button" parent="VBoxContainer" unique_id=1003654226]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_fu7sn")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_gpemm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3rhmk")
+text = "Start"
+
+[node name="Button2" type="Button" parent="VBoxContainer" unique_id=971030382]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_fu7sn")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_jix8l")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vpa8i")
+text = "Exit Game"
