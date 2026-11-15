@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3hhosg3qnvn7"
-path="res://.godot/imported/newmarsrover.png-429c1aca7cbc595ab1c7669e1542fb6c.ctex"
+uid="uid://c5s2j7kqvhwd2"
+path="res://.godot/imported/Dynamic Pixel Rocket with Segmented Flames.png-cd524e59dcc7ac0da2b66279636154b5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/newmarsrover.png"
-dest_files=["res://.godot/imported/newmarsrover.png-429c1aca7cbc595ab1c7669e1542fb6c.ctex"]
+source_file="res://Assets/rocket animations/Dynamic Pixel Rocket with Segmented Flames.png"
+dest_files=["res://.godot/imported/Dynamic Pixel Rocket with Segmented Flames.png-cd524e59dcc7ac0da2b66279636154b5.ctex"]
 
 [params]
 

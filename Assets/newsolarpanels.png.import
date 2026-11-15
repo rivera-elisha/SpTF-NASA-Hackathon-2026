@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b28u0lournasv"
-path="res://.godot/imported/newsolarpanels.png-b571ecaa2e2c13cf10a1d1272d1a4f76.ctex"
+path="res://.godot/imported/newsolarpanels.png-116494835aed2776eca886b330a1a4f6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/newsolarpanels.png"
-dest_files=["res://.godot/imported/newsolarpanels.png-b571ecaa2e2c13cf10a1d1272d1a4f76.ctex"]
+source_file="res://Assets/newsolarpanels.png"
+dest_files=["res://.godot/imported/newsolarpanels.png-116494835aed2776eca886b330a1a4f6.ctex"]
 
 [params]
 
