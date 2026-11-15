@@ -580,22 +580,23 @@ shape = SubResource("RectangleShape2D_0s052")
 [node name="InteriorEntrySpawn" type="Marker2D" parent="." unique_id=86020602]
 position = Vector2(582.0614, 533.9158)
 
-[node name="EquipmentArea" type="Area2D" parent="."]
+[node name="EquipmentArea" type="Area2D" parent="." unique_id=384772382]
 position = Vector2(230, 505)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EquipmentArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EquipmentArea" unique_id=1948077392]
+position = Vector2(792.3515, -342.24503)
 shape = SubResource("RectangleShape2D_eva_equipment")
 
-[node name="LifeSupportMonitorArea" type="Area2D" parent="."]
+[node name="LifeSupportMonitorArea" type="Area2D" parent="." unique_id=1030188014]
 position = Vector2(139, 68)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LifeSupportMonitorArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LifeSupportMonitorArea" unique_id=974925551]
 shape = SubResource("RectangleShape2D_life_support_monitor_area")
 
-[node name="MainLaboratoryArea" type="Area2D" parent="."]
+[node name="MainLaboratoryArea" type="Area2D" parent="." unique_id=191890135]
 position = Vector2(579, 185)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MainLaboratoryArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MainLaboratoryArea" unique_id=49015943]
 shape = SubResource("RectangleShape2D_main_laboratory_area")
 
 [connection signal="body_entered" from="SpacesuitsArea" to="." method="enter_spacesuits"]
