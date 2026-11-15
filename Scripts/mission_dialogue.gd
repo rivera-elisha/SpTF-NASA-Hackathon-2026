@@ -77,22 +77,26 @@ func say(speaker: String, message: String, duration: float = 3.0) -> void:
 	message_label.text = message
 	dialogue_panel.show()
 	_layout_dialogue_panel()
-	advance_button.hide()
+	advance_button.text = (
+		"click to advance to next dialogue or wait"
+		if duration > 0.0
+		else "click to advance dialogue"
+	)
+	advance_button.show()
 	dialogue_generation += 1
 	var current_generation := dialogue_generation
+	dialogue_waiting = true
 	if duration > 0.0:
-		advance_button.show()
 		var display_time := maxf(duration, minf(7.0, message.length() * 0.055))
-		dialogue_waiting = true
 		get_tree().create_timer(display_time).timeout.connect(
 			_finish_dialogue.bind(current_generation)
 		)
-		while dialogue_waiting and current_generation == dialogue_generation:
-			await get_tree().process_frame
-		if current_generation == dialogue_generation:
-			dialogue_waiting = false
-			dialogue_panel.hide()
-			advance_button.hide()
+	while dialogue_waiting and current_generation == dialogue_generation:
+		await get_tree().process_frame
+	if current_generation == dialogue_generation:
+		dialogue_waiting = false
+		dialogue_panel.hide()
+		advance_button.hide()
 
 
 func choose(
@@ -126,6 +130,16 @@ func choose(
 
 func hide_dialogue() -> void:
 	dialogue_panel.hide()
+
+
+func is_busy() -> bool:
+	return (
+		dialogue_panel.visible
+		or information_panel.visible
+		or input_panel.visible
+		or game_over_panel.visible
+		or (is_instance_valid(credits_panel) and credits_panel.visible)
+	)
 
 
 func set_interaction_hint(text: String) -> void:
