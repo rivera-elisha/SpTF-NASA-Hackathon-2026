@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dt4olvs2cghgw" path="res://Assets/telephone.png" id="5_b3qkb"]
 [ext_resource type="PackedScene" uid="uid://8ipplarxlcr8" path="res://Scenes/character_body_2d.tscn" id="6_eaj6e"]
 [ext_resource type="Script" uid="uid://ctqv7iclsc7nm" path="res://Scripts/door_transition.gd" id="7_b3qkb"]
+[ext_resource type="Script" path="res://Scenes/room_3.gd" id="8_room3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1pahx"]
 size = Vector2(44.94055, 118.765625)
@@ -113,9 +114,13 @@ size = Vector2(12.914636, 36.711388)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qhqn7"]
 size = Vector2(45, 9.93927)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_communications_area"]
+size = Vector2(130, 120)
+
 [node name="Room3" type="Node2D" unique_id=528259187]
 position = Vector2(-4.9999995, 4.9999995)
 scale = Vector2(0.99014485, 0.9843074)
+script = ExtResource("8_room3")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=481621248]
 position = Vector2(590, 326)
@@ -351,3 +356,9 @@ destination_spawn_marker = &"SafetyBuildingOutsideSpawn"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitMainDoor" unique_id=1164520615]
 position = Vector2(594.86237, 620.741)
 shape = SubResource("RectangleShape2D_qhqn7")
+
+[node name="CommunicationsArea" type="Area2D" parent="."]
+position = Vector2(936, 580)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CommunicationsArea"]
+shape = SubResource("RectangleShape2D_communications_area")

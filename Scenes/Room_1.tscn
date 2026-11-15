@@ -452,7 +452,6 @@ shape = SubResource("RectangleShape2D_dleah")
 
 [node name="CharacterBody2d" parent="." unique_id=1825796566 instance=ExtResource("9_bdwgh")]
 position = Vector2(582.06134, 542.8474)
-collision_layer = 0
 
 [node name="WorldCollisionsNode2D" type="Node2D" parent="." unique_id=95348728]
 visible = false

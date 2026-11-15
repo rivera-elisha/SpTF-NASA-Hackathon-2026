@@ -13,9 +13,13 @@
 [ext_resource type="Script" uid="uid://ctqv7iclsc7nm" path="res://Scripts/door_transition.gd" id="13_wehui"]
 [ext_resource type="Texture2D" uid="uid://dck4gswb8piqy" path="res://Assets/CIR (Combustion Integrated Rack).png" id="14_awy1y"]
 [ext_resource type="PackedScene" uid="uid://8ipplarxlcr8" path="res://Scenes/character_body_2d.tscn" id="15_3mqva"]
+[ext_resource type="Script" path="res://Scenes/room_2.gd" id="16_room2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dleah"]
 size = Vector2(266, 109.16359)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exercise_area"]
+size = Vector2(180, 160)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1pahx"]
 size = Vector2(424.4004, 308.55396)
@@ -146,6 +150,7 @@ size = Vector2(45, 9.93927)
 [node name="Room2" type="Node2D" unique_id=438353697]
 position = Vector2(0, -3)
 scale = Vector2(1, 1.0125291)
+script = ExtResource("16_room2")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=857730598]
 position = Vector2(577.00006, 322.99994)
@@ -446,12 +451,18 @@ position = Vector2(717.17334, 17.616913)
 shape = SubResource("RectangleShape2D_g5xyo")
 
 [node name="InteriorEntrySpawn" type="Marker2D" parent="." unique_id=1541853447]
-position = Vector2(579, 592.5755)
+position = Vector2(579, 550)
+
+[node name="ExerciseArea" type="Area2D" parent="."]
+position = Vector2(845, 540)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExerciseArea"]
+shape = SubResource("RectangleShape2D_exercise_area")
 
 [node name="ExitMainDoor" type="Area2D" parent="." unique_id=557511506]
 script = ExtResource("13_wehui")
-destination_scene_path = "uid://dq6pto3mav34s"
-destination_spawn_marker = &"PersonalBuildingOutsideSpawn"
+destination_scene_path = "res://Scenes/mars_map.tscn"
+destination_spawn_marker = &"ExerciseBuildingOutsideSpawn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitMainDoor" unique_id=263433000]
 position = Vector2(579, 609.3652)

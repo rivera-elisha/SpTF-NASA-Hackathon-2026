@@ -188,6 +188,15 @@ texture = ExtResource("6_i5kw0")
 position = Vector2(0.5, -34.5)
 shape = SubResource("RectangleShape2D_i18yx")
 
+[node name="ExerciseDoor" type="Area2D" parent="WorldObjects/GarageBuilding" unique_id=2108180912]
+position = Vector2(0, 27)
+script = ExtResource("4_kd0vp")
+destination_scene_path = "res://Scenes/Room_2.tscn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/GarageBuilding/ExerciseDoor" unique_id=1751130400]
+position = Vector2(0, -12)
+shape = SubResource("RectangleShape2D_nbrum")
+
 [node name="Rocket" type="Node2D" parent="WorldObjects" unique_id=1999129357]
 
 [node name="SciFiRocketLaunchPlatform" type="Sprite2D" parent="WorldObjects/Rocket" unique_id=1655339193]
@@ -284,3 +293,6 @@ position = Vector2(-336, -135)
 
 [node name="SafetyBuildingOutsideSpawn" type="Marker2D" parent="WorldObjects" unique_id=1449814977]
 position = Vector2(330, -134)
+
+[node name="ExerciseBuildingOutsideSpawn" type="Marker2D" parent="WorldObjects" unique_id=926994312]
+position = Vector2(-359, 168)

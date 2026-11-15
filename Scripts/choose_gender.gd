@@ -110,6 +110,7 @@ func _on_enter_name_pressed():
 
 	# Save player information
 	Global.player_name = player_name
+	Global.reset_mission()
 
 	print("Player Name: ", Global.player_name)
 	print("Player Gender: ", Global.player_gender)

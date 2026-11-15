@@ -61,7 +61,7 @@ func _physics_process(_delta):
         "move_down"
 	)
 
-	velocity = direction * speed
+	velocity = direction * speed * Global.movement_speed_multiplier
 	move_and_slide()
 
 	update_animations(direction)
