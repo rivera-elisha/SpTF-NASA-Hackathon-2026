@@ -12,6 +12,54 @@
 [ext_resource type="Texture2D" uid="uid://d23yq7ts5rdik" path="res://Assets/Sci-Fi Rocket Launch Platform.png" id="10_km6uj"]
 [ext_resource type="Texture2D" uid="uid://c4k50trqp73os" path="res://Assets/Symmetrical Pixel-Art Rocket Spritesheet.png" id="11_qfotr"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h604f"]
+size = Vector2(96, 68)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mdi2g"]
+size = Vector2(25, 68)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4c5sv"]
+size = Vector2(37, 54.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q2n8s"]
+size = Vector2(129, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3u7t0"]
+size = Vector2(34, 44)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6xjdm"]
+size = Vector2(123, 63)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eapqo"]
+size = Vector2(45, 52)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i18yx"]
+size = Vector2(281, 69)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ar41d"]
+size = Vector2(76, 109)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_egnb7"]
+size = Vector2(11, 26)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fk7j0"]
+size = Vector2(62, 98)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3nmf4"]
+size = Vector2(44, 26)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1in16"]
+size = Vector2(15, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2vdg1"]
+size = Vector2(56, 84)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0swvf"]
+size = Vector2(2066.6663, 966.6648)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ivuis"]
+size = Vector2(2400.001, 1090)
+
 [node name="MarsMap" type="Node2D" unique_id=1102803395]
 position = Vector2(567, 327)
 script = ExtResource("1_c28fd")
@@ -25,56 +73,150 @@ texture = ExtResource("1_8dhvu")
 y_sort_enabled = true
 
 [node name="MainBuilding" type="Node2D" parent="WorldObjects" unique_id=124612412]
+position = Vector2(-10, -64)
 
 [node name="PixelArtMarsOutpostMainBuilding" type="Sprite2D" parent="WorldObjects/MainBuilding" unique_id=222205488]
-position = Vector2(-10, -158.00002)
+position = Vector2(0, -94)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("3_jl8qv")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="WorldObjects/MainBuilding" unique_id=72539716]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WorldObjects/MainBuilding/StaticBody2D" unique_id=1509642587]
-position = Vector2(-84.5134, -82.06035)
-polygon = PackedVector2Array(-49.486603, 4.0603485, 31.513397, 4.0603485, 31.513397, 10.0603485, 34.513397, 14.0603485, 46.513397, 14.0603485, 50.513397, 13.0603485, 50.513397, 18.060349, 57.513397, 18.060349, 57.513397, -0.9396515, 93.5134, -0.9396515, 93.5134, 18.060349, 100.5134, 18.060349, 101.5134, 13.0603485, 104.5134, 13.0603485, 105.5134, 15.0603485, 117.5134, 15.0603485, 120.5134, 11.0603485, 120.5134, 4.0603485, 199.5134, 4.0603485, 211.5134, -6.9396515, 211.5134, -13.9396515, 213.5134, -17.939651, 213.5134, -54.93965, -63.486603, -53.93965, -63.486603, -14.9396515, -61.486603, -12.9396515, -61.486603, -5.9396515)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/MainBuilding/StaticBody2D" unique_id=1221310143]
+position = Vector2(-90, -34)
+shape = SubResource("RectangleShape2D_h604f")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldObjects/MainBuilding/StaticBody2D" unique_id=2133296307]
+position = Vector2(90, -34)
+shape = SubResource("RectangleShape2D_h604f")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="WorldObjects/MainBuilding/StaticBody2D" unique_id=971008753]
+position = Vector2(-29.5, -34)
+shape = SubResource("RectangleShape2D_mdi2g")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="WorldObjects/MainBuilding/StaticBody2D" unique_id=857981886]
+position = Vector2(32, -34)
+shape = SubResource("RectangleShape2D_mdi2g")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="WorldObjects/MainBuilding/StaticBody2D" unique_id=787703403]
+position = Vector2(2, -41.25)
+shape = SubResource("RectangleShape2D_4c5sv")
 
 [node name="SafetyBuilding" type="Node2D" parent="WorldObjects" unique_id=1268724013]
+position = Vector2(329, -135)
 
 [node name="FuturisticSafetyBuildingPixelArt" type="Sprite2D" parent="WorldObjects/SafetyBuilding" unique_id=342793196]
-position = Vector2(329, -231.00002)
+position = Vector2(0, -96)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("4_y21ir")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="WorldObjects/SafetyBuilding" unique_id=209177405]
+[node name="StaticBody2D" type="StaticBody2D" parent="WorldObjects/SafetyBuilding" unique_id=594738851]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WorldObjects/SafetyBuilding/StaticBody2D" unique_id=778124673]
-position = Vector2(248, -142)
-polygon = PackedVector2Array(-10, 6, 34, 6, 39, 3, 41, 6, 46, 7, 56, 7, 62, 7, 64, 5, 65, -14, 98, -14, 98, 5, 99, 6, 104, 6, 107, 7, 116, 7, 123, 5, 142, 6, 173, 6, 200, 6, 212, 4, 227, -10, 227, -50, 224, -53, -64, -52, -65, -10, -50, 4, -39, 6)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/SafetyBuilding/StaticBody2D" unique_id=490220872]
+position = Vector2(-81.5, -29)
+shape = SubResource("RectangleShape2D_q2n8s")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldObjects/SafetyBuilding/StaticBody2D" unique_id=2061805586]
+position = Vector2(82, -30)
+shape = SubResource("RectangleShape2D_q2n8s")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="WorldObjects/SafetyBuilding/StaticBody2D" unique_id=475248677]
+position = Vector2(0, -37)
+shape = SubResource("RectangleShape2D_3u7t0")
 
 [node name="PersonalBuilding" type="Node2D" parent="WorldObjects" unique_id=820706295]
+position = Vector2(-336, -134)
 
 [node name="PersonalBuildingHabitatModule" type="Sprite2D" parent="WorldObjects/PersonalBuilding" unique_id=477144012]
-position = Vector2(-336, -231.99997)
+position = Vector2(0, -98)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("5_kd0vp")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="WorldObjects/PersonalBuilding" unique_id=1691098584]
+[node name="StaticBody2D" type="StaticBody2D" parent="WorldObjects/PersonalBuilding" unique_id=1290959971]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WorldObjects/PersonalBuilding/StaticBody2D" unique_id=1638855155]
-position = Vector2(-417, -144)
-polygon = PackedVector2Array(-11, 3, 29, 3, 34, 3, 40, 8, 47, 8, 50, 10, 59, 10, 59, -1, 59, -7, 103, -7, 103, 9, 105, 10, 113, 10, 114, 8, 123, 8, 127, 3, 141, 4, 173, 4, 201, 3, 211, 3, 227, -10, 227, -50, 224, -53, -64, -52, -65, -10, -50, 3, -38, 3)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/PersonalBuilding/StaticBody2D" unique_id=93741349]
+position = Vector2(-83.5, -31.5)
+shape = SubResource("RectangleShape2D_6xjdm")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldObjects/PersonalBuilding/StaticBody2D" unique_id=2061992992]
+position = Vector2(84, -33)
+shape = SubResource("RectangleShape2D_6xjdm")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="WorldObjects/PersonalBuilding/StaticBody2D" unique_id=789253312]
+position = Vector2(0.5, -38)
+shape = SubResource("RectangleShape2D_eapqo")
 
 [node name="GarageBuilding" type="Node2D" parent="WorldObjects" unique_id=183957636]
+position = Vector2(-359, 124)
 
 [node name="NewgarageEdited" type="Sprite2D" parent="WorldObjects/GarageBuilding" unique_id=2030927658]
-position = Vector2(-359.00003, 37.000015)
+position = Vector2(0.6, -87)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("6_i5kw0")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="WorldObjects/GarageBuilding" unique_id=454383497]
+[node name="StaticBody2D" type="StaticBody2D" parent="WorldObjects/GarageBuilding" unique_id=2073229694]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WorldObjects/GarageBuilding/StaticBody2D" unique_id=1267548579]
-position = Vector2(-446, 112)
-polygon = PackedVector2Array(-37, 7, 25, 7, 28, 12, 40, 12, 43, 8, 47, 8, 48, 9, 53, 9, 54, 7, 120, 7, 121, 9, 126, 9, 127, 8, 131, 8, 134, 11, 146, 11, 149, 7, 210, 8, 223, -5, 224, -9, 227, -13, 227, -50, 224, -53, -54, -52, -54, -13, -50, -10, -49, -6)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/GarageBuilding/StaticBody2D" unique_id=1551568882]
+position = Vector2(0.5, -34.5)
+shape = SubResource("RectangleShape2D_i18yx")
+
+[node name="Rocket" type="Node2D" parent="WorldObjects" unique_id=1999129357]
+
+[node name="SciFiRocketLaunchPlatform" type="Sprite2D" parent="WorldObjects/Rocket" unique_id=1655339193]
+position = Vector2(330, 65)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_km6uj")
+
+[node name="SymmetricalPixelArtRocketSpritesheet" type="Sprite2D" parent="WorldObjects/Rocket" unique_id=571033359]
+position = Vector2(329, -12.9999695)
+scale = Vector2(0.18, 0.18)
+texture = ExtResource("11_qfotr")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="WorldObjects/Rocket" unique_id=1832699067]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/Rocket/StaticBody2D" unique_id=1734215469]
+position = Vector2(331, 50.5)
+shape = SubResource("RectangleShape2D_ar41d")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldObjects/Rocket/StaticBody2D" unique_id=1663143797]
+position = Vector2(308.5, 147)
+shape = SubResource("RectangleShape2D_egnb7")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="WorldObjects/Rocket/StaticBody2D" unique_id=1157476924]
+position = Vector2(351, 148)
+shape = SubResource("RectangleShape2D_egnb7")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="WorldObjects/Rocket/StaticBody2D" unique_id=1870953966]
+position = Vector2(229, 87)
+shape = SubResource("RectangleShape2D_fk7j0")
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="WorldObjects/Rocket/StaticBody2D" unique_id=991862383]
+position = Vector2(431, 85)
+shape = SubResource("RectangleShape2D_fk7j0")
+
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="WorldObjects/Rocket/StaticBody2D" unique_id=2052547305]
+position = Vector2(281, 140)
+shape = SubResource("RectangleShape2D_3nmf4")
+
+[node name="CollisionShape2D8" type="CollisionShape2D" parent="WorldObjects/Rocket/StaticBody2D" unique_id=716273896]
+position = Vector2(378, 140)
+shape = SubResource("RectangleShape2D_3nmf4")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="WorldObjects/Rocket/StaticBody2D" unique_id=1117319885]
+position = Vector2(267.5, 119)
+shape = SubResource("RectangleShape2D_1in16")
+
+[node name="CollisionShape2D9" type="CollisionShape2D" parent="WorldObjects/Rocket/StaticBody2D" unique_id=2030447513]
+position = Vector2(393, 119)
+shape = SubResource("RectangleShape2D_1in16")
+
+[node name="CollisionShape2D10" type="CollisionShape2D" parent="WorldObjects/Rocket/StaticBody2D" unique_id=357089416]
+position = Vector2(264, 38)
+shape = SubResource("RectangleShape2D_2vdg1")
+
+[node name="CollisionShape2D11" type="CollisionShape2D" parent="WorldObjects/Rocket/StaticBody2D" unique_id=105539248]
+position = Vector2(397, 38)
+shape = SubResource("RectangleShape2D_2vdg1")
 
 [node name="CharacterBody2d" parent="WorldObjects" unique_id=1825796566 instance=ExtResource("2_ewhud")]
 position = Vector2(-20, 60)
@@ -84,17 +226,24 @@ position = Vector2(-167.00006, 73)
 scale = Vector2(0.03, 0.03)
 texture = ExtResource("8_3gxo6")
 
+[node name="StaticBody2D" type="StaticBody2D" parent="WorldObjects/Newmarsrover" unique_id=914352846]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/Newmarsrover/StaticBody2D" unique_id=1814307051]
+position = Vector2(33.333984, 383.33203)
+scale = Vector2(0.9999996, 0.9999996)
+shape = SubResource("RectangleShape2D_0swvf")
+
 [node name="Newsolarpanels" type="Sprite2D" parent="WorldObjects" unique_id=1543126822]
 position = Vector2(536, -137)
 scale = Vector2(0.04, 0.04)
 texture = ExtResource("9_t0unr")
 
-[node name="SciFiRocketLaunchPlatform" type="Sprite2D" parent="WorldObjects" unique_id=1655339193]
-position = Vector2(330, 65)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("10_km6uj")
+[node name="StaticBody2D" type="StaticBody2D" parent="WorldObjects/Newsolarpanels" unique_id=844035917]
 
-[node name="SymmetricalPixelArtRocketSpritesheet" type="Sprite2D" parent="WorldObjects" unique_id=571033359]
-position = Vector2(329, -12.9999695)
-scale = Vector2(0.18, 0.18)
-texture = ExtResource("11_qfotr")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/Newsolarpanels/StaticBody2D" unique_id=1498832703]
+position = Vector2(25, -555)
+shape = SubResource("RectangleShape2D_ivuis")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldObjects/Newsolarpanels/StaticBody2D" unique_id=1316071082]
+position = Vector2(25, 624.9999)
+shape = SubResource("RectangleShape2D_ivuis")
